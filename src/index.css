@@ -1,0 +1,16 @@
+body {
+  background: #f3f3f3;
+  font-family: "Lato", sans-serif;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+@media screen {
+  .no-screen {
+    display: none !important;
+  }
+}
