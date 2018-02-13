@@ -2,7 +2,7 @@
   "name": "ic-web",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://redsoftware-hq.github.io/ic-web",
+  "homepage": "http://innovic.redsoftware.in",
   "dependencies": {
     "axios": "^0.17.1",
     "lodash": "^4.17.5",
