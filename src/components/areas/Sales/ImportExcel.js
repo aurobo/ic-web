@@ -1,9 +1,9 @@
 import React from "react";
 import ControlPanel from "../../common/ControlPanel";
-import FileInput from "../../thematic/FileInput";
 import api from "../../../Api";
 import Segment from "semantic-ui-react/dist/commonjs/elements/Segment/Segment";
 import Message from "semantic-ui-react/dist/commonjs/collections/Message/Message";
+import FileInput from "../../common/FileInput";
 
 class ImportExcel extends React.Component {
   state = {

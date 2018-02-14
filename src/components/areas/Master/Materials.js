@@ -3,8 +3,8 @@ import React from "react";
 import Table from "semantic-ui-react/dist/commonjs/collections/Table/Table";
 import ControlPanel from "../../common/ControlPanel";
 import Popup from "semantic-ui-react/dist/commonjs/modules/Popup/Popup";
-import { FlatButton, StyledTable } from "../../thematic/index";
 import api from "../../../Api";
+import { FlatButton, StyledTable } from "../../common";
 
 class Materials extends React.Component {
   state = {

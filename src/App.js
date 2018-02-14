@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
-import LoginLayout from "./components/layouts/LoginLayout";
 import LoginBox from "./components/common/LoginBox";
 import Dashboard from "./components/common/Dashboard";
 import Sales from "./components/mApps/Sales";
+import LoginLayout from "./components/common/LoginLayout";
 
 class App extends Component {
   render() {

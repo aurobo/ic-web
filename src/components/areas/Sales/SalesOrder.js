@@ -2,7 +2,6 @@ import _ from "lodash";
 import React from "react";
 import Table from "semantic-ui-react/dist/commonjs/collections/Table/Table";
 import ControlPanel from "../../common/ControlPanel";
-import { FlatButton, StyledTable } from "../../thematic/index";
 import api from "../../../Api";
 import List from "semantic-ui-react/dist/commonjs/elements/List/List";
 import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
@@ -10,6 +9,7 @@ import styled from "styled-components";
 import Message from "semantic-ui-react/dist/commonjs/collections/Message/Message";
 import Image from "semantic-ui-react/dist/commonjs/elements/Image/Image";
 import innovicLogo from "../../../img/innovic-logo.png";
+import { FlatButton, StyledTable } from "../../common";
 
 const SalesOrderSection = styled(Message)`
   &&& {

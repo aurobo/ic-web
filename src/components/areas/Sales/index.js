@@ -7,9 +7,9 @@ import Route from "react-router-dom/Route";
 import ImportExcel from "./ImportExcel";
 import Redirect from "react-router-dom/Redirect";
 import Customers from "./Customers";
-import { DropdownLink } from "../../thematic/index";
 import Materials from "../Master/Materials";
 import SalesOrder from "./SalesOrder";
+import { DropdownLink } from "../../common";
 
 class Sales extends React.Component {
   render() {
