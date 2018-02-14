@@ -7,7 +7,7 @@ import Route from "react-router-dom/Route";
 import ImportExcel from "./ImportExcel";
 import Redirect from "react-router-dom/Redirect";
 import Customers from "./Customers";
-import Materials from "../Master/Materials";
+import Materials from "../master/Materials";
 import SalesOrder from "./SalesOrder";
 import { DropdownLink } from "../../common";
 

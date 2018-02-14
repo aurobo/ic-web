@@ -3,7 +3,7 @@ import React from "react";
 import Table from "semantic-ui-react/dist/commonjs/collections/Table/Table";
 import ControlPanel from "../../common/ControlPanel";
 import Popup from "semantic-ui-react/dist/commonjs/modules/Popup/Popup";
-import api from "../../../Api";
+import { api } from "../../common/Utilities";
 import { FlatButton, StyledTable } from "../../common";
 
 class Customers extends React.Component {

@@ -4,7 +4,7 @@ import Table from "semantic-ui-react/dist/commonjs/collections/Table/Table";
 import ControlPanel from "../../common/ControlPanel";
 import Popup from "semantic-ui-react/dist/commonjs/modules/Popup/Popup";
 import { Link } from "react-router-dom";
-import api from "../../../Api";
+import { api } from "../../common/Utilities";
 import { FlatButton, StyledTable } from "../../common";
 
 class SalesOrders extends React.Component {

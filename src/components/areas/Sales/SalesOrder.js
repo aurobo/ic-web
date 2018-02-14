@@ -2,7 +2,7 @@ import _ from "lodash";
 import React from "react";
 import Table from "semantic-ui-react/dist/commonjs/collections/Table/Table";
 import ControlPanel from "../../common/ControlPanel";
-import api from "../../../Api";
+import { api } from "../../common/Utilities";
 import List from "semantic-ui-react/dist/commonjs/elements/List/List";
 import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
 import styled from "styled-components";

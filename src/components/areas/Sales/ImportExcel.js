@@ -1,6 +1,6 @@
 import React from "react";
 import ControlPanel from "../../common/ControlPanel";
-import api from "../../../Api";
+import { api } from "../../common/Utilities";
 import Segment from "semantic-ui-react/dist/commonjs/elements/Segment/Segment";
 import Message from "semantic-ui-react/dist/commonjs/collections/Message/Message";
 import FileInput from "../../common/FileInput";

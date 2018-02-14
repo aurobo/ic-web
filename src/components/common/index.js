@@ -5,17 +5,17 @@ import Dropdown from "semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown"
 import { Link } from "react-router-dom";
 import Table from "semantic-ui-react/dist/commonjs/collections/Table/Table";
 
+const theme = {
+  primary: "#3b79c6",
+  accent: "rgb(121,85,72)"
+};
+
 const FlatButton = styled(Button)`
   &&& {
     border-radius: 0;
     text-transform: uppercase;
   }
 `;
-
-const theme = {
-  primary: "#3b79c6",
-  accent: "rgb(121,85,72)"
-};
 
 const StyledDropdownLink = styled(Dropdown.Item)`
   &&& {
@@ -32,12 +32,6 @@ const DropdownLink = props => (
   </Link>
 );
 
-const DarkLink = styled(Link)`
-  &&& {
-    color: rgba(0, 0, 0, 0.87) !important;
-  }
-`;
-
 const StyledTable = styled(Table)`
   &&& {
     margin-top: 0;
@@ -45,4 +39,4 @@ const StyledTable = styled(Table)`
   }
 `;
 
-export { theme, FlatButton, DropdownLink, DarkLink, StyledTable };
+export { theme, FlatButton, DropdownLink, StyledTable };
