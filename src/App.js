@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import LoginBox from "./components/common/LoginBox";
 import Dashboard from "./components/common/Dashboard";
-import Sales from "./components/mApps/Sales";
 import LoginLayout from "./components/common/LoginLayout";
+import Sales from "./components/areas/sales";
 
 class App extends Component {
   render() {
