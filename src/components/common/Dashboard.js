@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Grid, Icon, Header, Image } from "semantic-ui-react";
 import styled from "styled-components";
 import innovicLogo from "../../img/innovic-logo.png";
+import TopNav from "./TopNav";
 
 const InnovicLogo = styled(Image)`
   &&& {
@@ -31,6 +32,12 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div>
+        <TopNav
+          menuHeader="Dashboard"
+          url={this.props.url}
+          className="no-print"
+          onLogout={this.props.onLogout}
+        />
         <Grid>
           <Grid.Row>
             <Grid.Column width="4">

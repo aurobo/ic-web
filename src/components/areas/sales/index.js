@@ -17,8 +17,9 @@ class Sales extends React.Component {
       <div>
         <TopNav
           menuHeader="Sales"
-          url={this.props.match.url}
+          url={this.props.url}
           className="no-print"
+          onLogout={this.props.onLogout}
         >
           <Dropdown item text="Orders" simple>
             <Dropdown.Menu>

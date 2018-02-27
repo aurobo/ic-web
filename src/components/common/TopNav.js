@@ -1,11 +1,17 @@
 import React from "react";
-import { Menu, Icon } from "semantic-ui-react";
+import { Menu, Icon, Input } from "semantic-ui-react";
 import Link from "react-router-dom/Link";
 import styled from "styled-components";
 
 const StyledMenu = styled(Menu)`
   &&& {
     background-color: ${props => props.theme.primary};
+  }
+`;
+
+const WideMenuItem = styled(Menu.Item)`
+  &&& {
+    width: 500px;
   }
 `;
 
@@ -22,6 +28,12 @@ class TopNav extends React.Component {
           <Menu.Item header>{this.props.menuHeader || "Innovic"}</Menu.Item>
         </Link>
         {this.props.children}
+        <Menu.Menu position="right">
+          <WideMenuItem>
+            <Input disabled icon="search" size="mini" placeholder="Search..." />
+          </WideMenuItem>
+          <Menu.Item name="logout" onClick={this.props.onLogout} />
+        </Menu.Menu>
       </StyledMenu>
     );
   }
