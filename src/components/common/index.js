@@ -7,7 +7,7 @@ import Table from "semantic-ui-react/dist/commonjs/collections/Table/Table";
 
 const theme = {
   primary: "#3b79c6",
-  accent: "rgb(121,85,72)"
+  accent: "rgb(244, 67, 54);"
 };
 
 const FlatButton = styled(Button)`
