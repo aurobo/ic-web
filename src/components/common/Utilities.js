@@ -6,4 +6,17 @@ const api = axios.create({
   // baseURL: `http://dev-innovic-api.azurewebsites.net/api`
 });
 
+api.interceptors.request.use(
+  function(config) {
+    var token = window.localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = "Bearer " + token;
+    }
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
+
 export { api };

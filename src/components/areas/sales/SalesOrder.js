@@ -149,6 +149,18 @@ class SalesOrder extends React.Component {
                       ).toLocaleDateString()}
                     </List.Content>
                   </List.Item>
+                  <List.Item>
+                    <List.Content>
+                      <List.Header>Created By</List.Header>
+                      {this.state.salesOrder.createdByUserName}
+                    </List.Content>
+                  </List.Item>
+                  <List.Item>
+                    <List.Content>
+                      <List.Header>Last Modified By</List.Header>
+                      {this.state.salesOrder.lastModifiedByUserName}
+                    </List.Content>
+                  </List.Item>
                 </List>
               </Grid.Column>
             </Grid.Row>
@@ -227,8 +239,14 @@ class SalesOrder extends React.Component {
                 <List celled>
                   <List.Item>
                     <List.Content>
-                      <List.Header>Total Items</List.Header>
+                      <List.Header>Total Sales Items</List.Header>
                       {this.state.data ? this.state.data.length : ""}
+                    </List.Content>
+                  </List.Item>
+                  <List.Item>
+                    <List.Content>
+                      <List.Header>Total Quantity</List.Header>
+                      {_.sumBy(this.state.data, si => si.quantity)}
                     </List.Content>
                   </List.Item>
                   <List.Item>
