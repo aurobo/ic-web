@@ -7,11 +7,13 @@ import FileInput from "../../common/FileInput";
 
 class ImportExcel extends React.Component {
   state = {
-    showError: false
+    showError: false,
+    loading: false
   };
 
   onFileSelected = file => {
     this.setState({ showError: false, loading: true });
+
     const formData = new FormData();
 
     formData.append("file", file);
@@ -20,7 +22,7 @@ class ImportExcel extends React.Component {
       headers: {
         "content-type": "multipart/form-data"
       },
-      onDownloadProgress: progressEvent => this.setState({ loading: true })
+      onDownloadProgress: progressEvent => this.setState({ loading: false })
     };
 
     api
@@ -29,7 +31,7 @@ class ImportExcel extends React.Component {
         this.props.history.push("/sales/sales-orders");
       })
       .catch(error => {
-        this.setState({ showError: true, loading: false });
+        this.setState({ showError: true });
       });
   };
 

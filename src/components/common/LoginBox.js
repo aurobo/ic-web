@@ -44,7 +44,8 @@ const StyledMessage = styled(Message)`
 class LoginBox extends React.Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    loading: false
   };
 
   handleInputChange = event => {
@@ -58,11 +59,13 @@ class LoginBox extends React.Component {
   };
 
   authenticate = (username, password) => {
+    this.setState({ loading: true });
     var data =
       "grant_type=password&username=" + username + "&password=" + password;
     api
       .post("/token", data, {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" }
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        onDownloadProgress: progressEvent => this.setState({ loading: false })
       })
       .then(response => {
         window.localStorage.setItem("token", response.data.access_token);
@@ -109,6 +112,7 @@ class LoginBox extends React.Component {
                 onClick={() =>
                   this.authenticate(this.state.username, this.state.password)
                 }
+                loading={this.state.loading}
               >
                 Submit
               </Button>

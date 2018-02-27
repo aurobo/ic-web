@@ -35,20 +35,17 @@ class SalesOrder extends React.Component {
 
   componentDidMount() {
     let config = {
-      onDownloadProgress: progressEvent => this.setState({ loading: true })
+      onDownloadProgress: progressEvent => this.setState({ loading: false })
     };
     api
       .get("/salesorders/" + this.props.match.params.id, config)
       .then(response => {
         this.setState({
           data: response.data.salesOrderItems,
-          loading: false,
           salesOrder: response.data
         });
       })
-      .catch(error => {
-        this.setState({ loading: false });
-      });
+      .catch(error => {});
   }
 
   handleSort = clickedColumn => () => {
