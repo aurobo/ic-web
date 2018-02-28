@@ -2,6 +2,7 @@ import React from "react";
 import TopNav from "../../common/TopNav";
 import Dropdown from "semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown";
 import SalesOrders from "./SalesOrders";
+import Invoice from "./Invoice";
 import { Switch } from "react-router-dom";
 import Route from "react-router-dom/Route";
 import ImportExcel from "./ImportExcel";
@@ -45,6 +46,7 @@ class Sales extends React.Component {
           <Route path="/sales/import-excel" component={ImportExcel} />
           <Route path="/sales/customers" component={Customers} />
           <Route path="/sales/materials" component={Materials} />
+          <Route path="/sales/invoice/:id" component={Invoice} />
           <Redirect to="/sales/sales-orders" />
         </Switch>
       </div>

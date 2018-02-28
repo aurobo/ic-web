@@ -10,6 +10,7 @@ import Message from "semantic-ui-react/dist/commonjs/collections/Message/Message
 import Image from "semantic-ui-react/dist/commonjs/elements/Image/Image";
 import innovicLogo from "../../../img/innovic-logo.png";
 import { FlatButton, StyledTable } from "../../common";
+import Link from "react-router-dom/Link";
 
 const SalesOrderSection = styled(Message)`
   &&& {
@@ -76,9 +77,11 @@ class SalesOrder extends React.Component {
           loading={this.state.loading}
           className="no-print"
         >
-          <FlatButton primary size="tiny" onClick={() => window.print()}>
-            Print Invoice
-          </FlatButton>
+          <Link to={"/sales/invoice/" + this.state.salesOrder.id}>
+            <FlatButton primary size="tiny">
+              Create Invoice
+            </FlatButton>
+          </Link>
         </ControlPanel>
         <SalesOrderSection>
           <Grid divided="vertically" className="no-screen">
