@@ -17,16 +17,14 @@ class SalesOrders extends React.Component {
 
   componentDidMount() {
     let config = {
-      onDownloadProgress: progressEvent => this.setState({ loading: true })
+      onDownloadProgress: progressEvent => this.setState({ loading: false })
     };
     api
       .get("/salesorders", config)
       .then(response => {
-        this.setState({ data: response.data, loading: false });
+        this.setState({ data: response.data });
       })
-      .catch(error => {
-        this.setState({ loading: false });
-      });
+      .catch(error => {});
   }
 
   handleSort = clickedColumn => () => {

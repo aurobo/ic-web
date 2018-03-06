@@ -9,6 +9,7 @@ import Redirect from "react-router-dom/Redirect";
 import Customers from "./Customers";
 import Materials from "../master/Materials";
 import SalesOrder from "./SalesOrder";
+import Invoice from "./Invoice";
 import { DropdownLink } from "../../common";
 
 class Sales extends React.Component {
@@ -17,8 +18,9 @@ class Sales extends React.Component {
       <div>
         <TopNav
           menuHeader="Sales"
-          url={this.props.match.url}
+          url={this.props.url}
           className="no-print"
+          onLogout={this.props.onLogout}
         >
           <Dropdown item text="Orders" simple>
             <Dropdown.Menu>
@@ -44,6 +46,7 @@ class Sales extends React.Component {
           <Route path="/sales/import-excel" component={ImportExcel} />
           <Route path="/sales/customers" component={Customers} />
           <Route path="/sales/materials" component={Materials} />
+          <Route path="/sales/invoices/:id" component={Invoice} />
           <Redirect to="/sales/sales-orders" />
         </Switch>
       </div>

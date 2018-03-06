@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Grid, Icon, Header, Image } from "semantic-ui-react";
+import { Segment, Grid, Icon, Header, Image } from "semantic-ui-react";
 import styled from "styled-components";
 import innovicLogo from "../../img/innovic-logo.png";
+import TopNav from "./TopNav";
 
 const InnovicLogo = styled(Image)`
   &&& {
@@ -10,7 +11,7 @@ const InnovicLogo = styled(Image)`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    opacity: 0.1;
+    opacity: 0.05;
   }
 `;
 
@@ -22,23 +23,43 @@ const IconTile = styled.div`
 `;
 
 const StyledIcon = styled(Icon)`
-  background: orangered;
-  border-color: orangered;
-  color: white;
+  &&& {
+    box-shadow: 0 0 0 0.11em ${props => props.theme.accent} inset;
+    margin: 5px;
+    color: ${props => props.theme.accent};
+  }
+`;
+
+const StyledHeader = styled(Header)`
+  &&& {
+    text-transform: uppercase;
+    color: ${props => props.theme.accent};
+    margin-top: 5px;
+    font-size: 16px;
+    text-align: center;
+  }
 `;
 
 class Dashboard extends React.Component {
   render() {
     return (
       <div>
+        <TopNav
+          menuHeader="Dashboard"
+          url={this.props.url}
+          className="no-print"
+          onLogout={this.props.onLogout}
+        />
         <Grid>
           <Grid.Row>
             <Grid.Column width="4">
               <IconTile>
                 <Link to="/sales">
-                  <StyledIcon name="line graph" size="huge" circular link />
+                  <Segment stacked>
+                    <StyledIcon name="line graph" size="big" circular />
+                    <StyledHeader as="h2">Sales</StyledHeader>
+                  </Segment>
                 </Link>
-                <Header as="h2">Sales</Header>
               </IconTile>
             </Grid.Column>
           </Grid.Row>

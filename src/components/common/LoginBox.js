@@ -3,6 +3,7 @@ import logo from "../../img/logo.png";
 import { Link } from "react-router-dom";
 import { Button, Form, Card, Input, Message } from "semantic-ui-react";
 import styled from "styled-components";
+import { api } from "./Utilities";
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,15 +43,38 @@ const StyledMessage = styled(Message)`
 
 class LoginBox extends React.Component {
   state = {
-    credentials: {}
+    username: "",
+    password: "",
+    loading: false
   };
 
-  componentDidMount() {
-    // axios.get(`https://jsonplaceholder.typicode.com/users`).then(res => {
-    //   const credentials = res.data;
-    //   this.setState({ credentials });
-    // });
-  }
+  handleInputChange = event => {
+    const target = event.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  };
+
+  authenticate = (username, password) => {
+    this.setState({ loading: true });
+    var data =
+      "grant_type=password&username=" + username + "&password=" + password;
+    api
+      .post("/token", data, {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        onDownloadProgress: progressEvent => this.setState({ loading: false })
+      })
+      .then(response => {
+        window.localStorage.setItem("token", response.data.access_token);
+        this.props.onAuthSuccess();
+      })
+      .catch(error => {
+        window.localStorage.clear();
+      });
+  };
 
   render() {
     return (
@@ -63,12 +87,33 @@ class LoginBox extends React.Component {
           <Card.Content>
             <Form>
               <Form.Field>
-                <Input icon="user" placeholder="Email" iconPosition="left" />
+                <Input
+                  name="username"
+                  icon="user"
+                  placeholder="Username"
+                  iconPosition="left"
+                  onChange={this.handleInputChange}
+                />
               </Form.Field>
               <Form.Field>
-                <Input icon="lock" placeholder="Password" iconPosition="left" />
+                <Input
+                  name="password"
+                  icon="lock"
+                  placeholder="Password"
+                  iconPosition="left"
+                  type="password"
+                  onChange={this.handleInputChange}
+                />
               </Form.Field>
-              <Button fluid primary type="submit">
+              <Button
+                fluid
+                primary
+                type="submit"
+                onClick={() =>
+                  this.authenticate(this.state.username, this.state.password)
+                }
+                loading={this.state.loading}
+              >
                 Submit
               </Button>
             </Form>
