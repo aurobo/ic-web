@@ -1,7 +1,6 @@
 import React from "react";
 import logo from "../../img/logo.png";
-import { Link } from "react-router-dom";
-import { Button, Form, Card, Input, Message } from "semantic-ui-react";
+import { Button, Form, Card, Input } from "semantic-ui-react";
 import styled from "styled-components";
 import { api } from "./Utilities";
 
@@ -35,11 +34,11 @@ const LoginForm = styled(Card)`
   }
 `;
 
-const StyledMessage = styled(Message)`
-  &&& {
-    text-align: center;
-  }
-`;
+// const StyledMessage = styled(Message)`
+//   &&& {
+//     text-align: center;
+//   }
+// `;
 
 class LoginBox extends React.Component {
   state = {
@@ -119,12 +118,12 @@ class LoginBox extends React.Component {
             </Form>
           </Card.Content>
         </LoginForm>
-        <StyledMessage>
+        {/* <StyledMessage>
           <p>Login is temporarily inactive.</p>
           <p>
             <Link to="/dashboard">Click here</Link> to go to dashboard.
           </p>
-        </StyledMessage>
+        </StyledMessage> */}
       </Wrapper>
     );
   }

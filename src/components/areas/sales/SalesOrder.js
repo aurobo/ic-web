@@ -51,6 +51,13 @@ class SalesOrder extends React.Component {
     api
       .get("/salesorders/" + this.props.match.params.id, config)
       .then(response => {
+        _.each(response.data.salesOrderItems, item => {
+          item.invoicedQuantity = item.metaData.remainingQuantity;
+          item.quantity < item.invoicedQuantity || item.invoicedQuantity <= 0
+            ? (item.valid = false)
+            : (item.valid = true);
+          item.checked = false;
+        });
         this.setState({
           salesOrderItems: response.data.salesOrderItems,
           salesOrder: response.data
@@ -126,9 +133,7 @@ class SalesOrder extends React.Component {
     api
       .post("/invoices", invoice, config)
       .then(response => {
-        this.props.history.push(
-          "/sales/sales-orders/" + this.props.match.params.id
-        );
+        this.props.history.push("/sales/invoices/" + response.data.id);
       })
       .catch(error => {});
   };
@@ -212,10 +217,10 @@ class SalesOrder extends React.Component {
                       description,
                       unitPrice,
                       metaData,
-                      invoicedQuantity = metaData.remainingQuantity,
+                      invoicedQuantity,
                       value,
-                      valid = true,
-                      checked = false
+                      valid,
+                      checked
                     }) => (
                       <Table.Row key={id}>
                         <Table.Cell textAlign="center">
