@@ -276,7 +276,7 @@ class SalesOrder extends React.Component {
                   <Dropdown.Menu>
                     {_.map(this.state.salesOrder.invoices, invoice => (
                       <Dropdown.Item key={invoice.id}>
-                        <Link to={"/sales/invoice/" + invoice.id}>
+                        <Link to={"/sales/invoices/" + invoice.id}>
                           {invoice.key}
                         </Link>
                       </Dropdown.Item>
