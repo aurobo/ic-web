@@ -119,12 +119,12 @@ class LoginBox extends React.Component {
             </Form>
           </Card.Content>
         </LoginForm>
-        <StyledMessage>
+        {/* <StyledMessage>
           <p>Login is temporarily inactive.</p>
           <p>
             <Link to="/dashboard">Click here</Link> to go to dashboard.
           </p>
-        </StyledMessage>
+        </StyledMessage> */}
       </Wrapper>
     );
   }
