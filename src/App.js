@@ -23,6 +23,8 @@ class App extends Component {
   componentWillMount() {
     if (window.localStorage.getItem("token")) {
       this.setState({ isAuthenticated: true });
+    } else {
+      this.logout();
     }
   }
 
