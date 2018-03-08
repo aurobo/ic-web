@@ -335,14 +335,26 @@ class SalesOrder extends React.Component {
                         </List.Item>
                         <List.Item>
                           <List.Content>
-                            <List.Header>Payment Terms</List.Header>
-                            {this.state.salesOrder.paymentTerms}
+                            <List.Header>Description</List.Header>
+                            {this.state.salesOrder.description}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Customer Reference</List.Header>
+                            {this.state.salesOrder.customerReference}    
                           </List.Content>
                         </List.Item>
                       </List>
                     </Grid.Column>
                     <Grid.Column>
                       <List celled>
+                      <List.Item>
+                          <List.Content>
+                            <List.Header>Payment Terms</List.Header>
+                            {this.state.salesOrder.paymentTerms}
+                          </List.Content>
+                        </List.Item>
                         <List.Item>
                           <List.Content>
                             <List.Header>Created On</List.Header>
