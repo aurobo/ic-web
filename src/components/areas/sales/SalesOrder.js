@@ -422,6 +422,18 @@ class SalesOrder extends React.Component {
                         Quantity
                       </Table.HeaderCell>
                       <Table.HeaderCell
+                        sorted={column === "deliveryDate" ? direction : null}
+                        onClick={this.handleSort("deliveryDate")}
+                      >
+                        Delivery Date
+                      </Table.HeaderCell>
+                      <Table.HeaderCell
+                        sorted={column === "wbsElement" ? direction : null}
+                        onClick={this.handleSort("wbsElement")}
+                      >
+                        WBS Element
+                      </Table.HeaderCell>
+                      <Table.HeaderCell
                         sorted={
                           column === "remainingQuantity" ? direction : null
                         }
@@ -447,6 +459,8 @@ class SalesOrder extends React.Component {
                         description,
                         unitPrice,
                         quantity,
+                        deliveryDate,
+                        wbsElement,
                         value,
                         metaData,
                         remainingQuantity = metaData.remainingQuantity
@@ -457,6 +471,8 @@ class SalesOrder extends React.Component {
                           <Table.Cell>{description}</Table.Cell>
                           <Table.Cell>{unitPrice}</Table.Cell>
                           <Table.Cell>{quantity}</Table.Cell>
+                          <Table.Cell>{new Date(deliveryDate).toLocaleDateString()}</Table.Cell>
+                          <Table.Cell>{wbsElement}</Table.Cell>
                           <Table.Cell>{remainingQuantity}</Table.Cell>
                           <Table.Cell>{value}</Table.Cell>
                         </Table.Row>
