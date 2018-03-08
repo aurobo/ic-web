@@ -512,6 +512,14 @@ class SalesOrder extends React.Component {
                             )}
                           </List.Content>
                         </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Pending SalesOrder Value</List.Header>
+                            {this.state.salesOrder.metaData
+                              ? this.state.salesOrder.metaData.pendingSalesOrderValue
+                              : ""}
+                          </List.Content>
+                        </List.Item>
                       </List>
                     </Grid.Column>
                   </Grid.Row>
