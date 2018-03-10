@@ -27,6 +27,7 @@ api.interceptors.response.use(
     if (error.response.status === 401) {
       window.localStorage.clear();
     }
+    return Promise.reject(error);
   }
 );
 

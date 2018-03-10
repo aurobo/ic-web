@@ -335,14 +335,26 @@ class SalesOrder extends React.Component {
                         </List.Item>
                         <List.Item>
                           <List.Content>
-                            <List.Header>Payment Terms</List.Header>
-                            {this.state.salesOrder.paymentTerms}
+                            <List.Header>Description</List.Header>
+                            {this.state.salesOrder.description}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Customer Reference</List.Header>
+                            {this.state.salesOrder.customerReference}    
                           </List.Content>
                         </List.Item>
                       </List>
                     </Grid.Column>
                     <Grid.Column>
                       <List celled>
+                      <List.Item>
+                          <List.Content>
+                            <List.Header>Payment Terms</List.Header>
+                            {this.state.salesOrder.paymentTerms}
+                          </List.Content>
+                        </List.Item>
                         <List.Item>
                           <List.Content>
                             <List.Header>Created On</List.Header>
@@ -410,6 +422,18 @@ class SalesOrder extends React.Component {
                         Quantity
                       </Table.HeaderCell>
                       <Table.HeaderCell
+                        sorted={column === "deliveryDate" ? direction : null}
+                        onClick={this.handleSort("deliveryDate")}
+                      >
+                        Delivery Date
+                      </Table.HeaderCell>
+                      <Table.HeaderCell
+                        sorted={column === "wbsElement" ? direction : null}
+                        onClick={this.handleSort("wbsElement")}
+                      >
+                        WBS Element
+                      </Table.HeaderCell>
+                      <Table.HeaderCell
                         sorted={
                           column === "remainingQuantity" ? direction : null
                         }
@@ -435,6 +459,8 @@ class SalesOrder extends React.Component {
                         description,
                         unitPrice,
                         quantity,
+                        deliveryDate,
+                        wbsElement,
                         value,
                         metaData,
                         remainingQuantity = metaData.remainingQuantity
@@ -445,6 +471,8 @@ class SalesOrder extends React.Component {
                           <Table.Cell>{description}</Table.Cell>
                           <Table.Cell>{unitPrice}</Table.Cell>
                           <Table.Cell>{quantity}</Table.Cell>
+                          <Table.Cell>{new Date(deliveryDate).toLocaleDateString()}</Table.Cell>
+                          <Table.Cell>{wbsElement}</Table.Cell>
                           <Table.Cell>{remainingQuantity}</Table.Cell>
                           <Table.Cell>{value}</Table.Cell>
                         </Table.Row>
@@ -482,6 +510,14 @@ class SalesOrder extends React.Component {
                               this.state.salesOrderItems,
                               si => si.value
                             )}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Pending SalesOrder Value</List.Header>
+                            {this.state.salesOrder.metaData
+                              ? this.state.salesOrder.metaData.pendingSalesOrderValue
+                              : ""}
                           </List.Content>
                         </List.Item>
                       </List>
