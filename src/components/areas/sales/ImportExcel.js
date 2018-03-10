@@ -1,9 +1,11 @@
+import _ from "lodash";
 import React from "react";
 import ControlPanel from "../../common/ControlPanel";
 import { api } from "../../common/Utilities";
 import Segment from "semantic-ui-react/dist/commonjs/elements/Segment/Segment";
 import Message from "semantic-ui-react/dist/commonjs/collections/Message/Message";
 import FileInput from "../../common/FileInput";
+import { Icon } from "semantic-ui-react";
 
 class ImportExcel extends React.Component {
   state = {
@@ -31,7 +33,7 @@ class ImportExcel extends React.Component {
         this.props.history.push("/sales/sales-orders");
       })
       .catch(error => {
-        this.setState({ showError: true });
+        this.setState({ showError: true, errors: error.response.data });
       });
   };
 
@@ -43,12 +45,19 @@ class ImportExcel extends React.Component {
         </ControlPanel>
         {this.state.showError ? (
           <Segment>
-            <Message
-              negative
-              icon="meh"
-              header="Something went wrong."
-              content="Please check your file and upload again."
-            />
+            <Message negative icon>
+              <Icon name="meh" />
+              <Message.Content>
+                <Message.Header>
+                  Fix these issues in your Excel File
+                </Message.Header>
+                <Message.List>
+                  {_.map(this.state.errors, error => (
+                    <Message.Item key={error}>{error}</Message.Item>
+                  ))}
+                </Message.List>
+              </Message.Content>
+            </Message>
           </Segment>
         ) : (
           ""

@@ -97,24 +97,34 @@ class SalesOrders extends React.Component {
                 sorted={column === "description" ? direction : null}
                 onClick={this.handleSort("description")}
               >
-                description
+                Description
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {_.map(data, ({ id, key, orderDate, customerName,customerReference,description }) => (
-              <Table.Row key={id}>
-                <Table.Cell selectable>
-                  <Link to={"/sales/sales-orders/" + id}>{key}</Link>
-                </Table.Cell>
-                <Table.Cell>
-                  {new Date(orderDate).toLocaleDateString()}
-                </Table.Cell>
-                <Table.Cell>{customerName}</Table.Cell>
-                <Table.Cell>{customerReference}</Table.Cell>
-                <Table.Cell>{description}</Table.Cell>
-              </Table.Row>
-            ))}
+            {_.map(
+              data,
+              ({
+                id,
+                key,
+                orderDate,
+                customerName,
+                customerReference,
+                description
+              }) => (
+                <Table.Row key={id}>
+                  <Table.Cell selectable>
+                    <Link to={"/sales/sales-orders/" + id}>{key}</Link>
+                  </Table.Cell>
+                  <Table.Cell>
+                    {new Date(orderDate).toLocaleDateString()}
+                  </Table.Cell>
+                  <Table.Cell>{customerName}</Table.Cell>
+                  <Table.Cell>{customerReference}</Table.Cell>
+                  <Table.Cell>{description}</Table.Cell>
+                </Table.Row>
+              )
+            )}
           </Table.Body>
         </StyledTable>
       </div>
