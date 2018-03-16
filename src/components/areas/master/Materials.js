@@ -1,25 +1,25 @@
-import _ from "lodash";
-import React from "react";
-import Table from "semantic-ui-react/dist/commonjs/collections/Table/Table";
-import ControlPanel from "../../common/ControlPanel";
-import Popup from "semantic-ui-react/dist/commonjs/modules/Popup/Popup";
-import { api } from "../../common/Utilities";
-import { FlatButton, StyledTable } from "../../common";
+import _ from 'lodash';
+import React from 'react';
+import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
+import ControlPanel from '../../common/ControlPanel';
+import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
+import { api } from '../../common/Utilities';
+import { FlatButton, StyledTable } from '../../common';
 
 class Materials extends React.Component {
   state = {
     column: null,
     data: null,
     direction: null,
-    loading: true
+    loading: true,
   };
 
   componentDidMount() {
     let config = {
-      onDownloadProgress: progressEvent => this.setState({ loading: true })
+      onDownloadProgress: progressEvent => this.setState({ loading: true }),
     };
     api
-      .get("/materials", config)
+      .get('/materials', config)
       .then(response => {
         this.setState({ data: response.data, loading: false });
       })
@@ -35,7 +35,7 @@ class Materials extends React.Component {
       this.setState({
         column: clickedColumn,
         data: _.sortBy(data, [clickedColumn]),
-        direction: "ascending"
+        direction: 'ascending',
       });
 
       return;
@@ -43,7 +43,7 @@ class Materials extends React.Component {
 
     this.setState({
       data: data.reverse(),
-      direction: direction === "ascending" ? "descending" : "ascending"
+      direction: direction === 'ascending' ? 'descending' : 'ascending',
     });
   };
 
@@ -67,21 +67,15 @@ class Materials extends React.Component {
         <StyledTable sortable celled fixed compact selectable>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell
-                sorted={column === "key" ? direction : null}
-                onClick={this.handleSort("key")}
-              >
+              <Table.HeaderCell sorted={column === 'key' ? direction : null} onClick={this.handleSort('key')}>
                 Key
               </Table.HeaderCell>
-              <Table.HeaderCell
-                sorted={column === "number" ? direction : null}
-                onClick={this.handleSort("number")}
-              >
+              <Table.HeaderCell sorted={column === 'number' ? direction : null} onClick={this.handleSort('number')}>
                 Number
               </Table.HeaderCell>
               <Table.HeaderCell
-                sorted={column === "description" ? direction : null}
-                onClick={this.handleSort("description")}
+                sorted={column === 'description' ? direction : null}
+                onClick={this.handleSort('description')}
               >
                 Description
               </Table.HeaderCell>

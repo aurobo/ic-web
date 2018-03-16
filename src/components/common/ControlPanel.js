@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import Loader from "semantic-ui-react/dist/commonjs/elements/Loader/Loader";
+import React from 'react';
+import styled from 'styled-components';
+import Loader from 'semantic-ui-react/dist/commonjs/elements/Loader/Loader';
 
 const Wrapper = styled.div`
   height: 100px;
