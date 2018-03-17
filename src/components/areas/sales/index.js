@@ -19,15 +19,9 @@ class Sales extends React.Component {
         <TopNav menuHeader="Sales" url={this.props.url} className="no-print" onLogout={this.props.onLogout}>
           <Dropdown item text="Orders" simple>
             <Dropdown.Menu>
-              {/* <Dropdown.Item>Open Orders</Dropdown.Item> */}
               <DropdownLink to="/sales/sales-orders">All Orders</DropdownLink>
             </Dropdown.Menu>
           </Dropdown>
-          {/* <Dropdown item text="Invoicing" simple>
-            <Dropdown.Menu>
-              <Dropdown.Item>Orders to Invoice</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown> */}
           <Dropdown item text="Master" simple>
             <Dropdown.Menu>
               <DropdownLink to="/sales/customers">Customers</DropdownLink>

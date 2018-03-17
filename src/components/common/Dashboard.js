@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Segment, Grid, Icon, Header, Image } from 'semantic-ui-react';
+import { Segment, Icon, Header, Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 import innovicLogo from '../../img/innovic-logo.png';
 import TopNav from './TopNav';
@@ -15,11 +15,18 @@ const InnovicLogo = styled(Image)`
   }
 `;
 
-const IconTile = styled.div`
+const Icons = styled.div`
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding-top: 50px;
+  align-items: flex-start;
+  flex-direction: row;
+  padding-top: 80px;
+  margin-left: 80px;
+`;
+
+const StyledLink = styled(Link)`
+  &&& {
+    margin: 20px;
+  }
 `;
 
 const StyledIcon = styled(Icon)`
@@ -45,20 +52,20 @@ class Dashboard extends React.Component {
     return (
       <div>
         <TopNav menuHeader="Dashboard" url={this.props.url} className="no-print" onLogout={this.props.onLogout} />
-        <Grid>
-          <Grid.Row>
-            <Grid.Column width="4">
-              <IconTile>
-                <Link to="/sales">
-                  <Segment stacked>
-                    <StyledIcon name="line graph" size="big" circular />
-                    <StyledHeader as="h2">Sales</StyledHeader>
-                  </Segment>
-                </Link>
-              </IconTile>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+        <Icons>
+          <StyledLink to="/sales">
+            <Segment basic textAlign="center">
+              <StyledIcon name="line graph" size="big" circular />
+              <StyledHeader as="h2">Sales</StyledHeader>
+            </Segment>
+          </StyledLink>
+          <StyledLink to="/purchase">
+            <Segment basic textAlign="center">
+              <StyledIcon name="truck" size="big" circular />
+              <StyledHeader as="h2">Purchase</StyledHeader>
+            </Segment>
+          </StyledLink>
+        </Icons>
         <InnovicLogo src={innovicLogo} size="huge" />
       </div>
     );
