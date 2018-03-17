@@ -14,11 +14,17 @@ const SimpleSegment = styled(Segment)`
 function withSorting(WrappedComponent) {
   return class extends React.Component {
     state = {
-      column: null,
+      column: this.props.sortBy,
       direction: null,
     };
 
-    handleSort = clickedColumn => () => {
+    componentWillReceiveProps(nextProps) {
+      if (this.props.data === null && nextProps.data !== null) {
+        this.props.onDataChange(_.orderBy(nextProps.data, [this.props.sortBy], [this.props.sortIn]));
+      }
+    }
+
+    handleSort = (clickedColumn, type) => () => {
       const { column, direction } = this.state;
       const { data } = this.props;
       if (column !== clickedColumn) {
@@ -26,7 +32,18 @@ function withSorting(WrappedComponent) {
           column: clickedColumn,
           direction: 'ascending',
         });
-        this.props.onDataChange(_.sortBy(data, [clickedColumn]));
+        switch (type) {
+          case 'text':
+            this.props.onDataChange(_.sortBy(data, [clickedColumn]));
+            break;
+          case 'date':
+            this.props.onDataChange(_.sortBy(data, item => new Date(item)));
+            break;
+          case 'number':
+            break;
+          default:
+            break;
+        }
         return;
       }
 
@@ -39,10 +56,10 @@ function withSorting(WrappedComponent) {
 
     render() {
       const { column, direction } = this.state;
-      const { data, onDataChange, ...otherProps } = this.props;
+      const { data, onDataChange, loading, sortBy, sortIn, ...otherProps } = this.props;
       return (
         <SimpleSegment basic>
-          <Dimmer active={this.props.loading} inverted>
+          <Dimmer active={loading} inverted>
             <Loader size="large" />
           </Dimmer>
 
@@ -62,7 +79,7 @@ function withSorting(WrappedComponent) {
                             return (
                               <Table.HeaderCell
                                 sorted={column === child.props.field ? direction : null}
-                                onClick={this.handleSort(child.props.field)}
+                                onClick={this.handleSort(child.props.field, child.props.type)}
                               >
                                 {child.props.children}
                               </Table.HeaderCell>

@@ -50,14 +50,30 @@ class SalesOrders extends React.Component {
             <FlatButton size="tiny">Import</FlatButton>
           </Link>
         </ControlPanel>
-        <TableWithSorting loading={this.state.loading} data={data} onDataChange={this.handleDataChange}>
+        <TableWithSorting
+          sortBy="key"
+          sortIn="desc"
+          loading={this.state.loading}
+          data={data}
+          onDataChange={this.handleDataChange}
+        >
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell field="key">Key</Table.HeaderCell>
-              <Table.HeaderCell field="orderDate">Order Date</Table.HeaderCell>
-              <Table.HeaderCell field="customerName">Customer Name</Table.HeaderCell>
-              <Table.HeaderCell field="customerReference">Customer Reference</Table.HeaderCell>
-              <Table.HeaderCell field="description">Description</Table.HeaderCell>
+              <Table.HeaderCell field="key" type="text">
+                Key
+              </Table.HeaderCell>
+              <Table.HeaderCell field="orderDate" type="date">
+                Order Date
+              </Table.HeaderCell>
+              <Table.HeaderCell field="customerName" type="text">
+                Customer Name
+              </Table.HeaderCell>
+              <Table.HeaderCell field="customerReference" type="text">
+                Customer Reference
+              </Table.HeaderCell>
+              <Table.HeaderCell field="description" type="text">
+                Description
+              </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
