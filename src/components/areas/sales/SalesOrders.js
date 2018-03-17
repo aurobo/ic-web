@@ -4,37 +4,28 @@ import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
 import ControlPanel from '../../common/ControlPanel';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
 import { Link } from 'react-router-dom';
-import { api } from '../../common/Utilities';
 import { FlatButton } from '../../common';
 import TableWithSorting from '../../common/TableWithSorting';
+import Api from '../../common/Api';
 
 class SalesOrders extends React.Component {
   state = {
     data: null,
-    loading: true,
   };
 
-  componentDidMount() {
-    let config = {
-      onDownloadProgress: progressEvent => this.setState({ loading: false }),
-    };
-    api
-      .get('/salesorders', config)
-      .then(response => {
-        this.setState({ data: response.data });
-      })
-      .catch(error => {});
-  }
-
   handleDataChange = data => {
+    this.setState({ data: data });
+  };
+
+  handleSuccess = data => {
     this.setState({ data: data });
   };
 
   render() {
     const { data } = this.state;
     return (
-      <div>
-        <ControlPanel title="Sales Orders" loading={this.state.loading}>
+      <Api url="/salesorders" onSuccess={this.handleSuccess}>
+        <ControlPanel title="Sales Orders">
           <Popup
             inverted
             trigger={
@@ -50,13 +41,7 @@ class SalesOrders extends React.Component {
             <FlatButton size="tiny">Import</FlatButton>
           </Link>
         </ControlPanel>
-        <TableWithSorting
-          sortBy="key"
-          sortIn="desc"
-          loading={this.state.loading}
-          data={data}
-          onDataChange={this.handleDataChange}
-        >
+        <TableWithSorting sortBy="key" sortIn="desc" data={data} onDataChange={this.handleDataChange}>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell field="key" type="text">
@@ -90,7 +75,7 @@ class SalesOrders extends React.Component {
             ))}
           </Table.Body>
         </TableWithSorting>
-      </div>
+      </Api>
     );
   }
 }
