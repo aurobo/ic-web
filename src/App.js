@@ -5,6 +5,7 @@ import Dashboard from './components/common/Dashboard';
 import LoginLayout from './components/common/LoginLayout';
 import Sales from './components/areas/sales';
 import Redirect from 'react-router/Redirect';
+import Purchase from './components/areas/purchase';
 
 class App extends Component {
   state = {
@@ -51,6 +52,7 @@ class App extends Component {
               <Switch>
                 <Route path="/dashboard" render={() => <Dashboard url="/dashboard" onLogout={this.logout} />} />
                 <Route path="/sales" render={() => <Sales url="/sales" onLogout={this.logout} />} />
+                <Route path="/purchase" render={() => <Purchase url="/purchase" onLogout={this.logout} />} />
                 <Redirect to="/dashboard" />
               </Switch>
             ) : (
