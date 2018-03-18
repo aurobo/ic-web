@@ -54,13 +54,13 @@ class Dashboard extends React.Component {
         <TopNav menuHeader="Dashboard" url={this.props.url} className="no-print" onLogout={this.props.onLogout} />
         <Icons>
           <StyledLink to="/sales">
-            <Segment basic textAlign="center">
+            <Segment textAlign="center">
               <StyledIcon name="line graph" size="big" circular />
               <StyledHeader as="h2">Sales</StyledHeader>
             </Segment>
           </StyledLink>
           <StyledLink to="/purchase">
-            <Segment basic textAlign="center">
+            <Segment textAlign="center">
               <StyledIcon name="truck" size="big" circular />
               <StyledHeader as="h2">Purchase</StyledHeader>
             </Segment>

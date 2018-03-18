@@ -41,6 +41,7 @@ class SalesOrder extends React.Component {
     loading: true,
     salesOrder: {
       key: '',
+      metaData: {},
     },
   };
 
@@ -251,11 +252,14 @@ class SalesOrder extends React.Component {
                 loading={this.state.loading}
                 className="no-print"
               >
-                <Link to={this.props.location.pathname + '/invoice'}>
-                  <FlatButton primary size="tiny">
+                <FlatButton primary size="tiny" disabled={!this.state.salesOrder.metaData.canCreateInvoice}>
+                  <Link
+                    style={{ display: 'block', height: '100%', color: 'white' }}
+                    to={this.props.location.pathname + '/invoice'}
+                  >
                     Create Invoice
-                  </FlatButton>
-                </Link>
+                  </Link>
+                </FlatButton>
                 <StyledDropdown text="Invoices" floating labeled className="icon">
                   <Dropdown.Menu>
                     {_.map(this.state.salesOrder.invoices, invoice => (
