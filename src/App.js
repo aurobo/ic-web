@@ -6,6 +6,7 @@ import LoginLayout from './components/common/LoginLayout';
 import Sales from './components/areas/sales';
 import Redirect from 'react-router/Redirect';
 import Purchase from './components/areas/purchase';
+import NotFound from './components/common/NotFound';
 
 class App extends Component {
   state = {
@@ -50,6 +51,7 @@ class App extends Component {
           render={() =>
             this.state.isAuthenticated ? (
               <Switch>
+                <Route path="/404" component={NotFound} />
                 <Route path="/dashboard" render={() => <Dashboard url="/dashboard" onLogout={this.logout} />} />
                 <Route path="/sales" render={() => <Sales url="/sales" onLogout={this.logout} />} />
                 <Route path="/purchase" render={() => <Purchase url="/purchase" onLogout={this.logout} />} />
