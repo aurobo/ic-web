@@ -24,7 +24,7 @@ class PurchaseRequests extends React.Component {
   render() {
     const { data } = this.state;
     return (
-      <Api url="/salesorders" onSuccess={this.handleSuccess}>
+      <Api url="/purchaserequests" onSuccess={this.handleSuccess}>
         <ControlPanel title="Purchase Requests">
           <Popup
             inverted
@@ -37,7 +37,7 @@ class PurchaseRequests extends React.Component {
             }
             content="Temporarily inactive. Use import method instead."
           />
-          <Link to="/sales/import-excel">
+          <Link to="/purchase/import-excel">
             <FlatButton size="tiny">Import</FlatButton>
           </Link>
         </ControlPanel>
@@ -47,30 +47,22 @@ class PurchaseRequests extends React.Component {
               <Table.HeaderCell field="key" type="text">
                 Key
               </Table.HeaderCell>
-              <Table.HeaderCell field="orderDate" type="date">
-                Order Date
+              <Table.HeaderCell field="date" type="date">
+                Date
               </Table.HeaderCell>
-              <Table.HeaderCell field="customerName" type="text">
-                Customer Name
-              </Table.HeaderCell>
-              <Table.HeaderCell field="customerReference" type="text">
-                Customer Reference
-              </Table.HeaderCell>
-              <Table.HeaderCell field="description" type="text">
-                Description
+              <Table.HeaderCell field="createdByUserName" type="text">
+                Created By
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {_.map(data, ({ id, key, orderDate, customerName, customerReference, description }) => (
+            {_.map(data, ({ id, key, date, createdByUserName }) => (
               <Table.Row key={id}>
                 <Table.Cell selectable>
-                  <Link to={'/sales/sales-orders/' + id}>{key}</Link>
+                  <Link to={'/purchase/purchase-requests/' + id}>{key}</Link>
                 </Table.Cell>
-                <Table.Cell>{new Date(orderDate).toLocaleDateString()}</Table.Cell>
-                <Table.Cell>{customerName}</Table.Cell>
-                <Table.Cell>{customerReference}</Table.Cell>
-                <Table.Cell>{description}</Table.Cell>
+                <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
+                <Table.Cell>{createdByUserName}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>

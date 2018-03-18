@@ -4,7 +4,7 @@ import PurchaseRequests from './PurchaseRequests';
 import TopNav from '../../common/TopNav';
 import { Dropdown } from 'semantic-ui-react';
 import { DropdownLink } from '../../common';
-
+import ImportExcel from '../master/ImportExcel';
 class Purchase extends React.Component {
   render() {
     return (
@@ -27,6 +27,10 @@ class Purchase extends React.Component {
         </TopNav>
         <Switch>
           <Route path="/purchase/purchase-requests" component={PurchaseRequests} />
+          <Route
+            path="/purchase/import-excel"
+            render={() => <ImportExcel uri="/purchaserequests/upload" redirectUri="/purchase/purchaserequests" />}
+          />
           <Redirect to="/purchase/purchase-requests" />
         </Switch>
       </div>
