@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Segment, Icon, Header, Image } from 'semantic-ui-react';
+import { Icon, Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 import innovicLogo from '../../img/innovic-logo.png';
 import TopNav from './TopNav';
@@ -44,20 +44,6 @@ class Dashboard extends React.Component {
     return (
       <div>
         <TopNav menuHeader="Dashboard" url={this.props.url} className="no-print" onLogout={this.props.onLogout} />
-        {/* <Icons>
-          <StyledLink to="/sales">
-            <Segment textAlign="center">
-              <StyledIcon name="line graph" size="big" circular />
-              <StyledHeader as="h2">Sales</StyledHeader>
-            </Segment>
-          </StyledLink>
-          <StyledLink to="/purchase">
-            <Segment textAlign="center">
-              <StyledIcon name="truck" size="big" circular />
-              <StyledHeader as="h2">Purchase</StyledHeader>
-            </Segment>
-          </StyledLink>
-        </Icons> */}
         <Icons>
           <IconLink to="/sales">
             <Icon bordered inverted color="teal" size="big" name="truck" flipped="horizontally" />

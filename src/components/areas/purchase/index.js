@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import PurchaseRequests from './PurchaseRequests';
+import PurchaseRequest from './purchase-request';
 import TopNav from '../../common/TopNav';
 import { Dropdown } from 'semantic-ui-react';
 import { DropdownLink } from '../../common';
@@ -26,7 +26,7 @@ class Purchase extends React.Component {
           </Dropdown> */}
         </TopNav>
         <Switch>
-          <Route path="/purchase/purchase-requests" component={PurchaseRequests} />
+          <Route path="/purchase/purchase-requests" component={PurchaseRequest} />
           <Route
             path="/purchase/import-excel"
             render={() => <ImportExcel uri="/purchaserequests/upload" redirectUri="/purchase/purchaserequests" />}

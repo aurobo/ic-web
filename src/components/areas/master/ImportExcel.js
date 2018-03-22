@@ -34,8 +34,10 @@ class ImportExcel extends React.Component {
         this.props.history.push(this.props.redirectUri);
       })
       .catch(error => {
-        if (error.response) {
+        if (error.response && _.isArray(error.response.data)) {
           this.setState({ showError: true, errors: error.response.data });
+        } else {
+          this.setState({ showError: true, errors: ['Something Went Wrong. Inform Admin.'] });
         }
       });
   };

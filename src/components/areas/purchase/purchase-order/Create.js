@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import React from 'react';
-import { Message, Table, Checkbox, Form, Dropdown, Input, Label } from 'semantic-ui-react';
-import ControlPanel from '../../common/ControlPanel';
+import { Message, Table, Checkbox, Form, Input, Label } from 'semantic-ui-react';
+import ControlPanel from '../../../common/ControlPanel';
 import { Link } from 'react-router-dom';
-import { FlatButton } from '../../common';
+import { FlatButton } from '../../../common';
 import Redirect from 'react-router-dom/Redirect';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
+import { api } from '../../../common/Utilities';
 
 const StyledInput = styled(Input)`
   &&& {
@@ -25,6 +26,21 @@ class CreatePurchaseOrder extends React.Component {
     purchaseOrder: null,
   };
 
+  handleSubmit = () => {
+    const { purchaseOrder } = this.state;
+    _.remove(purchaseOrder.purchaseOrderItems, item => item.checked === false);
+    let config = {
+      onDownloadProgress: progressEvent => this.setState({ loading: false }),
+    };
+
+    api
+      .post('/purchaseorders', purchaseOrder, config)
+      .then(response => {
+        this.props.history.push('/purchase/purchase-orders/' + response.data.id);
+      })
+      .catch(error => {});
+  };
+
   componentWillMount() {
     const { purchaseRequests } = this.props;
     this.setState({
@@ -41,6 +57,12 @@ class CreatePurchaseOrder extends React.Component {
               quantity: pri.quantity,
               unitPrice: 0,
               expectedDate: DateTime.fromObject(pri.expectedDate).toFormat('yyyy-MM-dd'),
+              checked: false,
+              metaData: pri.metaData,
+              valid:
+                pri.quantity < pri.metaData.remainingQuantity || pri.metaData.remainingQuantity <= 0
+                  ? (pri.valid = false)
+                  : (pri.valid = true),
             };
           })
         ),
@@ -55,6 +77,14 @@ class CreatePurchaseOrder extends React.Component {
     const { purchaseOrder } = this.state;
 
     _.find(purchaseOrder.purchaseOrderItems, poi => poi.id === poiId)[name] = value;
+
+    if (name === 'quantity') {
+      _.find(purchaseOrder.purchaseOrderItems, poi => {
+        poi.quantity < poi.metaData.remainingQuantity || poi.metaData.remainingQuantity <= 0
+          ? (poi.valid = false)
+          : (poi.valid = true);
+      });
+    }
 
     this.setState({
       purchaseOrder: purchaseOrder,
@@ -74,12 +104,27 @@ class CreatePurchaseOrder extends React.Component {
     });
   };
 
+  handleItemCheck = (e, checkboxProps, id) => {
+    const { purchaseOrder } = this.state;
+
+    _.map(purchaseOrder.purchaseOrderItems, item => {
+      if (item.id === id) {
+        item.checked = checkboxProps.checked;
+      }
+    });
+
+    this.setState({ purchaseOrder: purchaseOrder });
+  };
+
   render() {
     const { purchaseOrder } = this.state;
     const { purchaseRequests } = this.props;
     return (
       <div>
         <ControlPanel title="Purchase Requests / New Purchase Order">
+          <FlatButton size="tiny" primary onClick={this.handleSubmit}>
+            Submit
+          </FlatButton>
           <Link to="/purchase/purchase-requests">
             <FlatButton size="tiny">Back</FlatButton>
           </Link>
@@ -90,13 +135,13 @@ class CreatePurchaseOrder extends React.Component {
           <div style={{ padding: '20px' }}>
             <HeaderData>
               <Form>
-                <Form.Group widths="equal">
+                <Form.Group>
                   <Form.Input
                     value={purchaseOrder.date}
                     onChange={this.handleHeaderDataChange}
                     name="date"
                     type="date"
-                    fluid
+                    width={3}
                     label="Date"
                     placeholder="Date"
                   />
@@ -124,15 +169,25 @@ class CreatePurchaseOrder extends React.Component {
                     {_.map(purchaseOrder.purchaseOrderItems, poi => (
                       <Table.Row key={poi.id}>
                         <Table.Cell textAlign="center">
-                          <Checkbox />
+                          <Checkbox
+                            disabled={!poi.valid}
+                            checked={poi.checked && poi.valid}
+                            onChange={(e, data) => this.handleItemCheck(e, data, poi.id)}
+                          />
                         </Table.Cell>
                         <Table.Cell>{poi.materialNumber}</Table.Cell>
                         <Table.Cell>
                           <StyledInput
                             name="quantity"
+                            label={{
+                              basic: true,
+                              content: poi.metaData.remainingQuantity - poi.quantity,
+                            }}
+                            labelPosition="right"
                             value={poi.quantity}
-                            size="mini"
                             onChange={e => this.handlePurchaseOrderItemChange(e, poi.id)}
+                            size="mini"
+                            error={!poi.valid}
                           />
                         </Table.Cell>
                         <Table.Cell>
