@@ -1,11 +1,11 @@
-import _ from "lodash";
-import React from "react";
-import { Table, Grid, List, Message, Image } from "semantic-ui-react";
-import { api } from "../../common/Utilities";
-import ControlPanel from "../../common/ControlPanel";
-import { FlatButton, StyledTable } from "../../common";
-import styled from "styled-components";
-import innovicLogo from "../../../img/innovic-logo.png";
+import _ from 'lodash';
+import React from 'react';
+import { Table, Grid, List, Message, Image } from 'semantic-ui-react';
+import { api } from '../../common/Utilities';
+import ControlPanel from '../../common/ControlPanel';
+import { FlatButton, StyledTable } from '../../common';
+import styled from 'styled-components';
+import innovicLogo from '../../../img/innovic-logo.png';
 
 const PageSection = styled(Message)`
   &&& {
@@ -24,8 +24,8 @@ class Invoice extends React.Component {
     direction: null,
     loading: true,
     invoice: {
-      key: ""
-    }
+      key: '',
+    },
   };
 
   handleSort = clickedColumn => () => {
@@ -35,7 +35,7 @@ class Invoice extends React.Component {
       this.setState({
         column: clickedColumn,
         invoiceItems: _.sortBy(invoiceItems, [clickedColumn]),
-        direction: "ascending"
+        direction: 'ascending',
       });
 
       return;
@@ -43,20 +43,20 @@ class Invoice extends React.Component {
 
     this.setState({
       invoiceItems: invoiceItems.reverse(),
-      direction: direction === "ascending" ? "descending" : "ascending"
+      direction: direction === 'ascending' ? 'descending' : 'ascending',
     });
   };
 
   componentWillMount() {
     let config = {
-      onDownloadProgress: progressEvent => this.setState({ loading: false })
+      onDownloadProgress: progressEvent => this.setState({ loading: false }),
     };
     api
-      .get("/invoices/" + this.props.match.params.id, config)
+      .get('/invoices/' + this.props.match.params.id, config)
       .then(response => {
         this.setState({
           invoiceItems: response.data.invoiceItems,
-          invoice: response.data
+          invoice: response.data,
         });
       })
       .catch(error => {});
@@ -66,11 +66,7 @@ class Invoice extends React.Component {
     const { column, invoiceItems, direction } = this.state;
     return (
       <div>
-        <ControlPanel
-          title={"Invoices / " + this.state.invoice.key}
-          loading={this.state.loading}
-          className="no-print"
-        >
+        <ControlPanel title={'Invoices / ' + this.state.invoice.key} loading={this.state.loading} className="no-print">
           <FlatButton primary size="tiny" onClick={() => window.print()}>
             Print Invoice
           </FlatButton>
@@ -131,17 +127,13 @@ class Invoice extends React.Component {
                   <List.Item>
                     <List.Content>
                       <List.Header>Created On</List.Header>
-                      {new Date(
-                        this.state.invoice.createdOn
-                      ).toLocaleDateString()}
+                      {new Date(this.state.invoice.createdOn).toLocaleDateString()}
                     </List.Content>
                   </List.Item>
                   <List.Item>
                     <List.Content>
                       <List.Header>Last Modified On</List.Header>
-                      {new Date(
-                        this.state.invoice.lastModifiedOn
-                      ).toLocaleDateString()}
+                      {new Date(this.state.invoice.lastModifiedOn).toLocaleDateString()}
                     </List.Content>
                   </List.Item>
                   <List.Item>
@@ -164,33 +156,30 @@ class Invoice extends React.Component {
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell
-                  sorted={column === "materialNumber" ? direction : null}
-                  onClick={this.handleSort("materialNumber")}
+                  sorted={column === 'materialNumber' ? direction : null}
+                  onClick={this.handleSort('materialNumber')}
                 >
                   Material Number
                 </Table.HeaderCell>
                 <Table.HeaderCell
-                  sorted={column === "description" ? direction : null}
-                  onClick={this.handleSort("description")}
+                  sorted={column === 'description' ? direction : null}
+                  onClick={this.handleSort('description')}
                 >
                   Description
                 </Table.HeaderCell>
                 <Table.HeaderCell
-                  sorted={column === "unitPrice" ? direction : null}
-                  onClick={this.handleSort("unitPrice")}
+                  sorted={column === 'unitPrice' ? direction : null}
+                  onClick={this.handleSort('unitPrice')}
                 >
                   Unit Price
                 </Table.HeaderCell>
                 <Table.HeaderCell
-                  sorted={column === "quantity" ? direction : null}
-                  onClick={this.handleSort("quantity")}
+                  sorted={column === 'quantity' ? direction : null}
+                  onClick={this.handleSort('quantity')}
                 >
                   Quantity
                 </Table.HeaderCell>
-                <Table.HeaderCell
-                  sorted={column === "value" ? direction : null}
-                  onClick={this.handleSort("value")}
-                >
+                <Table.HeaderCell sorted={column === 'value' ? direction : null} onClick={this.handleSort('value')}>
                   Value
                 </Table.HeaderCell>
               </Table.Row>
@@ -207,7 +196,7 @@ class Invoice extends React.Component {
                   materialNumber = salesOrderItemMaterialNumber,
                   description = salesOrderItemDescription,
                   unitPrice = salesOrderItemUnitPrice,
-                  value = salesOrderItemUnitPrice * quantity
+                  value = salesOrderItemUnitPrice * quantity,
                 }) => (
                   <Table.Row key={id}>
                     <Table.Cell>{materialNumber}</Table.Cell>
@@ -228,9 +217,7 @@ class Invoice extends React.Component {
                   <List.Item>
                     <List.Content>
                       <List.Header>Total Items</List.Header>
-                      {this.state.invoiceItems
-                        ? this.state.invoiceItems.length
-                        : ""}
+                      {this.state.invoiceItems ? this.state.invoiceItems.length : ''}
                     </List.Content>
                   </List.Item>
                   <List.Item>
@@ -242,10 +229,7 @@ class Invoice extends React.Component {
                   <List.Item>
                     <List.Content>
                       <List.Header>Total Value</List.Header>
-                      {_.sumBy(
-                        this.state.invoiceItems,
-                        si => si.salesOrderItemUnitPrice * si.quantity
-                      )}
+                      {_.sumBy(this.state.invoiceItems, si => si.salesOrderItemUnitPrice * si.quantity)}
                     </List.Content>
                   </List.Item>
                 </List>

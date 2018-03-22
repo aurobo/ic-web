@@ -15,6 +15,22 @@ const InnovicLogo = styled(Image)`
   }
 `;
 
+const IconLink = styled(Link)`
+  &&& {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px;
+  }
+`;
+
+const IconLabel = styled.span`
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 14px;
+  color: #333;
+`;
+
 const Icons = styled.div`
   display: flex;
   align-items: flex-start;
@@ -23,36 +39,12 @@ const Icons = styled.div`
   margin-left: 80px;
 `;
 
-const StyledLink = styled(Link)`
-  &&& {
-    margin: 20px;
-  }
-`;
-
-const StyledIcon = styled(Icon)`
-  &&& {
-    box-shadow: 0 0 0 0.11em ${props => props.theme.accent} inset;
-    margin: 5px;
-    color: ${props => props.theme.accent};
-  }
-`;
-
-const StyledHeader = styled(Header)`
-  &&& {
-    text-transform: uppercase;
-    color: ${props => props.theme.accent};
-    margin-top: 5px;
-    font-size: 16px;
-    text-align: center;
-  }
-`;
-
 class Dashboard extends React.Component {
   render() {
     return (
       <div>
         <TopNav menuHeader="Dashboard" url={this.props.url} className="no-print" onLogout={this.props.onLogout} />
-        <Icons>
+        {/* <Icons>
           <StyledLink to="/sales">
             <Segment textAlign="center">
               <StyledIcon name="line graph" size="big" circular />
@@ -65,6 +57,16 @@ class Dashboard extends React.Component {
               <StyledHeader as="h2">Purchase</StyledHeader>
             </Segment>
           </StyledLink>
+        </Icons> */}
+        <Icons>
+          <IconLink to="/sales">
+            <Icon bordered inverted color="teal" size="big" name="truck" flipped="horizontally" />
+            <IconLabel>Sales</IconLabel>
+          </IconLink>
+          <IconLink to="/purchase">
+            <Icon bordered inverted color="teal" size="big" name="truck" />
+            <IconLabel>Purchase</IconLabel>
+          </IconLink>
         </Icons>
         <InnovicLogo src={innovicLogo} size="huge" />
       </div>
