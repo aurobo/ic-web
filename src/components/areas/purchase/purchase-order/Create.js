@@ -24,11 +24,18 @@ const HeaderData = styled(Message)`
 class CreatePurchaseOrder extends React.Component {
   state = {
     purchaseOrder: null,
+    purchaseRequests: this.props.purchaseRequests,
   };
 
   handleSubmit = () => {
-    const { purchaseOrder } = this.state;
-    _.remove(purchaseOrder.purchaseOrderItems, item => item.checked === false);
+    const { purchaseOrder, purchaseRequests } = this.state;
+    purchaseOrder.purchaseOrderItems = [];
+    _.each(purchaseRequests, pr =>
+      _.each(pr.purchaseRequestItems, pri => {
+        if (pri.checked === true) purchaseOrder.purchaseOrderItems.push(pri);
+      })
+    );
+
     let config = {
       onDownloadProgress: progressEvent => this.setState({ loading: false }),
     };
@@ -42,52 +49,49 @@ class CreatePurchaseOrder extends React.Component {
   };
 
   componentWillMount() {
-    const { purchaseRequests } = this.props;
+    const { purchaseRequests } = this.state;
+
+    _.map(purchaseRequests, pr =>
+      _.map(pr.purchaseRequestItems, pri => {
+        pri.unitPrice = 0;
+        pri.expectedDate = DateTime.fromObject(pri.expectedDate).toFormat('yyyy-MM-dd');
+        pri.checked = false;
+        pri.valid =
+          pri.quantity > pri.metaData.remainingQuantity || pri.metaData.remainingQuantity <= 0
+            ? (pri.valid = false)
+            : (pri.valid = true);
+      })
+    );
+
     this.setState({
       purchaseOrder: {
         date: DateTime.local().toFormat('yyyy-MM-dd'),
         purchaseRequests: _.map(purchaseRequests, 'id'),
-        purchaseOrderItems: _.flatMap(purchaseRequests, pr =>
-          _.map(pr.purchaseRequestItems, pri => {
-            return {
-              id: pri.id,
-              purchaseRequestItems: [pri.id],
-              materialId: pri.materialId,
-              materialNumber: pri.materialNumber,
-              quantity: pri.quantity,
-              unitPrice: 0,
-              expectedDate: DateTime.fromObject(pri.expectedDate).toFormat('yyyy-MM-dd'),
-              checked: false,
-              metaData: pri.metaData,
-              valid:
-                pri.quantity < pri.metaData.remainingQuantity || pri.metaData.remainingQuantity <= 0
-                  ? (pri.valid = false)
-                  : (pri.valid = true),
-            };
-          })
-        ),
       },
+      purchaseRequests: purchaseRequests,
     });
   }
 
-  handlePurchaseOrderItemChange(event, poiId) {
+  handlePurchaseOrderItemChange(event, priId) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    const { purchaseOrder } = this.state;
+    const { purchaseRequests } = this.state;
 
-    _.find(purchaseOrder.purchaseOrderItems, poi => poi.id === poiId)[name] = value;
+    _.each(purchaseRequests, pr => (_.find(pr.purchaseRequestItems, pri => pri.id === priId)[name] = value));
 
     if (name === 'quantity') {
-      _.find(purchaseOrder.purchaseOrderItems, poi => {
-        poi.quantity < poi.metaData.remainingQuantity || poi.metaData.remainingQuantity <= 0
-          ? (poi.valid = false)
-          : (poi.valid = true);
-      });
+      _.each(purchaseRequests, pr =>
+        _.find(pr.purchaseRequestItems, pri => {
+          pri.quantity > pri.metaData.remainingQuantity || pri.metaData.remainingQuantity <= 0
+            ? (pri.valid = false)
+            : (pri.valid = true);
+        })
+      );
     }
 
     this.setState({
-      purchaseOrder: purchaseOrder,
+      purchaseRequests: purchaseRequests,
     });
   }
 
@@ -105,29 +109,26 @@ class CreatePurchaseOrder extends React.Component {
   };
 
   handleItemCheck = (e, checkboxProps, id) => {
-    const { purchaseOrder } = this.state;
+    const { purchaseRequests } = this.state;
+    _.each(purchaseRequests, pr =>
+      _.map(pr.purchaseRequestItems, item => {
+        if (item.id === id) {
+          item.checked = checkboxProps.checked;
+        }
+      })
+    );
 
-    _.map(purchaseOrder.purchaseOrderItems, item => {
-      if (item.id === id) {
-        item.checked = checkboxProps.checked;
-      }
-    });
-
-    this.setState({ purchaseOrder: purchaseOrder });
+    this.setState({ purchaseRequests: purchaseRequests });
   };
 
   render() {
-    const { purchaseOrder } = this.state;
-    const { purchaseRequests } = this.props;
+    const { purchaseOrder, purchaseRequests } = this.state;
     return (
       <div>
         <ControlPanel title="Purchase Requests / New Purchase Order">
           <FlatButton size="tiny" primary onClick={this.handleSubmit}>
             Submit
           </FlatButton>
-          <Link to="/purchase/purchase-requests">
-            <FlatButton size="tiny">Back</FlatButton>
-          </Link>
         </ControlPanel>
         {purchaseOrder.purchaseRequests.length === 0 ? (
           <Redirect to="/purchase/purchase-requests" />
@@ -166,45 +167,45 @@ class CreatePurchaseOrder extends React.Component {
                         <Label ribbon>{pr.key}</Label>
                       </Table.Cell>
                     </Table.Row>
-                    {_.map(purchaseOrder.purchaseOrderItems, poi => (
-                      <Table.Row key={poi.id}>
+                    {_.map(pr.purchaseRequestItems, pri => (
+                      <Table.Row key={pri.id}>
                         <Table.Cell textAlign="center">
                           <Checkbox
-                            disabled={!poi.valid}
-                            checked={poi.checked && poi.valid}
-                            onChange={(e, data) => this.handleItemCheck(e, data, poi.id)}
+                            disabled={!pri.valid}
+                            checked={pri.checked && pri.valid}
+                            onChange={(e, data) => this.handleItemCheck(e, data, pri.id)}
                           />
                         </Table.Cell>
-                        <Table.Cell>{poi.materialNumber}</Table.Cell>
+                        <Table.Cell>{pri.materialNumber}</Table.Cell>
                         <Table.Cell>
                           <StyledInput
                             name="quantity"
                             label={{
                               basic: true,
-                              content: poi.metaData.remainingQuantity - poi.quantity,
+                              content: pri.metaData.remainingQuantity - pri.quantity,
                             }}
                             labelPosition="right"
-                            value={poi.quantity}
-                            onChange={e => this.handlePurchaseOrderItemChange(e, poi.id)}
+                            value={pri.quantity}
+                            onChange={e => this.handlePurchaseOrderItemChange(e, pri.id)}
                             size="mini"
-                            error={!poi.valid}
+                            error={!pri.valid}
                           />
                         </Table.Cell>
                         <Table.Cell>
                           <StyledInput
                             type="date"
                             name="expectedDate"
-                            value={poi.expectedDate}
+                            value={pri.expectedDate}
                             size="mini"
-                            onChange={e => this.handlePurchaseOrderItemChange(e, poi.id)}
+                            onChange={e => this.handlePurchaseOrderItemChange(e, pri.id)}
                           />
                         </Table.Cell>
                         <Table.Cell>
                           <StyledInput
                             name="unitPrice"
-                            value={poi.unitPrice}
+                            value={pri.unitPrice}
                             size="mini"
-                            onChange={e => this.handlePurchaseOrderItemChange(e, poi.id)}
+                            onChange={e => this.handlePurchaseOrderItemChange(e, pri.id)}
                           />
                         </Table.Cell>
                       </Table.Row>
