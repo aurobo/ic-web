@@ -15,51 +15,48 @@ const StyledDropdown = styled(Dropdown)`
   }
 `;
 
-class ViewPurchaseRequest extends React.Component {
+class ViewPurchaseOrder extends React.Component {
   state = {
-    purchaseRequest: null,
-    purchaseRequestItems: null,
+    purchaseOrder: null,
+    purchaseOrderItems: null,
   };
 
   handleSuccess = data => {
-    this.setState({ purchaseRequest: data });
-    this.setState({ purchaseRequestItems: data.purchaseRequestItems });
+    this.setState({ purchaseOrder: data });
+    this.setState({ purchaseOrderItems: data.purchaseOrderItems });
   };
 
-  handleDataChange = purchaseRequestItems => {
-    this.setState({ purchaseRequestItems: purchaseRequestItems });
+  handleDataChange = purchaseOrderItems => {
+    this.setState({ purchaseOrderItems: purchaseOrderItems });
   };
 
   render() {
-    const { purchaseRequest, purchaseRequestItems } = this.state;
+    const { purchaseOrder, purchaseOrderItems } = this.state;
     return (
-      <Api url={'/PurchaseRequests/' + this.props.match.params.id} onSuccess={this.handleSuccess}>
-        {purchaseRequest !== null ? (
+      <Api url={'/PurchaseOrders/' + this.props.match.params.id} onSuccess={this.handleSuccess}>
+        {purchaseOrder !== null ? (
           <React.Fragment>
-            <ControlPanel title={'Purchase Requests / ' + purchaseRequest.key} className="no-print">
-              <StyledDropdown text="Purchase Orders" floating labeled className="icon">
+            <ControlPanel title={'Purchase Orders / ' + purchaseOrder.key} className="no-print">
+              <StyledDropdown text="Purchase Requests" floating labeled className="icon">
                 <Dropdown.Menu>
-                  {_.map(purchaseRequest.purchaseOrders, po => (
-                    <Dropdown.Item key={po.id}>
-                      <Link to={'/purchase/purchase-orders/' + po.id}>{po.key}</Link>
+                  {_.map(purchaseOrder.purchaseRequests, pr => (
+                    <Dropdown.Item key={pr.id}>
+                      <Link to={'/purchase/purchase-requests/' + pr.id}>{pr.key}</Link>
                     </Dropdown.Item>
                   ))}
                 </Dropdown.Menu>
               </StyledDropdown>
             </ControlPanel>
             <Page>
-              <h1>{purchaseRequest.key}</h1>
+              <h1>{purchaseOrder.key}</h1>
               <TableWithSorting
                 sortBy="key"
                 sortIn="desc"
-                data={purchaseRequest.purchaseRequestItems}
+                data={purchaseOrder.purchaseOrderItems}
                 onDataChange={this.props.handleDataChange}
               >
                 <Table.Header>
                   <Table.Row>
-                    <Table.HeaderCell field="number" type="number">
-                      Item Number
-                    </Table.HeaderCell>
                     <Table.HeaderCell field="materialNumber" type="text">
                       Material Number
                     </Table.HeaderCell>
@@ -76,7 +73,7 @@ class ViewPurchaseRequest extends React.Component {
                 </Table.Header>
                 <Table.Body>
                   {_.map(
-                    purchaseRequestItems,
+                    purchaseOrderItems,
                     ({
                       id,
                       number,
@@ -87,7 +84,6 @@ class ViewPurchaseRequest extends React.Component {
                       metaData: { remainingQuantity },
                     }) => (
                       <Table.Row key={id}>
-                        <Table.Cell>{number}</Table.Cell>
                         <Table.Cell>{materialNumber}</Table.Cell>
                         <Table.Cell>{quantity}</Table.Cell>
                         <Table.Cell>{new Date(deliveryDate).toLocaleDateString()}</Table.Cell>
@@ -107,4 +103,4 @@ class ViewPurchaseRequest extends React.Component {
   }
 }
 
-export default ViewPurchaseRequest;
+export default ViewPurchaseOrder;

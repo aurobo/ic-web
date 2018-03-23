@@ -2,7 +2,6 @@ import _ from 'lodash';
 import React from 'react';
 import { Message, Table, Checkbox, Form, Input, Label } from 'semantic-ui-react';
 import ControlPanel from '../../../common/ControlPanel';
-import { Link } from 'react-router-dom';
 import { FlatButton } from '../../../common';
 import Redirect from 'react-router-dom/Redirect';
 import styled from 'styled-components';
@@ -32,7 +31,9 @@ class CreatePurchaseOrder extends React.Component {
     purchaseOrder.purchaseOrderItems = [];
     _.each(purchaseRequests, pr =>
       _.each(pr.purchaseRequestItems, pri => {
-        if (pri.checked === true) purchaseOrder.purchaseOrderItems.push(pri);
+        let poi = _.clone(pri);
+        poi.purchaseRequestItems = [pri.id];
+        if (pri.checked === true) purchaseOrder.purchaseOrderItems.push(poi);
       })
     );
 

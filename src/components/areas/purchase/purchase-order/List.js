@@ -52,7 +52,7 @@ class List extends React.Component {
     const { data } = this.props;
     return (
       <div>
-        <ControlPanel title="Purchase Requests">
+        <ControlPanel title="Purchase Orders">
           <Popup
             inverted
             trigger={
@@ -106,11 +106,11 @@ class List extends React.Component {
                     />
                   </Table.Cell>
                   <Table.Cell selectable>
-                    <Link to={'/purchase/purchase-requests/' + id}>{key}</Link>
+                    <Link to={'/purchase/purchase-orders/' + id}>{key}</Link>
                   </Table.Cell>
                   <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
-                  <Table.Cell>{totalRemainingQuantity}</Table.Cell>
                   <Table.Cell>{createdByUserName}</Table.Cell>
+                  <Table.Cell>{totalRemainingQuantity}</Table.Cell>
                 </Table.Row>
               )
             )}

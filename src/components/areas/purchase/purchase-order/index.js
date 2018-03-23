@@ -1,11 +1,10 @@
 import React from 'react';
 import Api from '../../../common/Api';
 import { Route, Switch } from 'react-router-dom';
-import CreatePurchaseOrder from '../purchase-order/Create';
 import List from './List';
-import ViewPurchaseRequest from './View';
+import ViewPurchaseOrder from './View';
 
-class PurchaseRequest extends React.Component {
+class PurchaseOrder extends React.Component {
   state = {
     data: null,
     selectedRows: [],
@@ -26,10 +25,10 @@ class PurchaseRequest extends React.Component {
   render() {
     const { data, selectedRows } = this.state;
     return (
-      <Api url="/purchaserequests" onSuccess={this.handleSuccess}>
+      <Api url="/purchaseorders" onSuccess={this.handleSuccess}>
         <Switch>
           <Route
-            path="/purchase/purchase-requests"
+            path="/purchase/purchase-orders"
             exact
             render={() => (
               <List
@@ -40,16 +39,11 @@ class PurchaseRequest extends React.Component {
               />
             )}
           />
-          <Route
-            exact
-            path="/purchase/purchase-requests/create-purchase-order"
-            render={() => <CreatePurchaseOrder purchaseRequests={this.state.selectedRows} />}
-          />
-          <Route exact path="/purchase/purchase-requests/:id" component={ViewPurchaseRequest} />
+          <Route exact path="/purchase/purchase-orders/:id" component={ViewPurchaseOrder} />
         </Switch>
       </Api>
     );
   }
 }
 
-export default PurchaseRequest;
+export default PurchaseOrder;
