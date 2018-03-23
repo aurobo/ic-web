@@ -7,6 +7,7 @@ import Redirect from 'react-router-dom/Redirect';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import { api } from '../../../common/Utilities';
+import { withRouter } from 'react-router-dom';
 
 const StyledInput = styled(Input)`
   &&& {
@@ -222,4 +223,4 @@ class CreatePurchaseOrder extends React.Component {
   }
 }
 
-export default CreatePurchaseOrder;
+export default withRouter(CreatePurchaseOrder);

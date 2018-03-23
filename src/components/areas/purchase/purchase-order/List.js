@@ -22,12 +22,12 @@ const StyledLink = styled(Link)`
 
 class List extends React.Component {
   state = {
-    isCreatePurchaseOrderDisabled: true,
+    isCreateGoodsReceiptDisabled: true,
   };
 
   handleItemCheck = (e, checkboxProps, itemId) => {
     const { data, selectedRows } = this.props;
-    let isCreatePurchaseOrderDisabled = false;
+    let isCreateGoodsReceiptDisabled = false;
 
     if (checkboxProps.checked) {
       selectedRows.push(_.find(data, item => item.id === itemId));
@@ -36,15 +36,15 @@ class List extends React.Component {
     }
 
     if (selectedRows.length > 0) {
-      isCreatePurchaseOrderDisabled = false;
+      isCreateGoodsReceiptDisabled = false;
     } else {
-      isCreatePurchaseOrderDisabled = true;
+      isCreateGoodsReceiptDisabled = true;
     }
 
     this.props.onRowSelect(_.orderBy(selectedRows, 'key', 'desc'));
 
     this.setState({
-      isCreatePurchaseOrderDisabled: isCreatePurchaseOrderDisabled,
+      isCreateGoodsReceiptDisabled: isCreateGoodsReceiptDisabled,
     });
   };
 
@@ -64,9 +64,6 @@ class List extends React.Component {
             }
             content="Temporarily inactive. Use import method instead."
           />
-          <Link to="/purchase/import-excel">
-            <FlatButton size="tiny">Import</FlatButton>
-          </Link>
         </ControlPanel>
         <TableWithSorting sortBy="key" sortIn="desc" data={data} onDataChange={this.props.onDataChange}>
           <Table.Header>
@@ -100,7 +97,7 @@ class List extends React.Component {
                 <Table.Row key={id}>
                   <Table.Cell collapsing>
                     <Checkbox
-                      disabled={!metaData.canCreatePurchaseOrder}
+                      disabled={!metaData.canCreateGoodsReceipt}
                       slider
                       onChange={(e, props) => this.handleItemCheck(e, props, id)}
                     />
@@ -109,8 +106,8 @@ class List extends React.Component {
                     <Link to={'/purchase/purchase-orders/' + id}>{key}</Link>
                   </Table.Cell>
                   <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
-                  <Table.Cell>{createdByUserName}</Table.Cell>
                   <Table.Cell>{totalRemainingQuantity}</Table.Cell>
+                  <Table.Cell>{createdByUserName}</Table.Cell>
                 </Table.Row>
               )
             )}
@@ -119,12 +116,12 @@ class List extends React.Component {
             <Table.Row>
               <Table.HeaderCell />
               <Table.HeaderCell colSpan="4">
-                <StyledFlatButton size="tiny" primary disabled={this.state.isCreatePurchaseOrderDisabled}>
+                <StyledFlatButton size="tiny" primary disabled={this.state.isCreateGoodsReceiptDisabled}>
                   <StyledLink
                     style={{ display: 'block', height: '100%', color: 'white' }}
-                    to={this.props.location.pathname + '/create-purchase-order'}
+                    to={this.props.location.pathname + '/create-goods-receipt'}
                   >
-                    Create Purchase Order
+                    Create Goods Receipt
                   </StyledLink>
                 </StyledFlatButton>
               </Table.HeaderCell>
