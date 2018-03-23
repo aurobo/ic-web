@@ -34,6 +34,7 @@ class CreatePurchaseOrder extends React.Component {
       _.each(pr.purchaseRequestItems, pri => {
         let poi = _.clone(pri);
         poi.purchaseRequestItems = [pri.id];
+        poi.materialId = pri.materialId;
         if (pri.checked === true) purchaseOrder.purchaseOrderItems.push(poi);
       })
     );
@@ -56,12 +57,10 @@ class CreatePurchaseOrder extends React.Component {
     _.map(purchaseRequests, pr =>
       _.map(pr.purchaseRequestItems, pri => {
         pri.unitPrice = 0;
-        pri.expectedDate = DateTime.fromObject(pri.expectedDate).toFormat('yyyy-MM-dd');
+        pri.date = DateTime.fromObject(pri.date).toFormat('yyyy-MM-dd');
         pri.checked = false;
         pri.valid =
-          pri.quantity > pri.metaData.remainingQuantity || pri.metaData.remainingQuantity <= 0
-            ? (pri.valid = false)
-            : (pri.valid = true);
+          pri.quantity > pri.metaData.remainingQuantity || pri.quantity <= 0 ? (pri.valid = false) : (pri.valid = true);
       })
     );
 
@@ -85,9 +84,7 @@ class CreatePurchaseOrder extends React.Component {
     if (name === 'quantity') {
       _.each(purchaseRequests, pr =>
         _.find(pr.purchaseRequestItems, pri => {
-          pri.quantity > pri.metaData.remainingQuantity || pri.metaData.remainingQuantity <= 0
-            ? (pri.valid = false)
-            : (pri.valid = true);
+          pri.quantity > pri.metaData.remainingQuantity || pri.quantity <= 0 ? (pri.valid = false) : (pri.valid = true);
         })
       );
     }
@@ -157,7 +154,7 @@ class CreatePurchaseOrder extends React.Component {
                   <Table.HeaderCell />
                   <Table.HeaderCell>Material Number</Table.HeaderCell>
                   <Table.HeaderCell>Quantity</Table.HeaderCell>
-                  <Table.HeaderCell>Expected Date</Table.HeaderCell>
+                  <Table.HeaderCell>Date</Table.HeaderCell>
                   <Table.HeaderCell>Unit Price</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -196,8 +193,8 @@ class CreatePurchaseOrder extends React.Component {
                         <Table.Cell>
                           <StyledInput
                             type="date"
-                            name="expectedDate"
-                            value={pri.expectedDate}
+                            name="date"
+                            value={pri.date}
                             size="mini"
                             onChange={e => this.handlePurchaseOrderItemChange(e, pri.id)}
                           />

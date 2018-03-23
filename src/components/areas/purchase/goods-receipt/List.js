@@ -61,35 +61,21 @@ class List extends React.Component {
               <Table.HeaderCell field="date" type="date">
                 Date
               </Table.HeaderCell>
-              <Table.HeaderCell field="totalRemainingQuantity" type="number">
-                Total Remaining Quantity
-              </Table.HeaderCell>
               <Table.HeaderCell field="createdByUserName" type="text">
                 Created By
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {_.map(
-              data,
-              ({
-                id,
-                key,
-                date,
-                createdByUserName,
-                metaData,
-                totalRemainingQuantity = metaData.totalRemainingQuantity,
-              }) => (
-                <Table.Row key={id}>
-                  <Table.Cell selectable>
-                    <Link to={'/purchase/goods-receipts/' + id}>{key}</Link>
-                  </Table.Cell>
-                  <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
-                  <Table.Cell>{createdByUserName}</Table.Cell>
-                  <Table.Cell>{totalRemainingQuantity}</Table.Cell>
-                </Table.Row>
-              )
-            )}
+            {_.map(data, ({ id, key, date, createdByUserName }) => (
+              <Table.Row key={id}>
+                <Table.Cell selectable>
+                  <Link to={'/purchase/goods-receipts/' + id}>{key}</Link>
+                </Table.Cell>
+                <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
+                <Table.Cell>{createdByUserName}</Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </TableWithSorting>
       </div>

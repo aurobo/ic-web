@@ -63,31 +63,19 @@ class ViewGoodsReceipt extends React.Component {
                     <Table.HeaderCell field="quantity" type="number">
                       Quantity
                     </Table.HeaderCell>
-                    <Table.HeaderCell field="deliveryDate" type="date">
-                      Delivery Date
-                    </Table.HeaderCell>
-                    <Table.HeaderCell field="remainingQuantity" type="number">
-                      Remaining Quantity
+                    <Table.HeaderCell field="date" type="date">
+                      Date
                     </Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
                   {_.map(
                     goodsReceiptItems,
-                    ({
-                      id,
-                      number,
-                      materialNumber,
-                      quantity,
-                      deliveryDate,
-                      metaData,
-                      metaData: { remainingQuantity },
-                    }) => (
+                    ({ id, number, materialNumber, quantity, date, metaData, metaData: { remainingQuantity } }) => (
                       <Table.Row key={id}>
                         <Table.Cell>{materialNumber}</Table.Cell>
                         <Table.Cell>{quantity}</Table.Cell>
-                        <Table.Cell>{new Date(deliveryDate).toLocaleDateString()}</Table.Cell>
-                        <Table.Cell>{remainingQuantity}</Table.Cell>
+                        <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
                       </Table.Row>
                     )
                   )}

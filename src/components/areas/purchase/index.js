@@ -22,6 +22,12 @@ class Purchase extends React.Component {
               <DropdownLink to="/purchase/goods-receipts">Goods Receipts</DropdownLink>
             </Dropdown.Menu>
           </Dropdown>
+          <Dropdown item text="Master Data" simple>
+            <Dropdown.Menu>
+              <DropdownLink to="/sales/customers">Customers</DropdownLink>
+              <DropdownLink to="/sales/materials">Materials</DropdownLink>
+            </Dropdown.Menu>
+          </Dropdown>
           {/* <Dropdown item text="Master" simple>
             <Dropdown.Menu>
               <DropdownLink to="/sales/customers">Customers</DropdownLink>

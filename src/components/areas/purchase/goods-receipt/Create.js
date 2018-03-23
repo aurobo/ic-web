@@ -34,6 +34,7 @@ class CreateGoodsReceipt extends React.Component {
       _.each(pr.purchaseOrderItems, pri => {
         let poi = _.clone(pri);
         poi.purchaseOrderItems = [pri.id];
+        poi.materialId = pri.materialId;
         if (pri.checked === true) goodsReceipt.goodsReceiptItems.push(poi);
       })
     );
@@ -56,12 +57,10 @@ class CreateGoodsReceipt extends React.Component {
     _.map(purchaseOrders, pr =>
       _.map(pr.purchaseOrderItems, pri => {
         pri.unitPrice = 0;
-        pri.expectedDate = DateTime.fromObject(pri.expectedDate).toFormat('yyyy-MM-dd');
+        pri.date = DateTime.fromObject(pri.date).toFormat('yyyy-MM-dd');
         pri.checked = false;
         pri.valid =
-          pri.quantity > pri.metaData.remainingQuantity || pri.metaData.remainingQuantity <= 0
-            ? (pri.valid = false)
-            : (pri.valid = true);
+          pri.quantity > pri.metaData.remainingQuantity || pri.quantity <= 0 ? (pri.valid = false) : (pri.valid = true);
       })
     );
 
@@ -85,9 +84,7 @@ class CreateGoodsReceipt extends React.Component {
     if (name === 'quantity') {
       _.each(purchaseOrders, pr =>
         _.find(pr.purchaseOrderItems, pri => {
-          pri.quantity > pri.metaData.remainingQuantity || pri.metaData.remainingQuantity <= 0
-            ? (pri.valid = false)
-            : (pri.valid = true);
+          pri.quantity > pri.metaData.remainingQuantity || pri.quantity <= 0 ? (pri.valid = false) : (pri.valid = true);
         })
       );
     }
@@ -127,7 +124,7 @@ class CreateGoodsReceipt extends React.Component {
     const { goodsReceipt, purchaseOrders } = this.state;
     return (
       <div>
-        <ControlPanel title="Purchase Requests / New Purchase Order">
+        <ControlPanel title="Purchase Orders / New Goods Receipt">
           <FlatButton size="tiny" primary onClick={this.handleSubmit}>
             Submit
           </FlatButton>
@@ -157,8 +154,7 @@ class CreateGoodsReceipt extends React.Component {
                   <Table.HeaderCell />
                   <Table.HeaderCell>Material Number</Table.HeaderCell>
                   <Table.HeaderCell>Quantity</Table.HeaderCell>
-                  <Table.HeaderCell>Expected Date</Table.HeaderCell>
-                  <Table.HeaderCell>Unit Price</Table.HeaderCell>
+                  <Table.HeaderCell>Date</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
@@ -196,16 +192,8 @@ class CreateGoodsReceipt extends React.Component {
                         <Table.Cell>
                           <StyledInput
                             type="date"
-                            name="expectedDate"
-                            value={pri.expectedDate}
-                            size="mini"
-                            onChange={e => this.handleGoodsReceiptItemChange(e, pri.id)}
-                          />
-                        </Table.Cell>
-                        <Table.Cell>
-                          <StyledInput
-                            name="unitPrice"
-                            value={pri.unitPrice}
+                            name="date"
+                            value={pri.date}
                             size="mini"
                             onChange={e => this.handleGoodsReceiptItemChange(e, pri.id)}
                           />

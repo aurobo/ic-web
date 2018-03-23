@@ -73,6 +73,9 @@ class Materials extends React.Component {
               <Table.HeaderCell sorted={column === 'number' ? direction : null} onClick={this.handleSort('number')}>
                 Number
               </Table.HeaderCell>
+              <Table.HeaderCell sorted={column === 'quantity' ? direction : null} onClick={this.handleSort('quantity')}>
+                Quantity
+              </Table.HeaderCell>
               <Table.HeaderCell
                 sorted={column === 'description' ? direction : null}
                 onClick={this.handleSort('description')}
@@ -82,10 +85,11 @@ class Materials extends React.Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {_.map(data, ({ id, key, description, number }) => (
+            {_.map(data, ({ id, key, description, number, quantity }) => (
               <Table.Row key={id}>
                 <Table.Cell>{key}</Table.Cell>
                 <Table.Cell>{number}</Table.Cell>
+                <Table.Cell>{quantity}</Table.Cell>
                 <Table.Cell>{description}</Table.Cell>
               </Table.Row>
             ))}

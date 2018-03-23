@@ -63,8 +63,8 @@ class ViewPurchaseOrder extends React.Component {
                     <Table.HeaderCell field="quantity" type="number">
                       Quantity
                     </Table.HeaderCell>
-                    <Table.HeaderCell field="deliveryDate" type="date">
-                      Delivery Date
+                    <Table.HeaderCell field="date" type="date">
+                      Date
                     </Table.HeaderCell>
                     <Table.HeaderCell field="remainingQuantity" type="number">
                       Remaining Quantity
@@ -74,19 +74,11 @@ class ViewPurchaseOrder extends React.Component {
                 <Table.Body>
                   {_.map(
                     purchaseOrderItems,
-                    ({
-                      id,
-                      number,
-                      materialNumber,
-                      quantity,
-                      deliveryDate,
-                      metaData,
-                      metaData: { remainingQuantity },
-                    }) => (
+                    ({ id, number, materialNumber, quantity, date, metaData, metaData: { remainingQuantity } }) => (
                       <Table.Row key={id}>
                         <Table.Cell>{materialNumber}</Table.Cell>
                         <Table.Cell>{quantity}</Table.Cell>
-                        <Table.Cell>{new Date(deliveryDate).toLocaleDateString()}</Table.Cell>
+                        <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
                         <Table.Cell>{remainingQuantity}</Table.Cell>
                       </Table.Row>
                     )
