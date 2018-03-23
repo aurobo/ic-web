@@ -1,7 +1,6 @@
 import React from 'react';
 import Api from '../../../common/Api';
 import { Route, Switch } from 'react-router-dom';
-import CreateGoodsReceipt from '../goods-receipt/Create';
 import List from './List';
 import ViewGoodsIssue from './View';
 
@@ -39,11 +38,6 @@ class GoodsIssue extends React.Component {
                 onRowSelect={this.handleRowSelect}
               />
             )}
-          />
-          <Route
-            exact
-            path="/purchase/goods-issues/create-goods-receipt"
-            render={() => <CreateGoodsReceipt goodsIssues={this.state.selectedRows} />}
           />
           <Route exact path="/purchase/goods-issues/:id" component={ViewGoodsIssue} />
         </Switch>

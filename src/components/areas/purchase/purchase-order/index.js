@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import List from './List';
 import ViewPurchaseOrder from './View';
 import CreateGoodsReceipt from '../goods-receipt/Create';
+import CreateGoodsIssue from '../goods-issue/Create';
 
 class PurchaseOrder extends React.Component {
   state = {
@@ -44,6 +45,11 @@ class PurchaseOrder extends React.Component {
             exact
             path="/purchase/purchase-orders/create-goods-receipt"
             render={() => <CreateGoodsReceipt purchaseOrders={this.state.selectedRows} />}
+          />
+          <Route
+            exact
+            path="/purchase/purchase-orders/create-goods-issue"
+            render={() => <CreateGoodsIssue purchaseOrders={this.state.selectedRows} />}
           />
           <Route exact path="/purchase/purchase-orders/:id" component={ViewPurchaseOrder} />
         </Switch>
