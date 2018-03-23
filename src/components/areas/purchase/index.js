@@ -5,7 +5,6 @@ import TopNav from '../../common/TopNav';
 import { Dropdown } from 'semantic-ui-react';
 import { DropdownLink } from '../../common';
 import ImportExcel from '../master/ImportExcel';
-import ViewPurchaseRequest from './purchase-request/View';
 import PurchaseOrder from './purchase-order';
 class Purchase extends React.Component {
   render() {
