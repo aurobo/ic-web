@@ -12,7 +12,6 @@ deploy:
     keep-history: true
     on:
       branch: master
-      condition: branch = master
     local-dir: build
   - provider: surge
     env: REACT_APP_API=http://dev-innovic-api.azurewebsites.net/api
@@ -21,4 +20,3 @@ deploy:
     skip_cleanup: true
     on:
       branch: test
-      condition: branch = test
