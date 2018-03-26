@@ -2,9 +2,16 @@ language: node_js
 node_js: "lts/*"
 install: yarn
 script: yarn build
+jobs:
+  include:
+      if: branch = master
+      env: REACT_APP_API=http://innovic.azurewebsites.net/api
+jobs:
+  include:
+      if: branch = test
+      env: REACT_APP_API=http://dev-innovic-api.azurewebsites.net/api
 deploy:
   - provider: pages
-    env: REACT_APP_API=http://innovic.azurewebsites.net/api
     edge:
       branch: pages-ivar-set
     skip-cleanup: true
@@ -14,7 +21,6 @@ deploy:
       branch: master
     local-dir: build
   - provider: surge
-    env: REACT_APP_API=http://dev-innovic-api.azurewebsites.net/api
     project: ./build/
     domain: early-crush.surge.sh  
     skip_cleanup: true
