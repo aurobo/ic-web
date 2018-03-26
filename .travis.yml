@@ -8,7 +8,7 @@ jobs:
       env: REACT_APP_API=http://innovic.azurewebsites.net/api
 jobs:
   include:
-      if: branch = test
+      if: branch = dev
       env: REACT_APP_API=http://dev-innovic-api.azurewebsites.net/api
 deploy:
   - provider: pages
@@ -25,4 +25,4 @@ deploy:
     domain: early-crush.surge.sh  
     skip_cleanup: true
     on:
-      branch: test
+      branch: dev
