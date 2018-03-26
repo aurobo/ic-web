@@ -3,7 +3,7 @@ node_js: "lts/*"
 install: yarn
 script: yarn build
 deploy:
-  provider: pages
+  - provider: pages
     env: REACT_APP_API=http://innovic.azurewebsites.net/api
     edge:
       branch: pages-ivar-set
@@ -14,7 +14,7 @@ deploy:
       branch: master
       condition: branch = master
     local-dir: build
-  provider: surge
+  - provider: surge
     env: REACT_APP_API=http://dev-innovic-api.azurewebsites.net/api
     project: ./build/
     domain: early-crush.surge.sh  
