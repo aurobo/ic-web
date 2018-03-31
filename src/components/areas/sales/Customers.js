@@ -4,13 +4,12 @@ import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
 import ControlPanel from '../../common/ControlPanel';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
 import { api } from '../../common/Utilities';
-import { FlatButton, StyledTable } from '../../common';
+import { FlatButton } from '../../common';
+import TableWithSorting from '../../common/TableWithSorting';
 
 class Customers extends React.Component {
   state = {
-    column: null,
     data: null,
-    direction: null,
     loading: true,
   };
 
@@ -28,27 +27,12 @@ class Customers extends React.Component {
       });
   }
 
-  handleSort = clickedColumn => () => {
-    const { column, data, direction } = this.state;
-
-    if (column !== clickedColumn) {
-      this.setState({
-        column: clickedColumn,
-        data: _.sortBy(data, [clickedColumn]),
-        direction: 'ascending',
-      });
-
-      return;
-    }
-
-    this.setState({
-      data: data.reverse(),
-      direction: direction === 'ascending' ? 'descending' : 'ascending',
-    });
+  handleDataChange = data => {
+    this.setState({ data: data });
   };
 
   render() {
-    const { column, data, direction } = this.state;
+    const { data } = this.state;
     return (
       <div>
         <ControlPanel title="Customers" loading={this.state.loading}>
@@ -64,13 +48,13 @@ class Customers extends React.Component {
             content="Temporarily inactive."
           />
         </ControlPanel>
-        <StyledTable sortable celled fixed compact selectable>
+        <TableWithSorting sortBy="key" sortIn="desc" data={data} onDataChange={this.handleDataChange}>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell sorted={column === 'key' ? direction : null} onClick={this.handleSort('key')}>
+              <Table.HeaderCell field="key" type="text">
                 Key
               </Table.HeaderCell>
-              <Table.HeaderCell sorted={column === 'name' ? direction : null} onClick={this.handleSort('name')}>
+              <Table.HeaderCell field="name" type="text">
                 Name
               </Table.HeaderCell>
             </Table.Row>
@@ -83,7 +67,7 @@ class Customers extends React.Component {
               </Table.Row>
             ))}
           </Table.Body>
-        </StyledTable>
+        </TableWithSorting>
       </div>
     );
   }
