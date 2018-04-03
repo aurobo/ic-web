@@ -161,6 +161,7 @@ class CreatePurchaseOrder extends React.Component {
                 <Table.Row>
                   <Table.HeaderCell />
                   <Table.HeaderCell>Material Number</Table.HeaderCell>
+                  <Table.HeaderCell>Material Description</Table.HeaderCell>
                   <Table.HeaderCell>Quantity</Table.HeaderCell>
                   <Table.HeaderCell>Date</Table.HeaderCell>
                   <Table.HeaderCell>Unit Price</Table.HeaderCell>
@@ -184,6 +185,7 @@ class CreatePurchaseOrder extends React.Component {
                           />
                         </Table.Cell>
                         <Table.Cell>{pri.materialNumber}</Table.Cell>
+                        <Table.Cell>{pri.materialDescription}</Table.Cell>
                         <Table.Cell>
                           <StyledInput
                             name="quantity"
