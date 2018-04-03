@@ -1,8 +1,8 @@
-import React from "react";
-import logo from "../../img/logo.png";
-import { Button, Form, Card, Input } from "semantic-ui-react";
-import styled from "styled-components";
-import { api } from "./Utilities";
+import React from 'react';
+import logo from '../../img/logo.png';
+import { Button, Form, Card, Input } from 'semantic-ui-react';
+import styled from 'styled-components';
+import { api } from './Utilities';
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,32 +42,31 @@ const LoginForm = styled(Card)`
 
 class LoginBox extends React.Component {
   state = {
-    username: "",
-    password: "",
-    loading: false
+    username: '',
+    password: '',
+    loading: false,
   };
 
   handleInputChange = event => {
     const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
 
     this.setState({
-      [name]: value
+      [name]: value,
     });
   };
 
   authenticate = (username, password) => {
     this.setState({ loading: true });
-    var data =
-      "grant_type=password&username=" + username + "&password=" + password;
+    var data = 'grant_type=password&username=' + username + '&password=' + password;
     api
-      .post("/token", data, {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        onDownloadProgress: progressEvent => this.setState({ loading: false })
+      .post('/token', data, {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        onDownloadProgress: progressEvent => this.setState({ loading: false }),
       })
       .then(response => {
-        window.localStorage.setItem("token", response.data.access_token);
+        window.localStorage.setItem('token', response.data.access_token);
         this.props.onAuthSuccess();
       })
       .catch(error => {
@@ -108,9 +107,7 @@ class LoginBox extends React.Component {
                 fluid
                 primary
                 type="submit"
-                onClick={() =>
-                  this.authenticate(this.state.username, this.state.password)
-                }
+                onClick={() => this.authenticate(this.state.username, this.state.password)}
                 loading={this.state.loading}
               >
                 Submit

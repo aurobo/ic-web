@@ -1,56 +1,31 @@
-import _ from "lodash";
-import React from "react";
-import Table from "semantic-ui-react/dist/commonjs/collections/Table/Table";
-import ControlPanel from "../../common/ControlPanel";
-import Popup from "semantic-ui-react/dist/commonjs/modules/Popup/Popup";
-import { Link } from "react-router-dom";
-import { api } from "../../common/Utilities";
-import { FlatButton, StyledTable } from "../../common";
+import _ from 'lodash';
+import React from 'react';
+import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
+import ControlPanel from '../../common/ControlPanel';
+import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
+import { Link } from 'react-router-dom';
+import { FlatButton } from '../../common';
+import TableWithSorting from '../../common/TableWithSorting';
+import Api from '../../common/Api';
 
 class SalesOrders extends React.Component {
   state = {
-    column: null,
     data: null,
-    direction: null,
-    loading: true
   };
 
-  componentDidMount() {
-    let config = {
-      onDownloadProgress: progressEvent => this.setState({ loading: false })
-    };
-    api
-      .get("/salesorders", config)
-      .then(response => {
-        this.setState({ data: response.data });
-      })
-      .catch(error => {});
-  }
+  handleDataChange = data => {
+    this.setState({ data: data });
+  };
 
-  handleSort = clickedColumn => () => {
-    const { column, data, direction } = this.state;
-
-    if (column !== clickedColumn) {
-      this.setState({
-        column: clickedColumn,
-        data: _.sortBy(data, [clickedColumn]),
-        direction: "ascending"
-      });
-
-      return;
-    }
-
-    this.setState({
-      data: data.reverse(),
-      direction: direction === "ascending" ? "descending" : "ascending"
-    });
+  handleSuccess = data => {
+    this.setState({ data: data });
   };
 
   render() {
-    const { column, data, direction } = this.state;
+    const { data } = this.state;
     return (
-      <div>
-        <ControlPanel title="Sales Orders" loading={this.state.loading}>
+      <Api url="/salesorders" onSuccess={this.handleSuccess}>
+        <ControlPanel title="Sales Orders">
           <Popup
             inverted
             trigger={
@@ -66,68 +41,41 @@ class SalesOrders extends React.Component {
             <FlatButton size="tiny">Import</FlatButton>
           </Link>
         </ControlPanel>
-        <StyledTable sortable celled fixed compact selectable>
+        <TableWithSorting sortBy="key" sortIn="desc" data={data} onDataChange={this.handleDataChange}>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell
-                sorted={column === "key" ? direction : null}
-                onClick={this.handleSort("key")}
-              >
+              <Table.HeaderCell field="key" type="text">
                 Key
               </Table.HeaderCell>
-              <Table.HeaderCell
-                sorted={column === "orderDate" ? direction : null}
-                onClick={this.handleSort("orderDate")}
-              >
+              <Table.HeaderCell field="orderDate" type="date">
                 Order Date
               </Table.HeaderCell>
-              <Table.HeaderCell
-                sorted={column === "customerName" ? direction : null}
-                onClick={this.handleSort("customerName")}
-              >
+              <Table.HeaderCell field="customerName" type="text">
                 Customer Name
               </Table.HeaderCell>
-              <Table.HeaderCell
-                sorted={column === "customerReference" ? direction : null}
-                onClick={this.handleSort("customerReference")}
-              >
+              <Table.HeaderCell field="customerReference" type="text">
                 Customer Reference
               </Table.HeaderCell>
-              <Table.HeaderCell
-                sorted={column === "description" ? direction : null}
-                onClick={this.handleSort("description")}
-              >
+              <Table.HeaderCell field="description" type="text">
                 Description
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {_.map(
-              data,
-              ({
-                id,
-                key,
-                orderDate,
-                customerName,
-                customerReference,
-                description
-              }) => (
-                <Table.Row key={id}>
-                  <Table.Cell selectable>
-                    <Link to={"/sales/sales-orders/" + id}>{key}</Link>
-                  </Table.Cell>
-                  <Table.Cell>
-                    {new Date(orderDate).toLocaleDateString()}
-                  </Table.Cell>
-                  <Table.Cell>{customerName}</Table.Cell>
-                  <Table.Cell>{customerReference}</Table.Cell>
-                  <Table.Cell>{description}</Table.Cell>
-                </Table.Row>
-              )
-            )}
+            {_.map(data, ({ id, key, orderDate, customerName, customerReference, description }) => (
+              <Table.Row key={id}>
+                <Table.Cell selectable>
+                  <Link to={'/sales/sales-orders/' + id}>{key}</Link>
+                </Table.Cell>
+                <Table.Cell>{new Date(orderDate).toLocaleDateString()}</Table.Cell>
+                <Table.Cell>{customerName}</Table.Cell>
+                <Table.Cell>{customerReference}</Table.Cell>
+                <Table.Cell>{description}</Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
-        </StyledTable>
-      </div>
+        </TableWithSorting>
+      </Api>
     );
   }
 }

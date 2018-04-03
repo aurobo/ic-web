@@ -2,16 +2,27 @@ language: node_js
 node_js: "lts/*"
 install: yarn
 script: yarn build
-branches:
-  only:
-  - master
+jobs:
+  include:
+      if: branch = master
+      env: REACT_APP_API=http://innovic.azurewebsites.net/api
+jobs:
+  include:
+      if: branch = dev
+      env: REACT_APP_API=http://dev-innovic-api.azurewebsites.net/api
 deploy:
-  provider: pages
-  edge:
-    branch: pages-ivar-set
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN
-  keep-history: true
-  on:
-    branch: master
-  local-dir: build
+  - provider: pages
+    edge:
+      branch: pages-ivar-set
+    skip-cleanup: true
+    github-token: $GITHUB_TOKEN
+    keep-history: true
+    on:
+      branch: master
+    local-dir: build
+  - provider: surge
+    project: ./build/
+    domain: early-crush.surge.sh  
+    skip_cleanup: true
+    on:
+      branch: dev

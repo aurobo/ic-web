@@ -1,7 +1,7 @@
-import React from "react";
-import { Menu, Icon, Input } from "semantic-ui-react";
-import Link from "react-router-dom/Link";
-import styled from "styled-components";
+import React from 'react';
+import { Menu, Icon, Input } from 'semantic-ui-react';
+import Link from 'react-router-dom/Link';
+import styled from 'styled-components';
 
 const StyledMenu = styled(Menu)`
   &&& {
@@ -25,7 +25,7 @@ class TopNav extends React.Component {
           </Menu.Item>
         </Link>
         <Link to={this.props.url}>
-          <Menu.Item header>{this.props.menuHeader || "Innovic"}</Menu.Item>
+          <Menu.Item header>{this.props.menuHeader || 'Innovic'}</Menu.Item>
         </Link>
         {this.props.children}
         <Menu.Menu position="right">

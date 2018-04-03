@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import Icon from "semantic-ui-react/dist/commonjs/elements/Icon/Icon";
-import Label from "semantic-ui-react/dist/commonjs/elements/Label/Label";
+import React from 'react';
+import styled from 'styled-components';
+import Icon from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon';
+import Label from 'semantic-ui-react/dist/commonjs/elements/Label/Label';
 
 const HiddenInput = styled.input`
   display: none;
@@ -22,11 +22,11 @@ const StyledLabel = styled(Label)`
 
 class FileInput extends React.Component {
   state = {
-    fileName: "Choose from Computer"
+    fileName: 'Choose from Computer',
   };
 
   handleFiles = event => {
-    this.setState({ fileName: "Choose from Computer" });
+    this.setState({ fileName: 'Choose from Computer' });
 
     var fileList = this.fileInput.files;
 
@@ -37,7 +37,7 @@ class FileInput extends React.Component {
   };
 
   componentDidMount() {
-    this.fileInput.addEventListener("change", this.handleFiles, false);
+    this.fileInput.addEventListener('change', this.handleFiles, false);
   }
 
   render() {

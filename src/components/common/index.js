@@ -1,19 +1,30 @@
-import React from "react";
-import styled from "styled-components";
-import { Button } from "semantic-ui-react";
-import Dropdown from "semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown";
-import { Link } from "react-router-dom";
-import Table from "semantic-ui-react/dist/commonjs/collections/Table/Table";
+import React from 'react';
+import styled from 'styled-components';
+import { Message, Button } from 'semantic-ui-react';
+import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
+import { Link } from 'react-router-dom';
+import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
 
 const theme = {
-  primary: "#3b79c6",
-  accent: "rgb(244, 67, 54);"
+  primary: '#3b79c6',
+  accent: 'rgb(244, 67, 54);',
 };
 
 const FlatButton = styled(Button)`
   &&& {
     border-radius: 0;
     text-transform: uppercase;
+  }
+`;
+
+const Page = styled(Message)`
+  &&& {
+    margin: 15px auto;
+    border-radius: 0;
+    background: #fff;
+  }
+  @media screen {
+    width: 80%;
   }
 `;
 
@@ -39,4 +50,4 @@ const StyledTable = styled(Table)`
   }
 `;
 
-export { theme, FlatButton, DropdownLink, StyledTable };
+export { theme, FlatButton, DropdownLink, StyledTable, Page };

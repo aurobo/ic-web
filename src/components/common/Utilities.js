@@ -1,16 +1,14 @@
-import axios from "axios";
+import axios from 'axios';
 
 const api = axios.create({
-  // baseURL: `http://localhost:49520/api`
-  baseURL: `http://innovic.azurewebsites.net/api`
-  // baseURL: `http://dev-innovic-api.azurewebsites.net/api`
+  baseURL: process.env.REACT_APP_API,
 });
 
 api.interceptors.request.use(
   function(config) {
-    var token = window.localStorage.getItem("token");
+    var token = window.localStorage.getItem('token');
     if (token) {
-      config.headers.Authorization = "Bearer " + token;
+      config.headers.Authorization = 'Bearer ' + token;
     }
     return config;
   },
@@ -24,7 +22,7 @@ api.interceptors.response.use(
     return response;
   },
   function(error) {
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       window.localStorage.clear();
     }
     return Promise.reject(error);
