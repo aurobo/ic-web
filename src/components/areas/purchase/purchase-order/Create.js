@@ -144,6 +144,15 @@ class CreatePurchaseOrder extends React.Component {
                     label="Date"
                     placeholder="Date"
                   />
+                  <Form.Input
+                    value={purchaseOrder.remarks}
+                    onChange={this.handleHeaderDataChange}
+                    name="remarks"
+                    type="text"
+                    width={3}
+                    label="Remarks"
+                    placeholder="Remarks"
+                  />
                 </Form.Group>
               </Form>
             </HeaderData>
