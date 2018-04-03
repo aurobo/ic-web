@@ -2,6 +2,10 @@ language: node_js
 node_js: "lts/*"
 install: yarn
 script: yarn build
+branches:
+  only: 
+    - master
+    - dev
 jobs:
   include:
       if: branch = master
