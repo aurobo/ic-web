@@ -3,7 +3,7 @@ import React from 'react';
 import ControlPanel from '../../../common/ControlPanel';
 import styled from 'styled-components';
 import Link from 'react-router-dom/Link';
-import { Dropdown, Table } from 'semantic-ui-react';
+import { Dropdown, Table, List } from 'semantic-ui-react';
 import { Page } from '../../../common';
 import TableWithSorting from '../../../common/TableWithSorting';
 import Api from '../../../common/Api';
@@ -49,6 +49,24 @@ class ViewGoodsIssue extends React.Component {
             </ControlPanel>
             <Page>
               <h1>{goodsIssue.key}</h1>
+              <List horizontal>
+                <List.Item>
+                  <List.Header>Date</List.Header>
+                  {new Date(goodsIssue.date).toLocaleDateString()}
+                </List.Item>
+                <List.Item>
+                  <List.Header>Remarks</List.Header>
+                  {goodsIssue.remarks || '-'}
+                </List.Item>
+                <List.Item>
+                  <List.Header>Created By</List.Header>
+                  {goodsIssue.createdByUserName}
+                </List.Item>
+                <List.Item>
+                  <List.Header>Last Modified By</List.Header>
+                  {goodsIssue.lastModifiedByUserName}
+                </List.Item>
+              </List>
               <TableWithSorting
                 sortBy="key"
                 sortIn="desc"
