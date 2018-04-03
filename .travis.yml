@@ -8,9 +8,10 @@ branches:
   - dev
 jobs:
   include:
+    -
       if: branch = master
       env: REACT_APP_API=http://innovic.azurewebsites.net/api
-  include:
+    -
       if: branch = dev
       env: REACT_APP_API=http://dev-innovic-api.azurewebsites.net/api
 deploy:
