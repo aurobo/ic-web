@@ -32,6 +32,8 @@ class ViewPurchaseOrder extends React.Component {
 
   render() {
     const { purchaseOrder, purchaseOrderItems } = this.state;
+    const links = purchaseOrder ? _.uniqBy(_.flatMap(purchaseOrder.purchaseRequests, 'links'), 'referenceId') : [];
+
     return (
       <Api url={'/PurchaseOrders/' + this.props.match.params.id} onSuccess={this.handleSuccess}>
         {purchaseOrder !== null ? (
@@ -42,6 +44,15 @@ class ViewPurchaseOrder extends React.Component {
                   {_.map(purchaseOrder.purchaseRequests, pr => (
                     <Dropdown.Item key={pr.id}>
                       <Link to={'/purchase/purchase-requests/' + pr.id}>{pr.key}</Link>
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </StyledDropdown>
+              <StyledDropdown text="Sales Orders" floating labeled className="icon">
+                <Dropdown.Menu>
+                  {_.map(links, link => (
+                    <Dropdown.Item key={link.id}>
+                      <Link to={'/sales/sales-orders/' + link.referenceId}>{link.referenceName}</Link>
                     </Dropdown.Item>
                   ))}
                 </Dropdown.Menu>

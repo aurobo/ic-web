@@ -53,11 +53,10 @@ class CreatePurchaseOrder extends React.Component {
 
   componentWillMount() {
     const { purchaseRequests } = this.state;
-
     _.map(purchaseRequests, pr =>
       _.map(pr.purchaseRequestItems, pri => {
         pri.unitPrice = 0;
-        pri.date = DateTime.fromObject(pri.date).toFormat('yyyy-MM-dd');
+        pri.requiredByDate = DateTime.fromObject(pri.requiredByDate).toFormat('yyyy-MM-dd');
         pri.checked = false;
         pri.valid =
           pri.quantity > pri.metaData.remainingQuantity || pri.quantity <= 0 ? (pri.valid = false) : (pri.valid = true);
@@ -194,7 +193,7 @@ class CreatePurchaseOrder extends React.Component {
                           <StyledInput
                             type="date"
                             name="date"
-                            value={pri.date}
+                            value={pri.requiredByDate}
                             size="mini"
                             onChange={e => this.handlePurchaseOrderItemChange(e, pri.id)}
                           />

@@ -46,6 +46,15 @@ class ViewPurchaseRequest extends React.Component {
                   ))}
                 </Dropdown.Menu>
               </StyledDropdown>
+              <StyledDropdown text="Sales Orders" floating labeled className="icon">
+                <Dropdown.Menu>
+                  {_.map(purchaseRequest.links, link => (
+                    <Dropdown.Item key={link.id}>
+                      <Link to={'/sales/sales-orders/' + link.referenceId}>{link.referenceName}</Link>
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </StyledDropdown>
             </ControlPanel>
             <Page>
               <h1>{purchaseRequest.key}</h1>
