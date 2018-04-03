@@ -2,14 +2,8 @@ language: node_js
 node_js: "lts/*"
 install: yarn
 script: yarn build
-branches:
-  only: 
-    - master
-    - dev
-jobs:
-  include:
-      if: branch = master
-      env: REACT_APP_API=http://innovic.azurewebsites.net/api
+env:
+  - REACT_APP_API=http://innovic.azurewebsites.net/api
 jobs:
   include:
       if: branch = dev
