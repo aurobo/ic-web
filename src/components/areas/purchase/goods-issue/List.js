@@ -51,6 +51,9 @@ class List extends React.Component {
             }
             content="Temporarily inactive. Use import method instead."
           />
+          <Link to="/purchase/goods-issues/import-excel">
+            <FlatButton size="tiny">Import</FlatButton>
+          </Link>
         </ControlPanel>
         <TableWithSorting sortBy="key" sortIn="desc" data={data} onDataChange={this.props.onDataChange}>
           <Table.Header>

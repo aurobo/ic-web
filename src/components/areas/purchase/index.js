@@ -36,14 +36,20 @@ class Purchase extends React.Component {
           </Dropdown> */}
         </TopNav>
         <Switch>
+          <Route
+            exact
+            path="/purchase/purchase-requests/import-excel"
+            render={() => <ImportExcel uri="/purchaserequests/upload" redirectUri="/purchase/purchase-requests" />}
+          />
+          <Route
+            exact
+            path="/purchase/goods-issues/import-excel"
+            render={() => <ImportExcel uri="/goodsissues/upload" redirectUri="/purchase/goods-issues" />}
+          />
           <Route path="/purchase/purchase-requests" component={PurchaseRequest} />
           <Route path="/purchase/purchase-orders" component={PurchaseOrder} />
           <Route path="/purchase/goods-issues" component={GoodsIssue} />
           <Route path="/purchase/goods-receipts" component={GoodsReceipt} />
-          <Route
-            path="/purchase/import-excel"
-            render={() => <ImportExcel uri="/purchaserequests/upload" redirectUri="/purchase/purchaserequests" />}
-          />
           <Redirect to="/purchase/purchase-requests" />
         </Switch>
       </div>

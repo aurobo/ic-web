@@ -64,7 +64,7 @@ class List extends React.Component {
             }
             content="Temporarily inactive. Use import method instead."
           />
-          <Link to="/purchase/import-excel">
+          <Link to="/purchase/purchase-requests/import-excel">
             <FlatButton size="tiny">Import</FlatButton>
           </Link>
         </ControlPanel>
