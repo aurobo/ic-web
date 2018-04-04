@@ -53,6 +53,10 @@ class Dashboard extends React.Component {
             <Icon bordered inverted color="teal" size="big" name="truck" />
             <IconLabel>Purchase</IconLabel>
           </IconLink>
+          <IconLink to="/agriculture">
+            <Icon bordered inverted color="teal" size="big" name="leaf" />
+            <IconLabel>Agriculture</IconLabel>
+          </IconLink>
         </Icons>
         <InnovicLogo src={innovicLogo} size="huge" />
       </div>
