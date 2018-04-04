@@ -21,7 +21,7 @@ const HeaderData = styled(Message)`
   }
 `;
 
-class CreateGoodsReceipt extends React.Component {
+class CreateFromPurchaseOrders extends React.Component {
   state = {
     goodsReceipt: null,
     purchaseOrders: this.props.purchaseOrders,
@@ -153,6 +153,7 @@ class CreateGoodsReceipt extends React.Component {
                 <Table.Row>
                   <Table.HeaderCell />
                   <Table.HeaderCell>Material Number</Table.HeaderCell>
+                  <Table.HeaderCell>Material Description</Table.HeaderCell>
                   <Table.HeaderCell>Quantity</Table.HeaderCell>
                   <Table.HeaderCell>Date</Table.HeaderCell>
                 </Table.Row>
@@ -175,6 +176,7 @@ class CreateGoodsReceipt extends React.Component {
                           />
                         </Table.Cell>
                         <Table.Cell>{pri.materialNumber}</Table.Cell>
+                        <Table.Cell>{pri.materialDescription}</Table.Cell>
                         <Table.Cell>
                           <StyledInput
                             name="quantity"
@@ -211,4 +213,4 @@ class CreateGoodsReceipt extends React.Component {
   }
 }
 
-export default withRouter(CreateGoodsReceipt);
+export default withRouter(CreateFromPurchaseOrders);

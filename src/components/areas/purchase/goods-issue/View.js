@@ -3,7 +3,7 @@ import React from 'react';
 import ControlPanel from '../../../common/ControlPanel';
 import styled from 'styled-components';
 import Link from 'react-router-dom/Link';
-import { Dropdown, Table } from 'semantic-ui-react';
+import { Dropdown, Table, List } from 'semantic-ui-react';
 import { Page } from '../../../common';
 import TableWithSorting from '../../../common/TableWithSorting';
 import Api from '../../../common/Api';
@@ -39,9 +39,9 @@ class ViewGoodsIssue extends React.Component {
             <ControlPanel title={'Goods Issues / ' + goodsIssue.key} className="no-print">
               <StyledDropdown text="Purchase Orders" floating labeled className="icon">
                 <Dropdown.Menu>
-                  {_.map(goodsIssue.purchaseOrders, po => (
-                    <Dropdown.Item key={po.id}>
-                      <Link to={'/purchase/purchase-orders/' + po.id}>{po.key}</Link>
+                  {_.map(goodsIssue.links, link => (
+                    <Dropdown.Item key={link.id}>
+                      <Link to={'/purchase/purchase-orders/' + link.referenceId}>{link.referenceName}</Link>
                     </Dropdown.Item>
                   ))}
                 </Dropdown.Menu>
@@ -49,6 +49,24 @@ class ViewGoodsIssue extends React.Component {
             </ControlPanel>
             <Page>
               <h1>{goodsIssue.key}</h1>
+              <List horizontal>
+                <List.Item>
+                  <List.Header>Date</List.Header>
+                  {new Date(goodsIssue.date).toLocaleDateString()}
+                </List.Item>
+                <List.Item>
+                  <List.Header>Remarks</List.Header>
+                  {goodsIssue.remarks || '-'}
+                </List.Item>
+                <List.Item>
+                  <List.Header>Created By</List.Header>
+                  {goodsIssue.createdByUserName}
+                </List.Item>
+                <List.Item>
+                  <List.Header>Last Modified By</List.Header>
+                  {goodsIssue.lastModifiedByUserName}
+                </List.Item>
+              </List>
               <TableWithSorting
                 sortBy="key"
                 sortIn="desc"
@@ -60,22 +78,38 @@ class ViewGoodsIssue extends React.Component {
                     <Table.HeaderCell field="materialNumber" type="text">
                       Material Number
                     </Table.HeaderCell>
+                    <Table.HeaderCell field="materialDescription" type="text">
+                      Material Description
+                    </Table.HeaderCell>
                     <Table.HeaderCell field="quantity" type="number">
                       Quantity
                     </Table.HeaderCell>
                     <Table.HeaderCell field="date" type="date">
-                      Date
+                      Required By Date
+                    </Table.HeaderCell>
+                    <Table.HeaderCell field="remainingQuantity" type="number">
+                      Remaining Quantity
                     </Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
                   {_.map(
                     goodsIssueItems,
-                    ({ id, number, materialNumber, quantity, date, metaData, metaData: { remainingQuantity } }) => (
+                    ({
+                      id,
+                      number,
+                      materialNumber,
+                      materialDescription,
+                      quantity,
+                      date,
+                      metaData: { remainingQuantity },
+                    }) => (
                       <Table.Row key={id}>
                         <Table.Cell>{materialNumber}</Table.Cell>
+                        <Table.Cell>{materialDescription}</Table.Cell>
                         <Table.Cell>{quantity}</Table.Cell>
                         <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
+                        <Table.Cell>{remainingQuantity}</Table.Cell>
                       </Table.Row>
                     )
                   )}

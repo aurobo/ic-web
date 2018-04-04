@@ -124,14 +124,6 @@ class List extends React.Component {
                     Create Goods Receipt
                   </StyledLink>
                 </StyledFlatButton>
-                <StyledFlatButton size="tiny" primary disabled={this.state.isCreateGoodsReceiptDisabled}>
-                  <StyledLink
-                    style={{ display: 'block', height: '100%', color: 'white' }}
-                    to={this.props.location.pathname + '/create-goods-issue'}
-                  >
-                    Create Goods Issue
-                  </StyledLink>
-                </StyledFlatButton>
               </Table.HeaderCell>
             </Table.Row>
           </Table.Footer>
