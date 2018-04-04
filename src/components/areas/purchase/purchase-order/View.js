@@ -83,6 +83,9 @@ class ViewPurchaseOrder extends React.Component {
                     <Table.HeaderCell field="remainingQuantity" type="number">
                       Remaining Quantity
                     </Table.HeaderCell>
+                    <Table.HeaderCell field="amount" type="number">
+                      Amount
+                    </Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -95,8 +98,7 @@ class ViewPurchaseOrder extends React.Component {
                       materialDescription,
                       quantity,
                       date,
-                      metaData,
-                      metaData: { remainingQuantity },
+                      metaData: { remainingQuantity, amount },
                     }) => (
                       <Table.Row key={id}>
                         <Table.Cell>{materialNumber}</Table.Cell>
@@ -104,6 +106,7 @@ class ViewPurchaseOrder extends React.Component {
                         <Table.Cell>{quantity}</Table.Cell>
                         <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
                         <Table.Cell>{remainingQuantity}</Table.Cell>
+                        <Table.Cell>{amount}</Table.Cell>
                       </Table.Row>
                     )
                   )}

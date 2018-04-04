@@ -145,6 +145,15 @@ class CreateFromGoodsIssues extends React.Component {
                     label="Date"
                     placeholder="Date"
                   />
+                  <Form.Input
+                    value={goodsReceipt.remarks}
+                    onChange={this.handleHeaderDataChange}
+                    name="remarks"
+                    type="text"
+                    width={3}
+                    label="Remarks"
+                    placeholder="Remarks"
+                  />
                 </Form.Group>
               </Form>
             </HeaderData>
