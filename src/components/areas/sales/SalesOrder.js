@@ -121,7 +121,7 @@ class SalesOrder extends React.Component {
     let invoice = {
       salesOrderId: this.state.salesOrder.id,
       invoiceItems: _.map(checkedSalesOrderItems, item => {
-        return { salesOrderItemId: item.id, quantity: item.invoicedQuantity };
+        return { salesOrderItemId: item.id, quantity: item.invoicedQuantity, materialId: item.materialId };
       }),
     };
 
