@@ -21,21 +21,21 @@ const HeaderData = styled(Message)`
   }
 `;
 
-class CreatePurchaseOrder extends React.Component {
+class CreateFromGoodsIssues extends React.Component {
   state = {
-    purchaseOrder: null,
-    purchaseRequests: this.props.purchaseRequests,
+    goodsReceipt: null,
+    goodsIssues: this.props.goodsIssues,
   };
 
   handleSubmit = () => {
-    const { purchaseOrder, purchaseRequests } = this.state;
-    purchaseOrder.purchaseOrderItems = [];
-    _.each(purchaseRequests, pr =>
-      _.each(pr.purchaseRequestItems, pri => {
-        let poi = _.clone(pri);
-        poi.purchaseRequestItems = [pri.id];
-        poi.materialId = pri.materialId;
-        if (pri.checked === true) purchaseOrder.purchaseOrderItems.push(poi);
+    const { goodsReceipt, goodsIssues } = this.state;
+    goodsReceipt.goodsReceiptItems = [];
+    _.each(goodsIssues, gi =>
+      _.each(gi.goodsIssueItems, gii => {
+        let gri = _.clone(gii);
+        gri.goodsIssueItems = [gii.id];
+        gri.materialId = gii.materialId;
+        if (gii.checked === true) goodsReceipt.goodsReceiptItems.push(gri);
       })
     );
 
@@ -44,17 +44,18 @@ class CreatePurchaseOrder extends React.Component {
     };
 
     api
-      .post('/purchaseorders', purchaseOrder, config)
+      .post('/goodsreceipts', goodsReceipt, config)
       .then(response => {
-        this.props.history.push('/purchase/purchase-orders/' + response.data.id);
+        this.props.history.push('/purchase/goods-receipts/' + response.data.id);
       })
       .catch(error => {});
   };
 
   componentWillMount() {
-    const { purchaseRequests } = this.state;
-    _.map(purchaseRequests, pr =>
-      _.map(pr.purchaseRequestItems, pri => {
+    const { goodsIssues } = this.state;
+
+    _.map(goodsIssues, pr =>
+      _.map(pr.goodsIssueItems, pri => {
         pri.unitPrice = 0;
         pri.date = DateTime.fromObject(pri.date).toFormat('yyyy-MM-dd');
         pri.checked = false;
@@ -64,32 +65,32 @@ class CreatePurchaseOrder extends React.Component {
     );
 
     this.setState({
-      purchaseOrder: {
+      goodsReceipt: {
         date: DateTime.local().toFormat('yyyy-MM-dd'),
-        purchaseRequests: _.map(purchaseRequests, 'id'),
+        goodsIssues: _.map(goodsIssues, 'id'),
       },
-      purchaseRequests: purchaseRequests,
+      goodsIssues: goodsIssues,
     });
   }
 
-  handlePurchaseOrderItemChange(event, priId) {
+  handleGoodsReceiptItemChange(event, priId) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    const { purchaseRequests } = this.state;
+    const { goodsIssues } = this.state;
 
-    _.each(purchaseRequests, pr => (_.find(pr.purchaseRequestItems, pri => pri.id === priId)[name] = value));
+    _.each(goodsIssues, pr => (_.find(pr.goodsIssueItems, pri => pri.id === priId)[name] = value));
 
     if (name === 'quantity') {
-      _.each(purchaseRequests, pr =>
-        _.find(pr.purchaseRequestItems, pri => {
+      _.each(goodsIssues, pr =>
+        _.find(pr.goodsIssueItems, pri => {
           pri.quantity > pri.metaData.remainingQuantity || pri.quantity <= 0 ? (pri.valid = false) : (pri.valid = true);
         })
       );
     }
 
     this.setState({
-      purchaseRequests: purchaseRequests,
+      goodsIssues: goodsIssues,
     });
   }
 
@@ -97,61 +98,52 @@ class CreatePurchaseOrder extends React.Component {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    let { purchaseOrder } = this.state;
+    let { goodsReceipt } = this.state;
 
-    purchaseOrder[name] = value;
+    goodsReceipt[name] = value;
 
     this.setState({
-      purchaseOrder: purchaseOrder,
+      goodsReceipt: goodsReceipt,
     });
   };
 
   handleItemCheck = (e, checkboxProps, id) => {
-    const { purchaseRequests } = this.state;
-    _.each(purchaseRequests, pr =>
-      _.map(pr.purchaseRequestItems, item => {
+    const { goodsIssues } = this.state;
+    _.each(goodsIssues, pr =>
+      _.map(pr.goodsIssueItems, item => {
         if (item.id === id) {
           item.checked = checkboxProps.checked;
         }
       })
     );
 
-    this.setState({ purchaseRequests: purchaseRequests });
+    this.setState({ goodsIssues: goodsIssues });
   };
 
   render() {
-    const { purchaseOrder, purchaseRequests } = this.state;
+    const { goodsReceipt, goodsIssues } = this.state;
     return (
       <div>
-        <ControlPanel title="Purchase Requests / New Purchase Order">
+        <ControlPanel title="Goods Issues / New Goods Receipt">
           <FlatButton size="tiny" primary onClick={this.handleSubmit}>
             Submit
           </FlatButton>
         </ControlPanel>
-        {purchaseOrder.purchaseRequests.length === 0 ? (
-          <Redirect to="/purchase/purchase-requests" />
+        {goodsReceipt.goodsIssues.length === 0 ? (
+          <Redirect to="/purchase/goods-issues" />
         ) : (
           <div style={{ padding: '20px' }}>
             <HeaderData>
               <Form>
                 <Form.Group>
                   <Form.Input
-                    value={purchaseOrder.date}
+                    value={goodsReceipt.date}
                     onChange={this.handleHeaderDataChange}
                     name="date"
                     type="date"
                     width={3}
                     label="Date"
                     placeholder="Date"
-                  />
-                  <Form.Input
-                    value={purchaseOrder.remarks}
-                    onChange={this.handleHeaderDataChange}
-                    name="remarks"
-                    type="text"
-                    width={3}
-                    label="Remarks"
-                    placeholder="Remarks"
                   />
                 </Form.Group>
               </Form>
@@ -163,19 +155,18 @@ class CreatePurchaseOrder extends React.Component {
                   <Table.HeaderCell>Material Number</Table.HeaderCell>
                   <Table.HeaderCell>Material Description</Table.HeaderCell>
                   <Table.HeaderCell>Quantity</Table.HeaderCell>
-                  <Table.HeaderCell>Date</Table.HeaderCell>
-                  <Table.HeaderCell>Unit Price</Table.HeaderCell>
+                  <Table.HeaderCell>Required By Date</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {_.map(purchaseRequests, pr => (
+                {_.map(goodsIssues, pr => (
                   <React.Fragment key={pr.id}>
                     <Table.Row>
                       <Table.Cell>
                         <Label ribbon>{pr.key}</Label>
                       </Table.Cell>
                     </Table.Row>
-                    {_.map(pr.purchaseRequestItems, pri => (
+                    {_.map(pr.goodsIssueItems, pri => (
                       <Table.Row key={pri.id}>
                         <Table.Cell textAlign="center">
                           <Checkbox
@@ -195,7 +186,7 @@ class CreatePurchaseOrder extends React.Component {
                             }}
                             labelPosition="right"
                             value={pri.quantity}
-                            onChange={e => this.handlePurchaseOrderItemChange(e, pri.id)}
+                            onChange={e => this.handleGoodsReceiptItemChange(e, pri.id)}
                             size="mini"
                             error={!pri.valid}
                           />
@@ -206,15 +197,7 @@ class CreatePurchaseOrder extends React.Component {
                             name="date"
                             value={pri.date}
                             size="mini"
-                            onChange={e => this.handlePurchaseOrderItemChange(e, pri.id)}
-                          />
-                        </Table.Cell>
-                        <Table.Cell>
-                          <StyledInput
-                            name="unitPrice"
-                            value={pri.unitPrice}
-                            size="mini"
-                            onChange={e => this.handlePurchaseOrderItemChange(e, pri.id)}
+                            onChange={e => this.handleGoodsReceiptItemChange(e, pri.id)}
                           />
                         </Table.Cell>
                       </Table.Row>
@@ -230,4 +213,4 @@ class CreatePurchaseOrder extends React.Component {
   }
 }
 
-export default withRouter(CreatePurchaseOrder);
+export default withRouter(CreateFromGoodsIssues);

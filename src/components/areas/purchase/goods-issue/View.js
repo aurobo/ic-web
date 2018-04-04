@@ -78,11 +78,17 @@ class ViewGoodsIssue extends React.Component {
                     <Table.HeaderCell field="materialNumber" type="text">
                       Material Number
                     </Table.HeaderCell>
+                    <Table.HeaderCell field="materialDescription" type="text">
+                      Material Description
+                    </Table.HeaderCell>
                     <Table.HeaderCell field="quantity" type="number">
                       Quantity
                     </Table.HeaderCell>
-                    <Table.HeaderCell field="requiredByDate" type="date">
+                    <Table.HeaderCell field="date" type="date">
                       Required By Date
+                    </Table.HeaderCell>
+                    <Table.HeaderCell field="remainingQuantity" type="number">
+                      Remaining Quantity
                     </Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -93,15 +99,17 @@ class ViewGoodsIssue extends React.Component {
                       id,
                       number,
                       materialNumber,
+                      materialDescription,
                       quantity,
-                      requiredByDate,
-                      metaData,
+                      date,
                       metaData: { remainingQuantity },
                     }) => (
                       <Table.Row key={id}>
                         <Table.Cell>{materialNumber}</Table.Cell>
+                        <Table.Cell>{materialDescription}</Table.Cell>
                         <Table.Cell>{quantity}</Table.Cell>
-                        <Table.Cell>{new Date(requiredByDate).toLocaleDateString()}</Table.Cell>
+                        <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
+                        <Table.Cell>{remainingQuantity}</Table.Cell>
                       </Table.Row>
                     )
                   )}

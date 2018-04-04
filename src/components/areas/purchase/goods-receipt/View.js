@@ -46,6 +46,15 @@ class ViewGoodsReceipt extends React.Component {
                   ))}
                 </Dropdown.Menu>
               </StyledDropdown>
+              <StyledDropdown text="Goods Issues" floating labeled className="icon">
+                <Dropdown.Menu>
+                  {_.map(goodsReceipt.goodsIssues, gi => (
+                    <Dropdown.Item key={gi.id}>
+                      <Link to={'/purchase/goods-issues/' + gi.id}>{gi.key}</Link>
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </StyledDropdown>
             </ControlPanel>
             <Page>
               <h1>{goodsReceipt.key}</h1>
@@ -60,6 +69,9 @@ class ViewGoodsReceipt extends React.Component {
                     <Table.HeaderCell field="materialNumber" type="text">
                       Material Number
                     </Table.HeaderCell>
+                    <Table.HeaderCell field="materialDescription" type="text">
+                      Material Description
+                    </Table.HeaderCell>
                     <Table.HeaderCell field="quantity" type="number">
                       Quantity
                     </Table.HeaderCell>
@@ -71,9 +83,19 @@ class ViewGoodsReceipt extends React.Component {
                 <Table.Body>
                   {_.map(
                     goodsReceiptItems,
-                    ({ id, number, materialNumber, quantity, date, metaData, metaData: { remainingQuantity } }) => (
+                    ({
+                      id,
+                      number,
+                      materialNumber,
+                      materialDescription,
+                      quantity,
+                      date,
+                      metaData,
+                      metaData: { remainingQuantity },
+                    }) => (
                       <Table.Row key={id}>
                         <Table.Cell>{materialNumber}</Table.Cell>
+                        <Table.Cell>{materialDescription}</Table.Cell>
                         <Table.Cell>{quantity}</Table.Cell>
                         <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
                       </Table.Row>
