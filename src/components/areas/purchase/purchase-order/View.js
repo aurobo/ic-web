@@ -78,13 +78,16 @@ class ViewPurchaseOrder extends React.Component {
                       Quantity
                     </Table.HeaderCell>
                     <Table.HeaderCell field="date" type="date">
+                      Unit Price
+                    </Table.HeaderCell>
+                    <Table.HeaderCell field="amount" type="number">
+                      Total Price
+                    </Table.HeaderCell>
+                    <Table.HeaderCell field="date" type="date">
                       Date
                     </Table.HeaderCell>
                     <Table.HeaderCell field="remainingQuantity" type="number">
                       Remaining Quantity
-                    </Table.HeaderCell>
-                    <Table.HeaderCell field="amount" type="number">
-                      Amount
                     </Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -98,19 +101,40 @@ class ViewPurchaseOrder extends React.Component {
                       materialDescription,
                       quantity,
                       date,
+                      unitPrice,
                       metaData: { remainingQuantity, amount },
                     }) => (
                       <Table.Row key={id}>
                         <Table.Cell>{materialNumber}</Table.Cell>
                         <Table.Cell>{materialDescription}</Table.Cell>
                         <Table.Cell>{quantity}</Table.Cell>
+                        <Table.Cell>{unitPrice}</Table.Cell>
+                        <Table.Cell>{amount}</Table.Cell>
                         <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
                         <Table.Cell>{remainingQuantity}</Table.Cell>
-                        <Table.Cell>{amount}</Table.Cell>
                       </Table.Row>
                     )
                   )}
                 </Table.Body>
+                <Table.Footer>
+                  <Table.Row>
+                    <Table.HeaderCell />
+                    <Table.HeaderCell />
+                    <Table.HeaderCell />
+                    <Table.HeaderCell />
+                    <Table.HeaderCell />
+                    <Table.HeaderCell />
+                    <Table.HeaderCell>
+                      <ul>
+                        <h3>Summary:</h3>
+                        <li>Total Quantity: {_.sumBy(purchaseOrder.purchaseOrderItems, 'quantity')}</li>
+                        <li>Total Amount: {_.sumBy(_.map(purchaseOrder.purchaseOrderItems, 'metaData'), 'amount')}</li>
+                        <li>Remaining Quantity: {purchaseOrder.metaData.totalRemainingQuantity}</li>
+                        <li>Remaining Amount: {purchaseOrder.metaData.totalRemainingAmount}</li>
+                      </ul>
+                    </Table.HeaderCell>
+                  </Table.Row>
+                </Table.Footer>
               </TableWithSorting>
             </Page>
           </React.Fragment>
