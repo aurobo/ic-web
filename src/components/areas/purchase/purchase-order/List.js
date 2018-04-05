@@ -76,10 +76,13 @@ class List extends React.Component {
                 Date
               </Table.HeaderCell>
               <Table.HeaderCell field="totalRemainingQuantity" type="number">
-                Total Remaining Quantity
+                Remarks
               </Table.HeaderCell>
               <Table.HeaderCell field="createdByUserName" type="text">
                 Created By
+              </Table.HeaderCell>
+              <Table.HeaderCell field="totalRemainingQuantity" type="number">
+                Total Remaining Quantity
               </Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -91,13 +94,13 @@ class List extends React.Component {
                 key,
                 date,
                 createdByUserName,
-                metaData,
-                totalRemainingQuantity = metaData.totalRemainingQuantity,
+                metaData: { totalRemainingQuantity, canCreateGoodsReceipt },
+                remarks,
               }) => (
                 <Table.Row key={id}>
                   <Table.Cell collapsing>
                     <Checkbox
-                      disabled={!metaData.canCreateGoodsReceipt}
+                      disabled={!canCreateGoodsReceipt}
                       slider
                       onChange={(e, props) => this.handleItemCheck(e, props, id)}
                     />
@@ -106,8 +109,9 @@ class List extends React.Component {
                     <Link to={'/purchase/purchase-orders/' + id}>{key}</Link>
                   </Table.Cell>
                   <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
-                  <Table.Cell>{totalRemainingQuantity}</Table.Cell>
+                  <Table.Cell>{remarks}</Table.Cell>
                   <Table.Cell>{createdByUserName}</Table.Cell>
+                  <Table.Cell>{totalRemainingQuantity}</Table.Cell>
                 </Table.Row>
               )
             )}
@@ -115,7 +119,7 @@ class List extends React.Component {
           <Table.Footer fullWidth>
             <Table.Row>
               <Table.HeaderCell />
-              <Table.HeaderCell colSpan="4">
+              <Table.HeaderCell colSpan="5">
                 <StyledFlatButton size="tiny" primary disabled={this.state.isCreateGoodsReceiptDisabled}>
                   <StyledLink
                     style={{ display: 'block', height: '100%', color: 'white' }}
