@@ -61,6 +61,9 @@ class List extends React.Component {
               }
               content="Temporarily inactive. Use import method instead."
             />
+            <Link to="/agriculture/land-units/import-excel">
+              <FlatButton size="tiny">Import</FlatButton>
+            </Link>
           </ControlPanel>
           <TableWithSorting sortBy="key" sortIn="desc" data={data} onDataChange={this.handleDataChange}>
             <Table.Header>
@@ -89,9 +92,11 @@ class List extends React.Component {
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {_.map(data, ({ key, name, area, longitude, latitude, parentLandUnit, createdByUserName }) => (
-                <Table.Row key={key}>
-                  <Table.Cell>{key}</Table.Cell>
+              {_.map(data, ({ id, key, name, area, longitude, latitude, parentLandUnit, createdByUserName }) => (
+                <Table.Row key={id}>
+                  <Table.Cell selectable>
+                    <Link to={'/agriculture/land-units/land-unit/' + id}>{key}</Link>
+                  </Table.Cell>
                   <Table.Cell>{name}</Table.Cell>
                   <Table.Cell>{area}</Table.Cell>
                   <Table.Cell>{longitude}</Table.Cell>
