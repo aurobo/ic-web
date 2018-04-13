@@ -11,8 +11,7 @@ import TableCell from 'semantic-ui-react';
 import Route from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
 import { Page } from '../../../common';
-import { Map } from '../../../common/Map';
-
+import GMap from '../../../common/GMap';
 class ViewLandUnit extends React.Component {
   state = {
     data: null,
@@ -72,6 +71,7 @@ class ViewLandUnit extends React.Component {
                     </Table.Row>
                   </Table.Body>
                 </TableWithSorting>
+                <GMap>Location</GMap>
               </Page>
             </ControlPanel>
           </React.Fragment>
