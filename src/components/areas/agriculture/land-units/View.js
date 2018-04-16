@@ -1,7 +1,6 @@
 import React from 'react';
 import ControlPanel from '../../../common/ControlPanel';
 import TableRow, { Table, Popup } from 'semantic-ui-react';
-import { FlatButton } from '../../../common';
 import Link from 'react-router-dom/Link';
 import TableWithSorting from '../../../common/TableWithSorting';
 import _ from 'lodash';
@@ -10,8 +9,9 @@ import Api from '../../../common/Api';
 import TableCell from 'semantic-ui-react';
 import Route from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
-import { Page } from '../../../common';
+import { Page, MapButton } from '../../../common';
 import GMap from '../../../common/GMap';
+
 class ViewLandUnit extends React.Component {
   state = {
     data: null,
@@ -71,7 +71,7 @@ class ViewLandUnit extends React.Component {
                     </Table.Row>
                   </Table.Body>
                 </TableWithSorting>
-                <GMap>Location</GMap>
+                <GMap id={data.id}>Location</GMap>
               </Page>
             </ControlPanel>
           </React.Fragment>

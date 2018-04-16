@@ -14,9 +14,9 @@ const FlatButton = styled(Button)`
   &&& {
     border-radius: 0;
     text-transform: uppercase;
+    padding: 5px;
   }
 `;
-
 const Page = styled(Message)`
   &&& {
     margin: 15px auto;
@@ -25,6 +25,14 @@ const Page = styled(Message)`
   }
   @media screen {
     width: 80%;
+  }
+`;
+const MapButton = styled(Button)`
+  &&& {
+    border-radius: 0;
+    text-transform: uppercase;
+    padding: 5px;
+    margin: 10px;
   }
 `;
 
@@ -50,4 +58,4 @@ const StyledTable = styled(Table)`
   }
 `;
 
-export { theme, FlatButton, DropdownLink, StyledTable, Page };
+export { theme, FlatButton, DropdownLink, StyledTable, Page, MapButton };
