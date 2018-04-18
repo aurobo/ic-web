@@ -6,8 +6,10 @@ import { api } from './Utilities';
 import styled from 'styled-components';
 import { Button } from 'semantic-ui-react';
 import { MapButton } from '.';
-var latitude = -34.397;
-var longitude = 150.644;
+import { withRouter } from 'react-router-dom';
+
+var latitude = 23.130024774310773;
+var longitude = 72.54235429191613;
 function onMarkerPositionChanged(e) {
   latitude = e.latLng.lat();
   longitude = e.latLng.lng();
@@ -18,8 +20,8 @@ function onMarkerPositionChanged(e) {
 const { withScriptjs, withGoogleMap, GoogleMap, Marker } = require('react-google-maps');
 const { compose } = require('recompose');
 const MapWithAMarker = compose(withScriptjs, withGoogleMap)(props => (
-  <GoogleMap defaultZoom={8} defaultCenter={{ lat: -34.397, lng: 150.644 }}>
-    <Marker defaultDraggable={true} onDragEnd={onMarkerPositionChanged} position={{ lat: -34.397, lng: 150.644 }} />
+  <GoogleMap defaultZoom={15} defaultCenter={{ lat: latitude, lng: longitude }}>
+    <Marker defaultDraggable={true} onDragEnd={onMarkerPositionChanged} position={{ lat: latitude, lng: longitude }} />
   </GoogleMap>
 ));
 
@@ -40,6 +42,22 @@ class GMap extends React.Component {
         }
       });
   };
+  deleteLandUnit = data => {
+    api
+      .delete('landunits/' + this.props.id)
+      .then(response => {
+        console.log('Delete Executed');
+        this.props.history.push('/agriculture/land-units');
+      })
+      .catch(error => {
+        if (error.response && _.isArray(error.response.data)) {
+          console.log('error');
+        } else {
+          console.log('something went wrong');
+        }
+      });
+  };
+
   render() {
     console.log(this.props.id);
     return (
@@ -52,8 +70,10 @@ class GMap extends React.Component {
           mapElement={<div style={{ height: `100%` }} />}
         />
         <MapButton onClick={this.updateLatLng}>Submit</MapButton>
+        <MapButton onClick={this.deleteLandUnit}>Delete</MapButton>
+        <MapButton onClick={this.changePage}>Change</MapButton>
       </div>
     );
   }
 }
-export default GMap;
+export default withRouter(GMap);

@@ -26,6 +26,7 @@ class ViewLandUnit extends React.Component {
 
   render() {
     const { data } = this.state;
+    console.log(this.props.history);
     return (
       <Api url={'/LandUnits/' + this.props.match.params.id} onSuccess={this.handleSuccess}>
         {data !== null ? (
@@ -71,7 +72,7 @@ class ViewLandUnit extends React.Component {
                     </Table.Row>
                   </Table.Body>
                 </TableWithSorting>
-                <GMap id={data.id}>Location</GMap>
+                <GMap id={data.id} />
               </Page>
             </ControlPanel>
           </React.Fragment>
