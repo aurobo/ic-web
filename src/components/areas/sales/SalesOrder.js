@@ -13,7 +13,7 @@ import { FlatButton, StyledTable } from '../../common';
 import Link from 'react-router-dom/Link';
 import Route from 'react-router/Route';
 import { Switch } from 'react-router-dom';
-import { Input, Checkbox, Dropdown } from 'semantic-ui-react';
+import { Input, Checkbox, Dropdown, Segment, Icon } from 'semantic-ui-react';
 
 const SalesOrderSection = styled(Message)`
   &&& {
@@ -35,6 +35,7 @@ const StyledDropdown = styled(Dropdown)`
 
 class SalesOrder extends React.Component {
   state = {
+    hasError: false,
     column: null,
     salesOrderItems: null,
     direction: null,
@@ -136,11 +137,13 @@ class SalesOrder extends React.Component {
       .then(response => {
         this.props.history.push('/sales/invoices/' + response.data.id);
       })
-      .catch(error => {});
+      .catch(error => {
+        this.setState({ hasError: true });
+      });
   };
 
   render() {
-    const { column, salesOrderItems, direction } = this.state;
+    const { column, salesOrderItems, direction, hasError } = this.state;
     return (
       <Switch>
         <Route
@@ -156,6 +159,18 @@ class SalesOrder extends React.Component {
                   Submit
                 </FlatButton>
               </ControlPanel>
+              {hasError ? (
+                <Segment>
+                  <Message negative floating icon>
+                    <Icon name="meh" />
+                    <Message.Content>
+                      <Message.Header>Error</Message.Header>
+                    </Message.Content>
+                  </Message>
+                </Segment>
+              ) : (
+                ''
+              )}
               <StyledTable sortable celled fixed compact selectable>
                 <Table.Header>
                   <Table.Row>
