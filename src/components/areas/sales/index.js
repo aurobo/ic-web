@@ -37,6 +37,10 @@ class Sales extends React.Component {
             render={() => <ImportExcel uri="/salesorders/upload" redirectUri="/sales/salesorders" />}
           />
           <Route path="/sales/customers" component={Customers} />
+          <Route
+            path="/sales/materials/import-excel"
+            render={() => <ImportExcel uri="/materials/upload" redirectUri="/sales/materials" />}
+          />
           <Route path="/sales/materials" component={Materials} />
           <Route path="/sales/invoices/:id" component={Invoice} />
           <Redirect to="/sales/sales-orders" />
