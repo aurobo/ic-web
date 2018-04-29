@@ -5,6 +5,7 @@ import ControlPanel from '../../common/ControlPanel';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
 import { api } from '../../common/Utilities';
 import { FlatButton, StyledTable } from '../../common';
+import { Link } from 'react-router-dom';
 
 class Materials extends React.Component {
   state = {
@@ -63,6 +64,9 @@ class Materials extends React.Component {
             }
             content="Temporarily inactive."
           />
+          <Link to="/sales/materials/import-excel">
+            <FlatButton size="tiny">Import</FlatButton>
+          </Link>
         </ControlPanel>
         <StyledTable sortable celled fixed compact selectable>
           <Table.Header>
