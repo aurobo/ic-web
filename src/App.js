@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import LoginBox from './components/common/LoginBox';
-import Dashboard from './components/common/Dashboard';
-import LoginLayout from './components/common/LoginLayout';
-import Sales from './components/areas/sales';
+import LoginBox from '@innovic/components/shared/LoginBox';
+import Dashboard from '@innovic/components/shared/Dashboard';
+import LoginLayout from '@innovic/components/shared/LoginLayout';
+import Sales from '@innovic/components/sales';
 import Redirect from 'react-router/Redirect';
-import Purchase from './components/areas/purchase';
-import NotFound from './components/common/NotFound';
+import Purchase from '@innovic/components/purchase';
+import NotFound from '@innovic/components/shared/NotFound';
 
 class App extends Component {
   state = {

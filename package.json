@@ -2,6 +2,7 @@
   "name": "ic-web",
   "version": "0.1.0",
   "private": true,
+  "workspaces": ["src/components", "src/assets"],
   "homepage": "http://innovic.redsoftware.in",
   "dependencies": {
     "axios": "^0.17.1",
@@ -12,7 +13,8 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",
     "semantic-ui-react": "^0.78.1",
-    "styled-components": "^3.1.6"
+    "styled-components": "^3.1.6",
+    "@innovic/components": "0.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

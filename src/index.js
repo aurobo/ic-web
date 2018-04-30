@@ -5,7 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import { HashRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import { theme } from './components/common';
+import { theme } from '@innovic/components/shared';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
