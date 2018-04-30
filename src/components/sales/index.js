@@ -1,16 +1,12 @@
 import React from 'react';
-import TopNav from '@innovic/components/shared/TopNav';
+import { TopNav, ImportExcel } from '@innovic/components/shared';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import SalesOrders from './SalesOrders';
-import { Switch } from 'react-router-dom';
-import Route from 'react-router-dom/Route';
-import ImportExcel from '@innovic/components/shared/ImportExcel';
-import Redirect from 'react-router-dom/Redirect';
-import Customers from './Customers';
-import Materials from '../master/Materials';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import SalesOrder from './SalesOrder';
 import Invoice from './Invoice';
 import { DropdownLink } from '@innovic/components/shared';
+import { Materials, Customers } from '@innovic/components/master';
 
 class Sales extends React.Component {
   render() {
@@ -20,12 +16,6 @@ class Sales extends React.Component {
           <Dropdown item text="Menu" simple>
             <Dropdown.Menu>
               <DropdownLink to="/sales/sales-orders">Sales Orders</DropdownLink>
-            </Dropdown.Menu>
-          </Dropdown>
-          <Dropdown item text="Master Data" simple>
-            <Dropdown.Menu>
-              <DropdownLink to="/sales/customers">Customers</DropdownLink>
-              <DropdownLink to="/sales/materials">Materials</DropdownLink>
             </Dropdown.Menu>
           </Dropdown>
         </TopNav>
@@ -38,10 +28,10 @@ class Sales extends React.Component {
           />
           <Route path="/sales/customers" component={Customers} />
           <Route
-            path="/sales/materials/import-excel"
+            path="/master/materials/import-excel"
             render={() => <ImportExcel uri="/materials/upload" redirectUri="/sales/materials" />}
           />
-          <Route path="/sales/materials" component={Materials} />
+          <Route path="/master/materials" component={Materials} />
           <Route path="/sales/invoices/:id" component={Invoice} />
           <Redirect to="/sales/sales-orders" />
         </Switch>

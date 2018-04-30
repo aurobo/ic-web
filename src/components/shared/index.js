@@ -4,6 +4,12 @@ import { Message, Button } from 'semantic-ui-react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import { Link } from 'react-router-dom';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
+import TopNav from './TopNav';
+import ImportExcel from './ImportExcel';
+import NotFound from './NotFound';
+import Dashboard from './Dashboard';
+import LoginLayout from './LoginLayout';
+import LoginBox from './LoginBox';
 
 const theme = {
   primary: '#3b79c6',
@@ -50,4 +56,16 @@ const StyledTable = styled(Table)`
   }
 `;
 
-export { theme, FlatButton, DropdownLink, StyledTable, Page };
+export {
+  theme,
+  FlatButton,
+  DropdownLink,
+  StyledTable,
+  Page,
+  TopNav,
+  ImportExcel,
+  NotFound,
+  Dashboard,
+  LoginLayout,
+  LoginBox,
+};

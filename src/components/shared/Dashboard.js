@@ -45,6 +45,10 @@ class Dashboard extends React.Component {
       <div>
         <TopNav menuHeader="Dashboard" url={this.props.url} className="no-print" onLogout={this.props.onLogout} />
         <Icons>
+          <IconLink to="/master">
+            <Icon bordered inverted color="teal" size="big" name="database" />
+            <IconLabel>Master</IconLabel>
+          </IconLink>
           <IconLink to="/sales">
             <Icon bordered inverted color="teal" size="big" name="truck" flipped="horizontally" />
             <IconLabel>Sales</IconLabel>

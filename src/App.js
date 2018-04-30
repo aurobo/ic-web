@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import LoginBox from '@innovic/components/shared/LoginBox';
-import Dashboard from '@innovic/components/shared/Dashboard';
-import LoginLayout from '@innovic/components/shared/LoginLayout';
-import Sales from '@innovic/components/sales';
-import Redirect from 'react-router/Redirect';
-import Purchase from '@innovic/components/purchase';
-import NotFound from '@innovic/components/shared/NotFound';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import { LoginBox, Dashboard, LoginLayout, NotFound } from '@innovic/components/shared';
+import { Sales, Master, Purchase } from '@innovic/components';
 
 class App extends Component {
   state = {
@@ -55,6 +50,7 @@ class App extends Component {
                 <Route path="/dashboard" render={() => <Dashboard url="/dashboard" onLogout={this.logout} />} />
                 <Route path="/sales" render={() => <Sales url="/sales" onLogout={this.logout} />} />
                 <Route path="/purchase" render={() => <Purchase url="/purchase" onLogout={this.logout} />} />
+                <Route path="/master" render={() => <Master url="/master" onLogout={this.logout} />} />
                 <Redirect to="/dashboard" />
               </Switch>
             ) : (
