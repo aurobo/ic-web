@@ -47,6 +47,12 @@ class ListCell extends React.Component {
               columns={tableColumns}
               defaultPageSize={10}
               filterable={true}
+              defaultSorted={[
+                {
+                  id: 'key',
+                  desc: true,
+                },
+              ]}
             />
           )}
         />

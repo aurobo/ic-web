@@ -12,6 +12,7 @@ const InnovicLogo = styled(Image)`
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0.05;
+    z-index: -99;
   }
 `;
 
@@ -29,6 +30,12 @@ const IconLabel = styled.span`
   font-size: 14px;
   line-height: 14px;
   color: #333;
+  transition: font-weight 300ms linear;
+
+  ${IconLink}:hover & {
+    color: teal;
+    transition: color 300ms linear;
+  }
 `;
 
 const Icons = styled.div`
@@ -39,6 +46,12 @@ const Icons = styled.div`
   margin-left: 80px;
 `;
 
+const StyledIcon = styled(Icon).attrs({ inverted: true, bordered: true, color: 'teal', size: 'big' })`
+  ${IconLink}:hover &&& {
+    box-shadow: inset 0 0 10px teal;
+  }
+`;
+
 class Dashboard extends React.Component {
   render() {
     return (
@@ -46,15 +59,15 @@ class Dashboard extends React.Component {
         <TopNav menuHeader="Dashboard" url={this.props.url} className="no-print" onLogout={this.props.onLogout} />
         <Icons>
           <IconLink to="/master">
-            <Icon bordered inverted color="teal" size="big" name="database" />
+            <StyledIcon name="database" />
             <IconLabel>Master</IconLabel>
           </IconLink>
           <IconLink to="/sales">
-            <Icon bordered inverted color="teal" size="big" name="truck" flipped="horizontally" />
+            <StyledIcon name="truck" flipped="horizontally" />
             <IconLabel>Sales</IconLabel>
           </IconLink>
           <IconLink to="/purchase">
-            <Icon bordered inverted color="teal" size="big" name="truck" />
+            <StyledIcon name="truck" />
             <IconLabel>Purchase</IconLabel>
           </IconLink>
         </Icons>
