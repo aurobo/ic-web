@@ -5,6 +5,7 @@
   "workspaces": ["src/components", "src/assets"],
   "homepage": "http://innovic.redsoftware.in",
   "dependencies": {
+    "@innovic/components": "0.1.0",
     "axios": "^0.17.1",
     "lodash": "^4.17.5",
     "luxon": "^0.5.8",
@@ -12,9 +13,9 @@
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",
+    "react-table": "^6.8.2",
     "semantic-ui-react": "^0.78.1",
-    "styled-components": "^3.1.6",
-    "@innovic/components": "0.1.0"
+    "styled-components": "^3.1.6"
   },
   "scripts": {
     "start": "react-scripts start",

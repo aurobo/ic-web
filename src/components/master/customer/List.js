@@ -6,7 +6,7 @@ import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
 import { api } from '@innovic/components/shared/Utilities';
 import { FlatButton, StyledTable } from '@innovic/components/shared';
 
-class Customers extends React.Component {
+class List extends React.Component {
   state = {
     column: null,
     data: null,
@@ -89,4 +89,4 @@ class Customers extends React.Component {
   }
 }
 
-export default Customers;
+export default List;

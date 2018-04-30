@@ -10,6 +10,8 @@ import NotFound from './NotFound';
 import Dashboard from './Dashboard';
 import LoginLayout from './LoginLayout';
 import LoginBox from './LoginBox';
+import ControlPanel from './ControlPanel';
+import Api from './Api';
 
 const theme = {
   primary: '#3b79c6',
@@ -68,4 +70,6 @@ export {
   Dashboard,
   LoginLayout,
   LoginBox,
+  ControlPanel,
+  Api,
 };

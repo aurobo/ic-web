@@ -3,6 +3,11 @@ body {
   font-family: 'Lato', sans-serif;
 }
 
+body,
+html {
+  height: unset !important;
+}
+
 @media print {
   .no-print {
     display: none !important;
@@ -13,4 +18,35 @@ body {
   .no-screen {
     display: none !important;
   }
+}
+
+.ReactTable {
+  background: #fff;
+}
+
+.ReactTable .rt-thead {
+  vertical-align: middle;
+}
+
+.ReactTable .rt-thead.-header .rt-tr {
+  text-align: left;
+  color: rgba(0, 0, 0, 0.87);
+  border-collapse: separate;
+}
+
+.ReactTable .rt-th {
+  outline: none;
+  background: #f9fafb;
+  font-weight: 700;
+  text-transform: none;
+  border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+}
+
+.ReactTable .-header .rt-th {
+  padding: 0.92857143em 0.78571429em !important;
+}
+
+.ReactTable .-header .rt-th:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.8);
 }

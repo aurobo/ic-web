@@ -1,35 +1,48 @@
 import React from 'react';
-import { TopNav, DropdownLink, ImportExcel } from '@innovic/components/shared';
+import Customer from './customer';
+import Material from './material';
+import Vendor from './vendor';
+import { DropdownLink, ImportExcel } from '@innovic/components/shared';
+import { Organ } from '@innovic/components/shared/anatomy';
 import { Dropdown } from 'semantic-ui-react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Customers from './Customers';
-import Materials from './Materials';
 
 class Master extends React.Component {
   render() {
     return (
-      <div>
-        <TopNav menuHeader="Master" url={this.props.url} className="no-print" onLogout={this.props.onLogout}>
+      <Organ
+        name="Master"
+        onLogout={this.props.onLogout}
+        renderMenu={() => (
           <Dropdown item text="Menu" simple>
             <Dropdown.Menu>
-              <DropdownLink to="/master/customers">Customers</DropdownLink>
-              <DropdownLink to="/master/materials">Materials</DropdownLink>
+              <DropdownLink to="/master/material/list">Materials</DropdownLink>
+              <DropdownLink to="/master/customer/list">Customers</DropdownLink>
+              <DropdownLink to="/master/vendor/list">Vendors</DropdownLink>
             </Dropdown.Menu>
           </Dropdown>
-        </TopNav>
-        <Switch>
-          <Route path="/master/customers" component={Customers} />
-          <Route
-            path="/master/materials/import-excel"
-            render={() => <ImportExcel uri="/materials/upload" redirectUri="/sales/materials" />}
-          />
-          <Route path="/master/materials" component={Materials} />
-          <Redirect to="/master/materials" />
-        </Switch>
-      </div>
+        )}
+        renderSwitch={() => (
+          <Switch>
+            {/* Move import routes in Tissue, the routes should be conditional based on what prop is passed in tissue */}
+            <Route
+              path="/master/material/import-excel"
+              render={() => <ImportExcel uri="/materials/upload" redirectUri="/master/material/list" />}
+            />
+            <Route
+              path="/master/vendor/import-excel"
+              render={() => <ImportExcel uri="/vendors/upload" redirectUri="/master/vendor/list" />}
+            />
+            <Route path="/master/customer" component={Customer} />
+            <Route path="/master/material" component={Material} />
+            <Route path="/master/vendor" component={Vendor} />
+            <Redirect to="/master/material" />
+          </Switch>
+        )}
+      />
     );
   }
 }
 
 export default Master;
-export { Customers, Materials };
+export { Customer, Material, Vendor };
