@@ -1,8 +1,9 @@
 import React from 'react';
+import { ViewCell } from '@innovic/components/shared/anatomy';
 
 class View extends React.Component {
   render() {
-    return <h1>View</h1>;
+    return <ViewCell name="Vendors" list={[{ title: 'Name', accessor: 'name' }]} />;
   }
 }
 

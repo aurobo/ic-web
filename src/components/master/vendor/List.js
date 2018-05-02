@@ -1,5 +1,6 @@
 import React from 'react';
 import { ListCell } from '@innovic/components/shared/anatomy';
+import { Link } from 'react-router-dom';
 
 class List extends React.Component {
   render() {
@@ -12,6 +13,7 @@ class List extends React.Component {
           {
             Header: 'Key',
             accessor: 'key',
+            Cell: ({ original }) => <Link to={'/master/vendor/' + original.id + '/view'}>{original.key}</Link>,
           },
           {
             Header: 'Name',

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 class Tissue extends React.Component {
   render() {
     const listUrl = this.props.match.url + '/list';
-    const viewUrl = this.props.match.url + '/view';
+    const viewUrl = this.props.match.url + '/:id/view';
     return (
       <Switch>
         <Route path={listUrl} component={this.props.list} />

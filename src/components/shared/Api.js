@@ -41,15 +41,15 @@ class Api extends React.Component {
     const { hasError, requestCompleted } = this.state;
     if (requestCompleted) {
       return hasError ? (
-        <div>
+        <React.Fragment>
           <StyledMessage negative floating onDismiss={this.handleDismiss}>
             <Message.Header>Something Went Wrong</Message.Header>
             <p>Contact Administrator</p>
           </StyledMessage>
           {this.props.children}
-        </div>
+        </React.Fragment>
       ) : (
-        <div>{this.props.children}</div>
+        <React.Fragment>{this.props.children}</React.Fragment>
       );
     } else {
       return (
