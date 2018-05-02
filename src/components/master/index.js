@@ -3,9 +3,9 @@ import Customer from './customer';
 import Material from './material';
 import Vendor from './vendor';
 import { DropdownLink, ImportExcel } from '@innovic/components/shared';
-import { Organ } from '@innovic/components/shared/anatomy';
+import { Organ, MagicTissue } from '@innovic/components/shared/anatomy';
 import { Dropdown } from 'semantic-ui-react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, Link } from 'react-router-dom';
 
 class Master extends React.Component {
   render() {
@@ -33,9 +33,31 @@ class Master extends React.Component {
               path="/master/vendor/import-excel"
               render={() => <ImportExcel uri="/vendors/upload" redirectUri="/master/vendor/list" />}
             />
-            <Route path="/master/customer" component={Customer} />
-            <Route path="/master/material" component={Material} />
             <Route path="/master/vendor" component={Vendor} />
+            <Route path="/master/material" component={Material} />
+            <Route
+              path="/master/customer"
+              render={() => (
+                <MagicTissue
+                  name="Customer"
+                  organ="Master"
+                  listTableColumns={[
+                    {
+                      Header: 'Key',
+                      accessor: 'key',
+                      Cell: ({ original }) => (
+                        <Link to={'/master/customer/' + original.id + '/view'}>{original.key}</Link>
+                      ),
+                    },
+                    {
+                      Header: 'Name',
+                      accessor: 'name',
+                    },
+                  ]}
+                  viewList={[{ title: 'Name', accessor: 'name' }]}
+                />
+              )}
+            />
             <Redirect to="/master/material" />
           </Switch>
         )}
@@ -45,4 +67,4 @@ class Master extends React.Component {
 }
 
 export default Master;
-export { Customer, Material, Vendor };
+export { Material, Vendor };

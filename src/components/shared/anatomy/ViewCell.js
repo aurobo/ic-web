@@ -17,10 +17,10 @@ class ViewCell extends React.Component {
   };
 
   render() {
-    const { name, list } = this.props;
+    const { name, list, getUrlPrefix } = this.props;
     const { data } = this.state;
     return (
-      <Api url={'/vendors/' + this.props.match.params.id} onSuccess={this.handleSuccess}>
+      <Api url={getUrlPrefix + this.props.match.params.id} onSuccess={this.handleSuccess}>
         <Cell
           name={name + ' / ' + data.key}
           renderControlPanel={() => (

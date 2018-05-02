@@ -3,7 +3,7 @@ import { ViewCell } from '@innovic/components/shared/anatomy';
 
 class View extends React.Component {
   render() {
-    return <ViewCell name="Vendors" list={[{ title: 'Name', accessor: 'name' }]} />;
+    return <ViewCell getUrlPrefix="/vendors/" name="Vendors" list={[{ title: 'Name', accessor: 'name' }]} />;
   }
 }
 

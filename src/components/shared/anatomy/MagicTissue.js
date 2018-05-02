@@ -10,13 +10,14 @@ class MagicTissue extends React.Component {
     let lowercasedPluralizedName = String(pluralizedName).toLowerCase();
     let getUrl = '/' + lowercasedPluralizedName;
     let importLink = '/' + String(organ).toLowerCase() + '/' + lowercasedName + '/import-excel';
+    let getUrlPrefix = '/' + lowercasedPluralizedName + '/';
 
     return (
       <Tissue
-        list={
+        renderList={() => (
           <ListCell name={pluralizedName} getUrl={getUrl} importLink={importLink} tableColumns={listTableColumns} />
-        }
-        view={<ViewCell name={pluralizedName} list={viewList} />}
+        )}
+        renderView={() => <ViewCell getUrlPrefix={getUrlPrefix} name={pluralizedName} list={viewList} />}
       />
     );
   }

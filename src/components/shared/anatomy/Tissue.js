@@ -8,8 +8,8 @@ class Tissue extends React.Component {
     const viewUrl = this.props.match.url + '/:id/view';
     return (
       <Switch>
-        <Route path={listUrl} component={this.props.list} />
-        <Route path={viewUrl} component={this.props.view} />
+        <Route path={listUrl} component={this.props.list} render={this.props.renderList} />
+        <Route path={viewUrl} component={this.props.view} render={this.props.renderView} />
         <Redirect to={listUrl} />
       </Switch>
     );
