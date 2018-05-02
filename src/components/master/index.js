@@ -1,5 +1,4 @@
 import React from 'react';
-import Customer from './customer';
 import Material from './material';
 import Vendor from './vendor';
 import { DropdownLink, ImportExcel } from '@innovic/components/shared';
