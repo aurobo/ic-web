@@ -72,7 +72,7 @@ class ViewLandUnit extends React.Component {
                     </Table.Row>
                   </Table.Body>
                 </TableWithSorting>
-                <GMap id={data.id} />
+                <GMap lati="23.129472254387604" long="72.54239720726036" id={data.id} />
               </Page>
             </ControlPanel>
           </React.Fragment>
