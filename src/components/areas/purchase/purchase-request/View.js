@@ -58,12 +58,7 @@ class ViewPurchaseRequest extends React.Component {
             </ControlPanel>
             <Page>
               <h1>{purchaseRequest.key}</h1>
-              <TableWithSorting
-                sortBy="key"
-                sortIn="desc"
-                data={purchaseRequest.purchaseRequestItems}
-                onDataChange={this.props.handleDataChange}
-              >
+              <TableWithSorting sortBy="key" sortIn="desc" data={purchaseRequest.purchaseRequestItems} onDataChange={this.props.handleDataChange}>
                 <Table.Header>
                   <Table.Row>
                     <Table.HeaderCell field="number" type="number">
@@ -84,18 +79,15 @@ class ViewPurchaseRequest extends React.Component {
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {_.map(
-                    purchaseRequestItems,
-                    ({ id, number, materialNumber, quantity, date, metaData, metaData: { remainingQuantity } }) => (
-                      <Table.Row key={id}>
-                        <Table.Cell>{number}</Table.Cell>
-                        <Table.Cell>{materialNumber}</Table.Cell>
-                        <Table.Cell>{quantity}</Table.Cell>
-                        <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
-                        <Table.Cell>{remainingQuantity}</Table.Cell>
-                      </Table.Row>
-                    )
-                  )}
+                  {_.map(purchaseRequestItems, ({ id, number, materialNumber, quantity, date, metaData, metaData: { remainingQuantity } }) => (
+                    <Table.Row key={id}>
+                      <Table.Cell>{number}</Table.Cell>
+                      <Table.Cell>{materialNumber}</Table.Cell>
+                      <Table.Cell>{quantity}</Table.Cell>
+                      <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
+                      <Table.Cell>{remainingQuantity}</Table.Cell>
+                    </Table.Row>
+                  ))}
                 </Table.Body>
               </TableWithSorting>
             </Page>

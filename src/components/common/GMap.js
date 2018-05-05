@@ -31,23 +31,42 @@ const MapWithAMarker = compose(withScriptjs, withGoogleMap)(props => (
     }}
   >
     <DrawingManager
-      defaultDrawingMode={google.maps.drawing.OverlayType.CIRCLE}
       defaultOptions={{
         drawingControl: true,
         drawingControlOptions: {
           position: google.maps.ControlPosition.TOP_CENTER,
-          drawingModes: [google.maps.drawing.OverlayType.CIRCLE, google.maps.drawing.OverlayType.POLYGON, google.maps.drawing.OverlayType.POLYLINE, google.maps.drawing.OverlayType.RECTANGLE],
+          drawingModes: [
+            google.maps.drawing.OverlayType.MARKER,
+            google.maps.drawing.OverlayType.CIRCLE,
+            google.maps.drawing.OverlayType.POLYGON,
+            google.maps.drawing.OverlayType.POLYLINE,
+            google.maps.drawing.OverlayType.RECTANGLE,
+          ],
         },
         circleOptions: {
-          fillColor: `#ffff00`,
-          fillOpacity: 1,
-          strokeWeight: 5,
+          fillOpacity: 0,
+          strokeWeight: 2,
           clickable: false,
           editable: true,
           zIndex: 1,
         },
+        polygonOptions: {
+          editable: true,
+          draggable: true,
+        },
+        polylineOptions: {
+          editable: true,
+          draggable: true,
+        },
+        rectangleOptions: {
+          editable: true,
+          draggable: true,
+        },
+        markerOptions: {
+          draggable: true,
+        },
       }}
-    />
+    />{' '}
     <Marker
       defaultDraggable={true}
       onDragEnd={onMarkerPositionChanged}
@@ -132,7 +151,7 @@ class GMap extends React.Component {
             lati: this.props.lati,
             long: this.props.long,
           }}
-        />
+        />{' '}
         <MapButton onClick={this.updateLatLng}> Submit </MapButton>{' '}
         <MapButton temporary disabled onClick={this.deleteLandUnit}>
           {' '}

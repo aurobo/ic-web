@@ -9,7 +9,7 @@ import DiseasesList from './diseases/List';
 import FertilizersList from './fertilizers/List';
 import ImportExcel from '../master/ImportExcel';
 import ViewLandRequest from '../agriculture/land-units/View';
-
+import ViewCropRequest from '../agriculture/crops/View';
 class Agriculture extends React.Component {
   render() {
     return (
@@ -28,13 +28,11 @@ class Agriculture extends React.Component {
         <Switch>
           <Route exact path="/agriculture/land-units" component={LandUnitsList} />
           <Route exact path="/agriculture/land-units/land-unit/:id" component={ViewLandRequest} />
+          <Route exact path="/agriculture/crops/crop/:id" component={ViewCropRequest} />
           <Route path="/agriculture/crops" component={CropsList} />
           <Route path="/agriculture/diseases" component={DiseasesList} />
           <Route path="/agriculture/fertilizers" component={FertilizersList} />
-          <Route
-            path="/agriculture/land-units/import-excel"
-            render={() => <ImportExcel uri="/landunits/upload" redirectUri="/agriculture/land-units" />}
-          />
+          <Route path="/agriculture/land-units/import-excel" render={() => <ImportExcel uri="/landunits/upload" redirectUri="/agriculture/land-units" />} />
 
           <Redirect to="/agriculture/land-units" />
         </Switch>

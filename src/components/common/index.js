@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Message, Button } from 'semantic-ui-react';
+import { Message, Button, Input } from 'semantic-ui-react';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import { Link } from 'react-router-dom';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
@@ -53,7 +53,7 @@ const DropdownLink = props => (
 
 const StyledTable = styled(Table)`
   &&& {
-    margin-top: 0;
+    margin: 15px;
     border-radius: 0;
   }
 `;

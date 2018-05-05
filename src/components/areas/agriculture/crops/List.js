@@ -71,16 +71,23 @@ class List extends React.Component {
                 <Table.HeaderCell field="Name" type="text">
                   Name
                 </Table.HeaderCell>
+                <Table.HeaderCell field="TargetWareHouse" type="text">
+                  TargetWareHouse
+                </Table.HeaderCell>
                 <Table.HeaderCell field="createdByUserName" type="text">
                   Created By
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {_.map(data, ({ key, name, createdByUserName }) => (
-                <Table.Row key={key}>
-                  <Table.Cell>{key}</Table.Cell>
+              {_.map(data, ({ id, key, name, period, cropSpacing, rowSpacing, type, targetWareHouse, tasks, createdByUserName }) => (
+                <Table.Row key={id}>
+                  <Table.Cell selectable>
+                    <Link to={'/agriculture/crops/crop/' + id}>{key}</Link>
+                  </Table.Cell>
                   <Table.Cell>{name}</Table.Cell>
+                  <Table.Cell>{targetWareHouse}</Table.Cell>
+                  <Table.Cell>{createdByUserName}</Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>

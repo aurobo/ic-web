@@ -87,43 +87,26 @@ class List extends React.Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {_.map(
-              data,
-              ({
-                id,
-                key,
-                date,
-                createdByUserName,
-                metaData,
-                totalRemainingQuantity = metaData.totalRemainingQuantity,
-              }) => (
-                <Table.Row key={id}>
-                  <Table.Cell collapsing>
-                    <Checkbox
-                      disabled={!metaData.canCreatePurchaseOrder}
-                      slider
-                      onChange={(e, props) => this.handleItemCheck(e, props, id)}
-                    />
-                  </Table.Cell>
-                  <Table.Cell selectable>
-                    <Link to={'/purchase/purchase-requests/' + id}>{key}</Link>
-                  </Table.Cell>
-                  <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
-                  <Table.Cell>{totalRemainingQuantity}</Table.Cell>
-                  <Table.Cell>{createdByUserName}</Table.Cell>
-                </Table.Row>
-              )
-            )}
+            {_.map(data, ({ id, key, date, createdByUserName, metaData, totalRemainingQuantity = metaData.totalRemainingQuantity }) => (
+              <Table.Row key={id}>
+                <Table.Cell collapsing>
+                  <Checkbox disabled={!metaData.canCreatePurchaseOrder} slider onChange={(e, props) => this.handleItemCheck(e, props, id)} />
+                </Table.Cell>
+                <Table.Cell selectable>
+                  <Link to={'/purchase/purchase-requests/' + id}>{key}</Link>
+                </Table.Cell>
+                <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
+                <Table.Cell>{totalRemainingQuantity}</Table.Cell>
+                <Table.Cell>{createdByUserName}</Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
           <Table.Footer fullWidth>
             <Table.Row>
               <Table.HeaderCell />
               <Table.HeaderCell colSpan="4">
                 <StyledFlatButton size="tiny" primary disabled={this.state.isCreatePurchaseOrderDisabled}>
-                  <StyledLink
-                    style={{ display: 'block', height: '100%', color: 'white' }}
-                    to={this.props.location.pathname + '/create-purchase-order'}
-                  >
+                  <StyledLink style={{ display: 'block', height: '100%', color: 'white' }} to={this.props.location.pathname + '/create-purchase-order'}>
                     Create Purchase Order
                   </StyledLink>
                 </StyledFlatButton>

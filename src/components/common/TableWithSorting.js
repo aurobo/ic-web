@@ -77,10 +77,7 @@ function withSorting(WrappedComponent) {
                         React.Children.map(child.props.children, child => {
                           if (child.type.name === 'TableHeaderCell') {
                             return (
-                              <Table.HeaderCell
-                                sorted={column === child.props.field ? direction : null}
-                                onClick={this.handleSort(child.props.field, child.props.type)}
-                              >
+                              <Table.HeaderCell sorted={column === child.props.field ? direction : null} onClick={this.handleSort(child.props.field, child.props.type)}>
                                 {child.props.children}
                               </Table.HeaderCell>
                             );

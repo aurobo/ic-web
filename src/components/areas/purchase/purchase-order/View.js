@@ -60,12 +60,7 @@ class ViewPurchaseOrder extends React.Component {
             </ControlPanel>
             <Page>
               <h1>{purchaseOrder.key}</h1>
-              <TableWithSorting
-                sortBy="key"
-                sortIn="desc"
-                data={purchaseOrder.purchaseOrderItems}
-                onDataChange={this.props.handleDataChange}
-              >
+              <TableWithSorting sortBy="key" sortIn="desc" data={purchaseOrder.purchaseOrderItems} onDataChange={this.props.handleDataChange}>
                 <Table.Header>
                   <Table.Row>
                     <Table.HeaderCell field="materialNumber" type="text">
@@ -83,17 +78,14 @@ class ViewPurchaseOrder extends React.Component {
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {_.map(
-                    purchaseOrderItems,
-                    ({ id, number, materialNumber, quantity, date, metaData, metaData: { remainingQuantity } }) => (
-                      <Table.Row key={id}>
-                        <Table.Cell>{materialNumber}</Table.Cell>
-                        <Table.Cell>{quantity}</Table.Cell>
-                        <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
-                        <Table.Cell>{remainingQuantity}</Table.Cell>
-                      </Table.Row>
-                    )
-                  )}
+                  {_.map(purchaseOrderItems, ({ id, number, materialNumber, quantity, date, metaData, metaData: { remainingQuantity } }) => (
+                    <Table.Row key={id}>
+                      <Table.Cell>{materialNumber}</Table.Cell>
+                      <Table.Cell>{quantity}</Table.Cell>
+                      <Table.Cell>{new Date(date).toLocaleDateString()}</Table.Cell>
+                      <Table.Cell>{remainingQuantity}</Table.Cell>
+                    </Table.Row>
+                  ))}
                 </Table.Body>
               </TableWithSorting>
             </Page>
