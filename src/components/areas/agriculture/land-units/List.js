@@ -86,8 +86,9 @@ class List extends React.Component {
                 <Table.HeaderCell field="ParentLandUnit" type="date">
                   ParentLandUnit
                 </Table.HeaderCell>
+
                 <Table.HeaderCell field="createdByUserName" type="text">
-                  Created By
+                  CreatedByUserName
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>

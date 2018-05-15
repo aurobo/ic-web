@@ -56,6 +56,33 @@ class ViewLandUnit extends React.Component {
                       <Table.HeaderCell field="ParentLandUnit" type="date">
                         ParentLandUnit
                       </Table.HeaderCell>
+                      <Table.HeaderCell field="SoilType" type="text">
+                        SoilType
+                      </Table.HeaderCell>
+                      <Table.HeaderCell field="MinimumWage" type="text">
+                        MiniMumWage
+                      </Table.HeaderCell>
+                      <Table.HeaderCell field="State" type="text">
+                        State
+                      </Table.HeaderCell>
+                      <Table.HeaderCell field="District" type="text">
+                        District
+                      </Table.HeaderCell>
+                      <Table.HeaderCell field="WorkOccupation" type="text">
+                        WorkOccupation
+                      </Table.HeaderCell>
+                      <Table.HeaderCell field="LabourCategory" type="date">
+                        LabourCategory
+                      </Table.HeaderCell>
+                      <Table.HeaderCell field="NoOfPersons" type="text">
+                        NoOfPersons
+                      </Table.HeaderCell>
+                      <Table.HeaderCell field="Fertilizers" type="text">
+                        Fertilizers
+                      </Table.HeaderCell>
+                      <Table.HeaderCell field="Gender" type="text">
+                        Gender
+                      </Table.HeaderCell>
                       <Table.HeaderCell field="createdByUserName" type="text">
                         Created By
                       </Table.HeaderCell>
@@ -69,6 +96,15 @@ class ViewLandUnit extends React.Component {
                       <Table.Cell>{data.longitude}</Table.Cell>
                       <Table.Cell>{data.latitude}</Table.Cell>
                       <Table.Cell>{data.parentLandUnit}</Table.Cell>
+                      <Table.Cell>{data.soilType}</Table.Cell>
+                      <Table.Cell>{data.minimumWage}</Table.Cell>
+                      <Table.Cell>{data.state}</Table.Cell>
+                      <Table.Cell>{data.district}</Table.Cell>
+                      <Table.Cell>{data.workOccupation}</Table.Cell>
+                      <Table.Cell>{data.labourCategory}</Table.Cell>
+                      <Table.Cell>{data.noOfPersons}</Table.Cell>
+                      <Table.Cell>{data.fertilizers}</Table.Cell>
+                      <Table.Cell>{data.gender}</Table.Cell>
                       <Table.Cell>{data.createdByUserName}</Table.Cell>
                     </Table.Row>
                   </Table.Body>
