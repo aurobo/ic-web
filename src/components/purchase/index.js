@@ -34,6 +34,11 @@ class Purchase extends React.Component {
             path="/purchase/goods-issues/import-excel"
             render={() => <ImportExcel uri="/goodsissues/upload" redirectUri="/purchase/goods-issues" />}
           />
+          <Route
+            exact
+            path="/purchase/goods-receipts/import-excel"
+            render={() => <ImportExcel uri="/goodsreceipts/upload" redirectUri="/purchase/goods-receipts" />}
+          />
           <Route path="/purchase/purchase-requests" component={PurchaseRequest} />
           <Route path="/purchase/purchase-orders" component={PurchaseOrder} />
           <Route path="/purchase/goods-issues" component={GoodsIssue} />
