@@ -55,6 +55,17 @@ class ViewGoodsReceipt extends React.Component {
                   ))}
                 </Dropdown.Menu>
               </StyledDropdown>
+              {_.find(goodsReceipt.links, { type: 'SalesOrders' }) && (
+                <StyledDropdown text="Sales Orders" floating labeled className="icon">
+                  <Dropdown.Menu>
+                    {_.map(_.filter(goodsReceipt.links, { type: 'SalesOrders' }), so => (
+                      <Dropdown.Item key={so.referenceId}>
+                        <Link to={'/sales/sales-orders/' + so.referenceId}>{so.referenceName}</Link>
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </StyledDropdown>
+              )}
             </ControlPanel>
             <Page>
               <h1>{goodsReceipt.key}</h1>
