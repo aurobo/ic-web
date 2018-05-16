@@ -1,18 +1,12 @@
-import React from 'react';
-import ControlPanel from '../../../common/ControlPanel';
-import TableRow, { Table, Popup, Dimmer, Loader } from 'semantic-ui-react';
-import Link from 'react-router-dom/Link';
-import TableWithSorting from '../../../common/TableWithSorting';
-import styled from 'styled-components';
 import _ from 'lodash';
-import { withRouter } from 'react-router-dom';
+import React from 'react';
+import { Dimmer, Loader, Table, Button, Input, Segment, List, Grid, Message } from 'semantic-ui-react';
+import { Page } from '../../../common';
 import Api from '../../../common/Api';
-import TableCell from 'semantic-ui-react';
-import Route from 'react-router-dom/Route';
-import Switch from 'react-router-dom/Switch';
-import { Page, MapButton, StatesMenu, UnionTerritoriesMenu } from '../../../common';
-import { api } from '../../../common/Utilities';
+import ControlPanel from '../../../common/ControlPanel';
 import GMap from '../../../common/GMap';
+import TableWithSorting from '../../../common/TableWithSorting';
+import { api } from '../../../common/Utilities';
 
 class ViewLandUnit extends React.Component {
   state = {
@@ -21,6 +15,8 @@ class ViewLandUnit extends React.Component {
       longitude: null,
     },
     loading: false,
+    inEditMode: false,
+    minimumWageError: false,
   };
   handleSuccess = data => {
     this.setState({ data: data });
@@ -29,18 +25,62 @@ class ViewLandUnit extends React.Component {
     this.setState({ data: data });
   };
 
-  handleMarkerPositionChanged = e => {
-    let latitude = e.latLng.lat();
-    let longitude = e.latLng.lng();
+  handleEdit = e => {
+    this.setState({ inEditMode: true });
+  };
+
+  handleUpdate = e => {
+    this.update(this.state.data);
+    this.setState({ inEditMode: false });
+  };
+  handleDelete = e => {
+    this.delete(this.state.data);
+  };
+
+  handleInputChange = e => {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
     let data = { ...this.state.data };
+    let minimumWageError = null;
 
-    this.setState({ loading: true });
+    if (name === 'minimumWage' && value < 200) {
+      minimumWageError = true;
+    } else {
+      minimumWageError = false;
+    }
 
-    data.latitude = latitude;
-    data.longitude = longitude;
+    data[name] = value;
 
+    if (minimumWageError !== null) {
+      this.setState({
+        data,
+        minimumWageError,
+      });
+    } else {
+      this.setState({
+        data,
+      });
+    }
+  };
+  delete = data => {
     api
-      .put('landunits/' + data.id, { latitude: latitude, longitude: longitude })
+      .delete('landunits/' + data.id)
+      .then(response => {
+        console.log('Delete Executed');
+        this.props.history.push('/agriculture/land-units');
+      })
+      .catch(error => {
+        if (error.response && _.isArray(error.response.data)) {
+          console.log('error');
+        } else {
+          console.log('something went wrong');
+        }
+      });
+  };
+  update = data => {
+    api
+      .put('landunits/' + data.id, data)
       .then(response => {
         this.setState({ data: data, loading: false });
       })
@@ -54,110 +94,157 @@ class ViewLandUnit extends React.Component {
       });
   };
 
-  render() {
-    const { data } = this.state;
-    const { latitude, longitude } = data;
+  handleMarkerPositionChanged = e => {
+    let latitude = e.latLng.lat();
+    let longitude = e.latLng.lng();
+    let data = { ...this.state.data };
 
+    this.setState({ loading: true });
+
+    data.latitude = latitude;
+    data.longitude = longitude;
+
+    this.update(data);
+  };
+
+  render() {
+    const { data, inEditMode, minimumWageError } = this.state;
+    const { latitude, longitude } = data;
     return (
       <Api url={'/LandUnits/' + this.props.match.params.id} onSuccess={this.handleSuccess}>
         {data !== null ? (
           <React.Fragment>
             <ControlPanel title={'Land-Unit / ' + data.key} className="no-print">
-              <Page>
-                {' '}
-                <TableWithSorting sortBy="key" sortIn="desc" data={data} onDataChange={this.props.handleDataChange}>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell field="key" type="text">
-                        Key
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="Name" type="text">
-                        Name
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="Area" type="text">
-                        Area
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="Longitude" type="text">
-                        Longitude
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="Latitude" type="text">
-                        Latitude
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="ParentLandUnit" type="date">
-                        ParentLandUnit
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="SoilType" type="text">
-                        SoilType
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="MinimumWage" type="text">
-                        MiniMumWage
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="State" type="text">
-                        State
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="District" type="text">
-                        District
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="WorkOccupation" type="text">
-                        WorkOccupation
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="LabourCategory" type="date">
-                        LabourCategory
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="NoOfPersons" type="text">
-                        NoOfPersons
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="Fertilizers" type="text">
-                        Fertilizers
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="Gender" type="text">
-                        Gender
-                      </Table.HeaderCell>
-                      <Table.HeaderCell field="createdByUserName" type="text">
-                        Created By
-                      </Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    <Table.Row key={data.id}>
-                      <Table.Cell>{data.key}</Table.Cell>
-                      <Table.Cell>{data.name}</Table.Cell>
-                      <Table.Cell>{data.area}</Table.Cell>
-                      <Table.Cell>
-                        {this.state.loading ? (
-                          <Dimmer active>
-                            <Loader />
-                          </Dimmer>
-                        ) : (
-                          data.longitude
-                        )}
-                      </Table.Cell>
-                      <Table.Cell>
-                        {this.state.loading ? (
-                          <Dimmer active>
-                            <Loader />
-                          </Dimmer>
-                        ) : (
-                          data.latitude
-                        )}
-                      </Table.Cell>
-                      <Table.Cell>{data.parentLandUnit}</Table.Cell>
-                      <Table.Cell>{data.soilType}</Table.Cell>
-                      <Table.Cell>{data.minimumWage}</Table.Cell>
-                      <Table.Cell>{data.state}</Table.Cell>
-                      <Table.Cell>{data.district}</Table.Cell>
-                      <Table.Cell>{data.workOccupation}</Table.Cell>
-                      <Table.Cell>{data.labourCategory}</Table.Cell>
-                      <Table.Cell>{data.noOfPersons}</Table.Cell>
-                      <Table.Cell>{data.fertilizers}</Table.Cell>
-                      <Table.Cell>{data.gender}</Table.Cell>
-                      <Table.Cell>{data.createdByUserName}</Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                </TableWithSorting>
-                <GMap lati={latitude} long={longitude} id={data.id} onMarkerPositionChanged={this.handleMarkerPositionChanged} />
-              </Page>
+              {inEditMode ? (
+                <Button disabled={minimumWageError} size="small" onClick={this.handleUpdate} positive>
+                  Update
+                </Button>
+              ) : (
+                <Button size="small" onClick={this.handleEdit}>
+                  Edit
+                </Button>
+              )}
+              <Button size="small" onClick={this.handleDelete} negative>
+                Delete{console.log('clicked')}
+              </Button>
             </ControlPanel>
+            <Page>
+              <Grid>
+                <Grid.Row>
+                  <Grid.Column width={8}>
+                    <Segment color={inEditMode ? 'green' : 'grey'}>
+                      <List divided relaxed>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>State</List.Header>
+                            {inEditMode ? <Input name="state" value={data.state} onChange={this.handleInputChange} /> : data.state}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>District</List.Header>
+                            {inEditMode ? <Input name="district" value={data.district} onChange={this.handleInputChange} /> : data.district}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Work Occupation</List.Header>
+                            {inEditMode ? <Input name="workOccupation" value={data.workOccupation} onChange={this.handleInputChange} /> : data.workOccupation}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>LabourCategory</List.Header>
+                            {inEditMode ? <Input name="labourCategory" value={data.labourCategory} onChange={this.handleInputChange} /> : data.labourCategory}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Fertilizers</List.Header>
+                            {inEditMode ? <Input name="fertilizers" value={data.fertilizers} onChange={this.handleInputChange} /> : data.fertilizers}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Name</List.Header>
+                            {inEditMode ? <Input name="name" value={data.name} onChange={this.handleInputChange} /> : data.name}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Area</List.Header>
+                            {inEditMode ? <Input name="area" value={data.area} onChange={this.handleInputChange} /> : data.area}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Parent Land Unit</List.Header>
+                            {inEditMode ? <Input name="parentLandUnit" value={data.parentLandUnit} onChange={this.handleInputChange} /> : data.parentLandUnit}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Soil Type</List.Header>
+                            {inEditMode ? <Input name="soilType" value={data.soilType} onChange={this.handleInputChange} /> : data.soilType}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Minimum Wage</List.Header>
+                            {inEditMode ? <Input error={minimumWageError} name="minimumWage" value={data.minimumWage} onChange={this.handleInputChange} /> : data.minimumWage}
+                            {minimumWageError ? <Message error header="Out of bounds" content="The value cannot be less than 200." /> : ''}
+                          </List.Content>
+                        </List.Item>
+                      </List>
+                    </Segment>
+                  </Grid.Column>
+                  <Grid.Column width={8}>
+                    <Segment>
+                      <List divided relaxed>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Key</List.Header>
+                            {data.key}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>CreatedBy</List.Header>
+                            {data.createdByUserName}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Latitude</List.Header>
+                            {this.state.loading ? (
+                              <Dimmer active>
+                                <Loader />
+                              </Dimmer>
+                            ) : (
+                              data.latitude
+                            )}
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Content>
+                            <List.Header>Longitude</List.Header>
+                            {this.state.loading ? (
+                              <Dimmer active>
+                                <Loader />
+                              </Dimmer>
+                            ) : (
+                              data.longitude
+                            )}
+                          </List.Content>
+                        </List.Item>
+                      </List>
+                    </Segment>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+
+              <GMap lati={latitude} long={longitude} id={data.id} onMarkerPositionChanged={this.handleMarkerPositionChanged} />
+            </Page>
           </React.Fragment>
         ) : (
           ''

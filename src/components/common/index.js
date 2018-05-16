@@ -1,9 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Message, Button, Input } from 'semantic-ui-react';
-import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import { Link } from 'react-router-dom';
+import { Button, Message } from 'semantic-ui-react';
 import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
+import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
+import styled from 'styled-components';
 
 const theme = {
   primary: '#3b79c6',
@@ -31,8 +31,6 @@ const MapButton = styled(Button)`
   &&& {
     border-radius: 0;
     text-transform: uppercase;
-    padding: 5px;
-    margin: 10px;
   }
 `;
 

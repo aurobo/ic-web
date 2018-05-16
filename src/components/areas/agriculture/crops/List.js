@@ -1,13 +1,12 @@
-import React from 'react';
-import ControlPanel from '../../../common/ControlPanel';
-import TableRow, { Table, Popup } from 'semantic-ui-react';
-import { FlatButton } from '../../../common';
-import Link from 'react-router-dom/Link';
-import TableWithSorting from '../../../common/TableWithSorting';
 import _ from 'lodash';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
+import Link from 'react-router-dom/Link';
+import { Popup, Table } from 'semantic-ui-react';
+import { FlatButton } from '../../../common';
 import Api from '../../../common/Api';
-import TableCell from 'semantic-ui-react';
+import ControlPanel from '../../../common/ControlPanel';
+import TableWithSorting from '../../../common/TableWithSorting';
 
 class List extends React.Component {
   state = {

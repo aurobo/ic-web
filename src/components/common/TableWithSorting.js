@@ -63,7 +63,7 @@ function withSorting(WrappedComponent) {
             <Loader size="large" />
           </Dimmer>
 
-          <WrappedComponent sortable celled {...otherProps}>
+          <WrappedComponent style={{ width: '100%' }} sortable celled stackable {...otherProps}>
             {React.Children.map(this.props.children, child => {
               if (child.type.name === 'TableHeader') {
                 return React.cloneElement(

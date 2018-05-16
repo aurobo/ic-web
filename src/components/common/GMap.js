@@ -75,21 +75,6 @@ class GMap extends React.Component {
     longitude: null,
   };
 
-  deleteLandUnit = data => {
-    api
-      .delete('landunits/' + this.props.id)
-      .then(response => {
-        console.log('Delete Executed');
-        this.props.history.push('/agriculture/land-units');
-      })
-      .catch(error => {
-        if (error.response && _.isArray(error.response.data)) {
-          console.log('error');
-        } else {
-          console.log('something went wrong');
-        }
-      });
-  };
   render() {
     return (
       <div>
@@ -123,7 +108,6 @@ class GMap extends React.Component {
             long: this.props.long,
           }}
         />{' '}
-        <MapButton onClick={this.updateLatLng}> Submit </MapButton> <MapButton onClick={this.deleteLandUnit}> Delete </MapButton> <MapButton onClick={this.changePage}> Change </MapButton>{' '}
       </div>
     );
   }

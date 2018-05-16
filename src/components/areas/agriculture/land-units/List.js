@@ -1,6 +1,6 @@
 import React from 'react';
 import ControlPanel from '../../../common/ControlPanel';
-import TableRow, { Table, Popup } from 'semantic-ui-react';
+import TableRow, { Table, Popup, Button } from 'semantic-ui-react';
 import { FlatButton } from '../../../common';
 import Link from 'react-router-dom/Link';
 import TableWithSorting from '../../../common/TableWithSorting';
@@ -54,15 +54,17 @@ class List extends React.Component {
               inverted
               trigger={
                 <span>
-                  <FlatButton size="tiny" primary disabled>
+                  <Button size="small" primary disabled>
                     Create
-                  </FlatButton>
+                  </Button>
                 </span>
               }
               content="Temporarily inactive. Use import method instead."
             />
             <Link to="/agriculture/land-units/import-excel">
-              <FlatButton size="tiny">Import</FlatButton>
+              <Button size="small" primary>
+                Import
+              </Button>
             </Link>
           </ControlPanel>
           <TableWithSorting sortBy="key" sortIn="desc" data={data} onDataChange={this.handleDataChange}>
