@@ -6,6 +6,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import SalesOrder from './SalesOrder';
 import Invoice from './Invoice';
 import { DropdownLink } from '@innovic/components/shared';
+import Invoices from './Invoices';
 
 class Sales extends React.Component {
   render() {
@@ -15,6 +16,7 @@ class Sales extends React.Component {
           <Dropdown item text="Menu" simple>
             <Dropdown.Menu>
               <DropdownLink to="/sales/sales-orders">Sales Orders</DropdownLink>
+              <DropdownLink to="/sales/invoices">Invoices</DropdownLink>
             </Dropdown.Menu>
           </Dropdown>
         </TopNav>
@@ -30,6 +32,7 @@ class Sales extends React.Component {
             render={() => <ImportExcel uri="/materials/upload" redirectUri="/sales/materials" />}
           />
           <Route path="/sales/invoices/:id" component={Invoice} />
+          <Route path="/sales/invoices" component={Invoices} />
           <Redirect to="/sales/sales-orders" />
         </Switch>
       </div>
