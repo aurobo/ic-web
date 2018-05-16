@@ -1,6 +1,6 @@
 import React from 'react';
 import ControlPanel from '../../../common/ControlPanel';
-import TableRow, { Table, Popup, Label } from 'semantic-ui-react';
+import TableRow, { Table, Popup, Label, Grid, Segment, List, Input, Button } from 'semantic-ui-react';
 import Link from 'react-router-dom/Link';
 import TableWithSorting from '../../../common/TableWithSorting';
 import styled from 'styled-components';
@@ -11,14 +11,17 @@ import TableCell from 'semantic-ui-react';
 import Route from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
 import { Page, MapButton } from '../../../common';
+import { api } from '../../../common/Utilities';
 const MyLabel = styled(Label)`
   &&& {
+    margin-bottom: 5px;
   }
 `;
-class ViewLandUnit extends React.Component {
+class Crop extends React.Component {
   state = {
     crop: null,
     toDoTasks: null,
+    inEditMode: false,
   };
   handleSuccess = data => {
     this.setState({ crop: data });
@@ -28,9 +31,47 @@ class ViewLandUnit extends React.Component {
     this.setState({ crop: data });
     this.setState({ toDoTasks: data.toDoTasks });
   };
+  handleEdit = e => {
+    this.setState({ inEditMode: true });
+  };
+  handleUpdate = e => {
+    this.update(this.state.crop);
+    this.setState({ inEditMode: false });
+  };
+  handleCropInputChange = e => {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    let cropData = { ...this.state.crop };
+    cropData[name] = value;
+    this.setState({ crop: cropData });
+  };
+  handleTaskInputChange = e => {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    let taskData = { ...this.state.crop.toDoTasks };
+    taskData[name] = value;
+    this.setState({ crop: taskData });
+  };
+  update = data => {
+    api
+      .put('crops/' + data.id, data)
+      .then(response => {
+        this.setState({ crop: data });
+        this.setState({ toDoTasks: data.toDoTasks });
+      })
+      .catch(error => {
+        if (error.response && _.isArray(error.response.data)) {
+          console.log('error');
+        } else {
+          console.log('something went wrong');
+        }
+      });
+  };
 
   render() {
-    const { crop, toDoTasks } = this.state;
+    const { crop, inEditMode, toDoTasks } = this.state;
     console.log(crop);
     console.log(toDoTasks);
 
@@ -39,11 +80,55 @@ class ViewLandUnit extends React.Component {
         {crop !== null ? (
           <React.Fragment>
             <ControlPanel title={'Crop / ' + crop.key} className="no-print">
+              {' '}
+              {inEditMode ? (
+                <Button size="small" onClick={this.handleUpdate} positive>
+                  Update
+                </Button>
+              ) : (
+                <Button size="small" onClick={this.handleEdit}>
+                  Edit
+                </Button>
+              )}
               <Page>
-                {' '}
                 <MyLabel ui red ribbon label>
                   Crop Details
                 </MyLabel>
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column width={8}>
+                      <Segment color={inEditMode ? 'green' : 'grey'}>
+                        <List divided relaxed>
+                          <List.Item>
+                            <List.Content>
+                              <List.Header>Name</List.Header>
+                              {inEditMode ? <Input name="name" value={crop.name} onChange={this.handleCropInputChange} /> : crop.name}
+                            </List.Content>
+                          </List.Item>
+                          <List.Item>
+                            <List.Content>
+                              <List.Header>Period</List.Header>
+                              {inEditMode ? <Input name="period" value={crop.period} onChange={this.handleCropInputChange} /> : crop.period}
+                            </List.Content>
+                          </List.Item>
+                          <List.Item>
+                            <List.Content>
+                              <List.Header>Crop Spacing</List.Header>
+                              {inEditMode ? <Input name="cropSpacing" value={crop.cropSpacing} onChange={this.handleCropInputChange} /> : crop.cropSpacing}
+                            </List.Content>
+                          </List.Item>
+                          <List.Item>
+                            <List.Content>
+                              <List.Header>Row Spacing</List.Header>
+                              {inEditMode ? <Input name="rowSpacing" value={crop.rowSpacing} onChange={this.handleCropInputChange} /> : crop.rowSpacing}
+                            </List.Content>
+                          </List.Item>
+                        </List>
+                      </Segment>
+                    </Grid.Column>
+                  </Grid.Row>
+                </Grid>
+
                 <TableWithSorting sortBy="key" sortIn="desc" data={crop} onDataChange={this.props.handleDataChange}>
                   <Table.Header>
                     <Table.Row>
@@ -121,7 +206,6 @@ class ViewLandUnit extends React.Component {
                     ))}
                   </Table.Body>
                 </TableWithSorting>
-                <MapButton onClick={this.deleteLandUnit}> Delete </MapButton>
               </Page>
             </ControlPanel>
           </React.Fragment>
@@ -132,4 +216,4 @@ class ViewLandUnit extends React.Component {
     );
   }
 }
-export default ViewLandUnit;
+export default Crop;
