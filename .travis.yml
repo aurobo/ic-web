@@ -30,3 +30,9 @@ deploy:
     skip_cleanup: true
     on:
       branch: dev
+  - provider: surge
+    project: ./build/
+    domain: innovic.surge.sh  
+    skip_cleanup: true
+    on:
+      branch: dev

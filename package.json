@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "workspaces": ["src/components", "src/assets"],
-  "homepage": "http://innovic.redsoftware.in",
+  "homepage": "http://innovic.aurobo.in",
   "dependencies": {
     "@innovic/components": "0.1.0",
     "axios": "^0.17.1",
