@@ -121,6 +121,7 @@ class ViewLandUnit extends React.Component {
                     ))}
                   </Table.Body>
                 </TableWithSorting>
+                <MapButton onClick={this.deleteLandUnit}> Delete </MapButton>
               </Page>
             </ControlPanel>
           </React.Fragment>

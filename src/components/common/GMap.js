@@ -9,15 +9,6 @@ import { MapButton } from '.';
 import { withRouter } from 'react-router-dom';
 /* eslint-disable no-undef */
 
-var latitude = 23.129472254387604;
-var longitude = 72.54239720726036;
-
-function onMarkerPositionChanged(e) {
-  latitude = e.latLng.lat();
-  longitude = e.latLng.lng();
-  console.log('Lat=' + latitude);
-  console.log('Long=' + longitude);
-}
 const { compose, withProps, lifecycle } = require('recompose');
 const { DrawingManager } = require('react-google-maps/lib/components/drawing/DrawingManager');
 const { withScriptjs, withGoogleMap, GoogleMap, Marker } = require('react-google-maps');
@@ -69,10 +60,10 @@ const MapWithAMarker = compose(withScriptjs, withGoogleMap)(props => (
     />{' '}
     <Marker
       defaultDraggable={true}
-      onDragEnd={onMarkerPositionChanged}
+      onDragEnd={props.onMarkerPositionChanged}
       position={{
-        lat: latitude,
-        lng: longitude,
+        lat: parseFloat(props.coordinates.lati),
+        lng: parseFloat(props.coordinates.long),
       }}
     />{' '}
   </GoogleMap>
@@ -83,25 +74,7 @@ class GMap extends React.Component {
     latitude: null,
     longitude: null,
   };
-  updateLatLng = data => {
-    let coordinates = {
-      latitude: latitude,
-      longitude: longitude,
-    };
 
-    api
-      .put('landunits/' + this.props.id, coordinates)
-      .then(response => {
-        console.log('Executed');
-      })
-      .catch(error => {
-        if (error.response && _.isArray(error.response.data)) {
-          console.log('error');
-        } else {
-          console.log('something went wrong');
-        }
-      });
-  };
   deleteLandUnit = data => {
     api
       .delete('landunits/' + this.props.id)
@@ -118,9 +91,6 @@ class GMap extends React.Component {
       });
   };
   render() {
-    console.log(this.props.id);
-    console.log(this.props.lati);
-    console.log(this.props.long);
     return (
       <div>
         <h1> Maps </h1>{' '}
@@ -147,17 +117,13 @@ class GMap extends React.Component {
               }}
             />
           }
+          onMarkerPositionChanged={this.props.onMarkerPositionChanged}
           coordinates={{
             lati: this.props.lati,
             long: this.props.long,
           }}
         />{' '}
-        <MapButton onClick={this.updateLatLng}> Submit </MapButton>{' '}
-        <MapButton temporary disabled onClick={this.deleteLandUnit}>
-          {' '}
-          Delete{' '}
-        </MapButton>{' '}
-        <MapButton onClick={this.changePage}> Change </MapButton>{' '}
+        <MapButton onClick={this.updateLatLng}> Submit </MapButton> <MapButton onClick={this.deleteLandUnit}> Delete </MapButton> <MapButton onClick={this.changePage}> Change </MapButton>{' '}
       </div>
     );
   }

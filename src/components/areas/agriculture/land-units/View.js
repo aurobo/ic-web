@@ -1,6 +1,6 @@
 import React from 'react';
 import ControlPanel from '../../../common/ControlPanel';
-import TableRow, { Table, Popup } from 'semantic-ui-react';
+import TableRow, { Table, Popup, Dimmer, Loader } from 'semantic-ui-react';
 import Link from 'react-router-dom/Link';
 import TableWithSorting from '../../../common/TableWithSorting';
 import styled from 'styled-components';
@@ -11,23 +11,53 @@ import TableCell from 'semantic-ui-react';
 import Route from 'react-router-dom/Route';
 import Switch from 'react-router-dom/Switch';
 import { Page, MapButton, StatesMenu, UnionTerritoriesMenu } from '../../../common';
+import { api } from '../../../common/Utilities';
 import GMap from '../../../common/GMap';
 
 class ViewLandUnit extends React.Component {
   state = {
-    data: null,
+    data: {
+      latitude: null,
+      longitude: null,
+    },
+    loading: false,
   };
   handleSuccess = data => {
-    console.log(data);
     this.setState({ data: data });
   };
   handleDataChange = data => {
     this.setState({ data: data });
   };
 
+  handleMarkerPositionChanged = e => {
+    let latitude = e.latLng.lat();
+    let longitude = e.latLng.lng();
+    let data = { ...this.state.data };
+
+    this.setState({ loading: true });
+
+    data.latitude = latitude;
+    data.longitude = longitude;
+
+    api
+      .put('landunits/' + data.id, { latitude: latitude, longitude: longitude })
+      .then(response => {
+        this.setState({ data: data, loading: false });
+      })
+      .catch(error => {
+        this.setState({ loading: false });
+        if (error.response && _.isArray(error.response.data)) {
+          console.log('error');
+        } else {
+          console.log('something went wrong');
+        }
+      });
+  };
+
   render() {
     const { data } = this.state;
-    console.log(this.props.history);
+    const { latitude, longitude } = data;
+
     return (
       <Api url={'/LandUnits/' + this.props.match.params.id} onSuccess={this.handleSuccess}>
         {data !== null ? (
@@ -93,8 +123,24 @@ class ViewLandUnit extends React.Component {
                       <Table.Cell>{data.key}</Table.Cell>
                       <Table.Cell>{data.name}</Table.Cell>
                       <Table.Cell>{data.area}</Table.Cell>
-                      <Table.Cell>{data.longitude}</Table.Cell>
-                      <Table.Cell>{data.latitude}</Table.Cell>
+                      <Table.Cell>
+                        {this.state.loading ? (
+                          <Dimmer active>
+                            <Loader />
+                          </Dimmer>
+                        ) : (
+                          data.longitude
+                        )}
+                      </Table.Cell>
+                      <Table.Cell>
+                        {this.state.loading ? (
+                          <Dimmer active>
+                            <Loader />
+                          </Dimmer>
+                        ) : (
+                          data.latitude
+                        )}
+                      </Table.Cell>
                       <Table.Cell>{data.parentLandUnit}</Table.Cell>
                       <Table.Cell>{data.soilType}</Table.Cell>
                       <Table.Cell>{data.minimumWage}</Table.Cell>
@@ -109,7 +155,7 @@ class ViewLandUnit extends React.Component {
                     </Table.Row>
                   </Table.Body>
                 </TableWithSorting>
-                <GMap lati="23.129472254387604" long="72.54239720726036" id={data.id} />
+                <GMap lati={latitude} long={longitude} id={data.id} onMarkerPositionChanged={this.handleMarkerPositionChanged} />
               </Page>
             </ControlPanel>
           </React.Fragment>
