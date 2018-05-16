@@ -23,22 +23,7 @@ class Invoices extends React.Component {
     const { data } = this.state;
     return (
       <Api url="/invoices" onSuccess={this.handleSuccess}>
-        <ControlPanel title="Invoices">
-          {/* <Popup
-            inverted
-            trigger={
-              <span>
-                <FlatButton size="tiny" primary disabled>
-                  Create
-                </FlatButton>
-              </span>
-            }
-            content="Temporarily inactive. Use import method instead."
-          />
-          <Link to="/sales/import-excel">
-            <FlatButton size="tiny">Import</FlatButton>
-          </Link> */}
-        </ControlPanel>
+        <ControlPanel title="Invoices" />
         <TableWithSorting sortBy="key" sortIn="desc" data={data} onDataChange={this.handleDataChange}>
           <Table.Header>
             <Table.Row>
