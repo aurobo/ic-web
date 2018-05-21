@@ -1,7 +1,10 @@
 import React from 'react';
 
 const IfHasPermission = props => {
-  const LocalStoagePermissions = ['viewInvoice', 'EditInvoice'];
+  const LocalStoagePermissions = window.localStorage
+    .getItem('claims')
+    .split(',')
+    .filter(val => val);
   let allowed = true;
 
   //bypass the permission checks if logged in user is admin
