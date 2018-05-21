@@ -43,6 +43,7 @@ class SalesOrder extends React.Component {
     salesOrder: {
       key: '',
       metaData: {},
+      invoices: [],
     },
   };
 
@@ -275,15 +276,19 @@ class SalesOrder extends React.Component {
                     Create Invoice
                   </Link>
                 </FlatButton>
-                <StyledDropdown text="Invoices" floating labeled className="icon">
-                  <Dropdown.Menu>
-                    {_.map(this.state.salesOrder.invoices, invoice => (
-                      <Dropdown.Item key={invoice.id}>
-                        <Link to={'/sales/invoices/' + invoice.id}>{invoice.key}</Link>
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </StyledDropdown>
+                {this.state.salesOrder.invoices.length > 0 ? (
+                  <StyledDropdown text="Invoices" floating labeled className="icon">
+                    <Dropdown.Menu>
+                      {_.map(this.state.salesOrder.invoices, invoice => (
+                        <Dropdown.Item key={invoice.id}>
+                          <Link to={'/sales/invoices/' + invoice.id}>{invoice.key}</Link>
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </StyledDropdown>
+                ) : (
+                  ''
+                )}
               </ControlPanel>
               <SalesOrderSection>
                 <Grid divided="vertically" className="no-screen">

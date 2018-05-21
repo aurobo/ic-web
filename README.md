@@ -14,5 +14,5 @@ REACT_APP_API=http://localhost:49520/api
 ## Final Results / Demos
 
 * `yarn start` to browse locally
-* [early-crush.surge.sh](early-crush.surge.sh) points to dev branch
+* [early-crush.surge.sh](early-crush.surge.sh) & [innovic.surge.sh](innovic.surge.sh) point to dev branch
 * [innovic.aurobo.in](innovic.aurobo.in) points to master branch
