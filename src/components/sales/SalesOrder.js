@@ -44,6 +44,7 @@ class SalesOrder extends React.Component {
       key: '',
       metaData: {},
       invoices: [],
+      links: [],
     },
   };
 
@@ -289,6 +290,23 @@ class SalesOrder extends React.Component {
                 ) : (
                   ''
                 )}
+                <StyledDropdown text="Purchase Requests" floating labeled className="icon">
+                  <Dropdown.Menu>
+                    {_.map(
+                      this.state.salesOrder.links,
+                      link =>
+                        link.purchaseRequestId !== null ? (
+                          <Dropdown.Item key={link.purchaseRequestId}>
+                            <Link to={'/purchase/purchase-requests/' + link.purchaseRequestId}>
+                              {link.purchaseRequestKey}
+                            </Link>
+                          </Dropdown.Item>
+                        ) : (
+                          ''
+                        )
+                    )}
+                  </Dropdown.Menu>
+                </StyledDropdown>
               </ControlPanel>
               <SalesOrderSection>
                 <Grid divided="vertically" className="no-screen">

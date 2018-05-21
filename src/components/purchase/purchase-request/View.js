@@ -17,7 +17,9 @@ const StyledDropdown = styled(Dropdown)`
 
 class ViewPurchaseRequest extends React.Component {
   state = {
-    purchaseRequest: null,
+    purchaseRequest: {
+      purchaseOrders: [],
+    },
     purchaseRequestItems: null,
   };
 
@@ -37,22 +39,32 @@ class ViewPurchaseRequest extends React.Component {
         {purchaseRequest !== null ? (
           <React.Fragment>
             <ControlPanel title={'Purchase Requests / ' + purchaseRequest.key} className="no-print">
-              <StyledDropdown text="Purchase Orders" floating labeled className="icon">
-                <Dropdown.Menu>
-                  {_.map(purchaseRequest.purchaseOrders, po => (
-                    <Dropdown.Item key={po.id}>
-                      <Link to={'/purchase/purchase-orders/' + po.id}>{po.key}</Link>
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </StyledDropdown>
+              {purchaseRequest.purchaseOrders.length > 0 ? (
+                <StyledDropdown text="Purchase Orders" floating labeled className="icon">
+                  <Dropdown.Menu>
+                    {_.map(purchaseRequest.purchaseOrders, po => (
+                      <Dropdown.Item key={po.id}>
+                        <Link to={'/purchase/purchase-orders/' + po.id}>{po.key}</Link>
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </StyledDropdown>
+              ) : (
+                ''
+              )}
               <StyledDropdown text="Sales Orders" floating labeled className="icon">
                 <Dropdown.Menu>
-                  {_.map(purchaseRequest.links, link => (
-                    <Dropdown.Item key={link.id}>
-                      <Link to={'/sales/sales-orders/' + link.referenceId}>{link.referenceName}</Link>
-                    </Dropdown.Item>
-                  ))}
+                  {_.map(
+                    purchaseRequest.links,
+                    link =>
+                      link.salesOrderId !== null ? (
+                        <Dropdown.Item key={link.salesOrderId}>
+                          <Link to={'/sales/sales-orders/' + link.salesOrderId}>{link.salesOrderKey}</Link>
+                        </Dropdown.Item>
+                      ) : (
+                        ''
+                      )
+                  )}
                 </Dropdown.Menu>
               </StyledDropdown>
             </ControlPanel>
