@@ -17,9 +17,7 @@ class Sales extends React.Component {
           <Dropdown item text="Menu" simple>
             <Dropdown.Menu>
               <DropdownLink to="/sales/sales-orders">Sales Orders</DropdownLink>
-              <IfHasPermission permissions={['viewInvoice']}>
-                <DropdownLink to="/sales/invoices">Invoices</DropdownLink>
-              </IfHasPermission>
+              <DropdownLink to="/sales/invoices">Invoices</DropdownLink>
             </Dropdown.Menu>
           </Dropdown>
         </TopNav>
