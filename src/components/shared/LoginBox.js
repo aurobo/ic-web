@@ -67,6 +67,10 @@ class LoginBox extends React.Component {
       })
       .then(response => {
         window.localStorage.setItem('token', response.data.access_token);
+
+        //setting role staticlly till we have respective implementation on API
+        window.localStorage.setItem('role', 'admin');
+
         this.props.onAuthSuccess();
       })
       .catch(error => {

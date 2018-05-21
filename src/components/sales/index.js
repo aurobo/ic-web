@@ -7,6 +7,7 @@ import SalesOrder from './SalesOrder';
 import Invoice from './Invoice';
 import { DropdownLink } from '@innovic/components/shared';
 import Invoices from './Invoices';
+import IfHasPermission from './../shared/IfHasPermission';
 
 class Sales extends React.Component {
   render() {
@@ -16,7 +17,9 @@ class Sales extends React.Component {
           <Dropdown item text="Menu" simple>
             <Dropdown.Menu>
               <DropdownLink to="/sales/sales-orders">Sales Orders</DropdownLink>
-              <DropdownLink to="/sales/invoices">Invoices</DropdownLink>
+              <IfHasPermission permissions={['viewInvoice']}>
+                <DropdownLink to="/sales/invoices">Invoices</DropdownLink>
+              </IfHasPermission>
             </Dropdown.Menu>
           </Dropdown>
         </TopNav>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ListCell from '../shared/anatomy/ListCell';
-import IfHasPermission from '../shared/If';
 class Invoices extends React.Component {
   render() {
     const listTableColumns = [
@@ -33,11 +32,7 @@ class Invoices extends React.Component {
       },
     ];
 
-    return (
-      <IfHasPermission permissions={['viewInvoice']}>
-        <ListCell name="Invoices" getUrl="/invoices" tableColumns={listTableColumns} />
-      </IfHasPermission>
-    );
+    return <ListCell name="Invoices" getUrl="/invoices" tableColumns={listTableColumns} />;
   }
 }
 
