@@ -17,7 +17,10 @@ const StyledDropdown = styled(Dropdown)`
 
 class ViewPurchaseOrder extends React.Component {
   state = {
-    purchaseOrder: null,
+    purchaseOrder: {
+      links: [],
+      metaData: {},
+    },
     purchaseOrderItems: null,
   };
 
@@ -32,7 +35,6 @@ class ViewPurchaseOrder extends React.Component {
 
   render() {
     const { purchaseOrder, purchaseOrderItems } = this.state;
-    const links = purchaseOrder ? _.uniqBy(_.flatMap(purchaseOrder.purchaseRequests, 'links'), 'referenceId') : [];
 
     return (
       <Api url={'/PurchaseOrders/' + this.props.match.params.id} onSuccess={this.handleSuccess}>
@@ -48,13 +50,28 @@ class ViewPurchaseOrder extends React.Component {
                   ))}
                 </Dropdown.Menu>
               </StyledDropdown>
-              <StyledDropdown text="Sales Orders" floating labeled className="icon">
+              <StyledDropdown text="Goods Receipts" floating labeled className="icon">
                 <Dropdown.Menu>
-                  {_.map(links, link => (
-                    <Dropdown.Item key={link.id}>
-                      <Link to={'/sales/sales-orders/' + link.referenceId}>{link.referenceName}</Link>
+                  {_.map(purchaseOrder.goodsReceipts, gr => (
+                    <Dropdown.Item key={gr.id}>
+                      <Link to={'/purchase/goods-receipts/' + gr.id}>{gr.key}</Link>
                     </Dropdown.Item>
                   ))}
+                </Dropdown.Menu>
+              </StyledDropdown>
+              <StyledDropdown text="Goods Issues" floating labeled className="icon">
+                <Dropdown.Menu>
+                  {_.map(
+                    purchaseOrder.links,
+                    link =>
+                      link.goodsIssueId !== null ? (
+                        <Dropdown.Item key={link.goodsIssueId}>
+                          <Link to={'/purchase/goods-issues/' + link.goodsIssueId}>{link.goodsIssueKey}</Link>
+                        </Dropdown.Item>
+                      ) : (
+                        ''
+                      )
+                  )}
                 </Dropdown.Menu>
               </StyledDropdown>
             </ControlPanel>

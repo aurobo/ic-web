@@ -43,6 +43,8 @@ class SalesOrder extends React.Component {
     salesOrder: {
       key: '',
       metaData: {},
+      invoices: [],
+      links: [],
     },
   };
 
@@ -275,13 +277,34 @@ class SalesOrder extends React.Component {
                     Create Invoice
                   </Link>
                 </FlatButton>
-                <StyledDropdown text="Invoices" floating labeled className="icon">
+                {this.state.salesOrder.invoices.length > 0 ? (
+                  <StyledDropdown text="Invoices" floating labeled className="icon">
+                    <Dropdown.Menu>
+                      {_.map(this.state.salesOrder.invoices, invoice => (
+                        <Dropdown.Item key={invoice.id}>
+                          <Link to={'/sales/invoices/' + invoice.id}>{invoice.key}</Link>
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </StyledDropdown>
+                ) : (
+                  ''
+                )}
+                <StyledDropdown text="Purchase Requests" floating labeled className="icon">
                   <Dropdown.Menu>
-                    {_.map(this.state.salesOrder.invoices, invoice => (
-                      <Dropdown.Item key={invoice.id}>
-                        <Link to={'/sales/invoices/' + invoice.id}>{invoice.key}</Link>
-                      </Dropdown.Item>
-                    ))}
+                    {_.map(
+                      this.state.salesOrder.links,
+                      link =>
+                        link.purchaseRequestId !== null ? (
+                          <Dropdown.Item key={link.purchaseRequestId}>
+                            <Link to={'/purchase/purchase-requests/' + link.purchaseRequestId}>
+                              {link.purchaseRequestKey}
+                            </Link>
+                          </Dropdown.Item>
+                        ) : (
+                          ''
+                        )
+                    )}
                   </Dropdown.Menu>
                 </StyledDropdown>
               </ControlPanel>

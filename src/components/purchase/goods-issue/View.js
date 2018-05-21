@@ -39,11 +39,17 @@ class ViewGoodsIssue extends React.Component {
             <ControlPanel title={'Goods Issues / ' + goodsIssue.key} className="no-print">
               <StyledDropdown text="Purchase Orders" floating labeled className="icon">
                 <Dropdown.Menu>
-                  {_.map(goodsIssue.links, link => (
-                    <Dropdown.Item key={link.id}>
-                      <Link to={'/purchase/purchase-orders/' + link.referenceId}>{link.referenceName}</Link>
-                    </Dropdown.Item>
-                  ))}
+                  {_.map(
+                    goodsIssue.links,
+                    link =>
+                      link.purchaseOrderId !== null ? (
+                        <Dropdown.Item key={link.purchaseOrderId}>
+                          <Link to={'/purchase/purchase-orders/' + link.purchaseOrderId}>{link.purchaseOrderKey}</Link>
+                        </Dropdown.Item>
+                      ) : (
+                        ''
+                      )
+                  )}
                 </Dropdown.Menu>
               </StyledDropdown>
             </ControlPanel>
