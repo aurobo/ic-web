@@ -23,15 +23,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "precommit": "pretty-quick --staged",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "precommit": "pretty-quick --staged"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.4.0",
-    "@storybook/addon-links": "^3.4.0",
-    "@storybook/addons": "^3.4.0",
-    "@storybook/react": "^3.4.0",
     "babel-core": "^6.26.0",
     "babel-runtime": "^6.26.0",
     "eslint-plugin-prettier": "^2.6.0",
