@@ -4,6 +4,7 @@ import { Icon, Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 import innovicLogo from '@innovic/assets/img/innovic-logo.png';
 import TopNav from './TopNav';
+import IfHasPermission from './IfHasPermission';
 
 const InnovicLogo = styled(Image)`
   &&& {
@@ -62,14 +63,18 @@ class Dashboard extends React.Component {
             <StyledIcon name="database" />
             <IconLabel>Master</IconLabel>
           </IconLink>
-          <IconLink to="/sales">
-            <StyledIcon name="truck" flipped="horizontally" />
-            <IconLabel>Sales</IconLabel>
-          </IconLink>
-          <IconLink to="/purchase">
-            <StyledIcon name="truck" />
-            <IconLabel>Purchase</IconLabel>
-          </IconLink>
+          <IfHasPermission permissions={['accessSales']}>
+            <IconLink to="/sales">
+              <StyledIcon name="truck" flipped="horizontally" />
+              <IconLabel>Sales</IconLabel>
+            </IconLink>
+          </IfHasPermission>
+          <IfHasPermission permissions={['accessPurchase']}>
+            <IconLink to="/purchase">
+              <StyledIcon name="truck" />
+              <IconLabel>Purchase</IconLabel>
+            </IconLink>
+          </IfHasPermission>
         </Icons>
         <InnovicLogo src={innovicLogo} size="huge" />
       </div>

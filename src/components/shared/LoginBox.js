@@ -3,6 +3,7 @@ import logo from '@innovic/assets/img/logo.png';
 import { Button, Form, Card, Input } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { api } from '@innovic/components/shared/Utilities';
+import { getClaims } from './ClaimsManager';
 
 const Wrapper = styled.div`
   display: flex;
@@ -67,6 +68,11 @@ class LoginBox extends React.Component {
       })
       .then(response => {
         window.localStorage.setItem('token', response.data.access_token);
+
+        //setting role staticlly till we have respective implementation on API
+        window.localStorage.setItem('role', 'admin');
+        window.localStorage.setItem('claims', getClaims(window.localStorage.getItem('role')));
+
         this.props.onAuthSuccess();
       })
       .catch(error => {
