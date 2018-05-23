@@ -2,9 +2,7 @@ import React from 'react';
 import logo from '@innovic/assets/img/logo.png';
 import { Button, Form, Card, Input } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { api } from '@innovic/components/shared/Utilities';
-import { getClaims } from './ClaimsManager';
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 
 const Wrapper = styled.div`
   display: flex;
@@ -75,10 +73,7 @@ class LoginBox extends React.Component {
       .catch(error => {
         this.setState({ loading: false });
 
-        console.log(error);
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        this.setState({ loading: false });
+        console.log(error.code + ' ' + error.message);
       });
   };
 

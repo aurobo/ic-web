@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { LoginBox, Dashboard, LoginLayout, NotFound } from '@innovic/components/shared';
 import { Sales, Master, Purchase } from '@innovic/components';
+import firebase from 'firebase';
 
 class App extends Component {
   state = {
@@ -13,16 +14,30 @@ class App extends Component {
   };
 
   logout = () => {
-    window.localStorage.clear();
-    this.setState({ isAuthenticated: false });
+    firebase
+      .auth()
+      .signOut()
+      .then(
+        response => {
+          window.localStorage.clear();
+          this.setState({ isAuthenticated: false });
+        },
+        error => {
+          console.log(error.code + ' ' + error.message);
+        }
+      );
   };
 
   componentWillMount() {
-    if (window.localStorage.getItem('token')) {
-      this.setState({ isAuthenticated: true });
-    } else {
-      this.logout();
-    }
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log(user);
+        console.log('current User' + JSON.stringify(firebase.auth().currentUser));
+        this.setState({ isAuthenticated: true });
+      } else {
+        this.logout();
+      }
+    });
   }
 
   render() {
