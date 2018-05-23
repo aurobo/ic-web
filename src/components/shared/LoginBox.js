@@ -4,6 +4,7 @@ import { Button, Form, Card, Input } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { api } from '@innovic/components/shared/Utilities';
 import { getClaims } from './ClaimsManager';
+import * as firebase from 'firebase';
 
 const Wrapper = styled.div`
   display: flex;
@@ -58,25 +59,26 @@ class LoginBox extends React.Component {
     });
   };
 
-  authenticate = (username, password) => {
+  authenticate = (email, password) => {
     this.setState({ loading: true });
-    var data = 'grant_type=password&username=' + username + '&password=' + password;
-    api
-      .post('/token', data, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        onDownloadProgress: progressEvent => this.setState({ loading: false }),
-      })
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
       .then(response => {
-        window.localStorage.setItem('token', response.data.access_token);
-
-        //setting role staticlly till we have respective implementation on API
+        //TO handle other code dependecies, currently setting them dummmy
+        window.localStorage.setItem('token', 'something');
         window.localStorage.setItem('role', 'admin');
-        window.localStorage.setItem('claims', getClaims(window.localStorage.getItem('role')));
 
+        this.setState({ loading: false });
         this.props.onAuthSuccess();
       })
       .catch(error => {
-        window.localStorage.clear();
+        this.setState({ loading: false });
+
+        console.log(error);
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        this.setState({ loading: false });
       });
   };
 
