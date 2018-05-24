@@ -10,7 +10,24 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
-admin.initializeApp();
+
+const serviceAccount = require('./credentials/data.json');
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://aurobo-a6fc8.firebaseio.com',
+});
+
+exports.getAllUsers = functions.https.onRequest((req, res) => {
+  admin
+    .auth()
+    .listUsers()
+    .then(response => {
+      return res.status(200).send(JSON.stringify(response.users));
+    })
+    .catch(error => {
+      return res.status(500).send({ error: 'error occured' });
+    });
+});
 
 // Take the text parameter passed to this HTTP endpoint and insert it into the
 // Realtime Database under the path /messages/:pushId/original

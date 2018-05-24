@@ -1,0 +1,58 @@
+[debug] [2018-05-23T12:25:22.143Z] ----------------------------------------------------------------------
+[debug] [2018-05-23T12:25:22.158Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\sanket\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-05-23T12:25:22.158Z] CLI Version:   3.18.5
+[debug] [2018-05-23T12:25:22.158Z] Platform:      win32
+[debug] [2018-05-23T12:25:22.158Z] Node Version:  v8.11.1
+[debug] [2018-05-23T12:25:22.158Z] Time:          Wed May 23 2018 17:55:22 GMT+0530 (India Standard Time)
+[debug] [2018-05-23T12:25:22.158Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-23T12:25:22.180Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-23T12:25:22.180Z] > authorizing via signed-in user
+[debug] [2018-05-23T12:25:22.180Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/aurobo-a6fc8  
+  
+ Wed May 23 2018 17:55:22 GMT+0530 (India Standard Time)
+[debug] [2018-05-23T12:27:11.642Z] ----------------------------------------------------------------------
+[debug] [2018-05-23T12:27:11.648Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\sanket\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-05-23T12:27:11.648Z] CLI Version:   3.18.5
+[debug] [2018-05-23T12:27:11.648Z] Platform:      win32
+[debug] [2018-05-23T12:27:11.648Z] Node Version:  v8.11.1
+[debug] [2018-05-23T12:27:11.650Z] Time:          Wed May 23 2018 17:57:11 GMT+0530 (India Standard Time)
+[debug] [2018-05-23T12:27:11.650Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-23T12:27:11.673Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-23T12:27:11.676Z] > authorizing via signed-in user
+[debug] [2018-05-23T12:27:11.679Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-05-23T12:27:11.679Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/b0vwSh0xTmrcg8Lk6srxRXQID3LaPGC9yAvutuJRpW0',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Wed May 23 2018 17:57:11 GMT+0530 (India Standard Time)
+[debug] [2018-05-23T12:27:12.077Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-23T12:27:12.202Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/aurobo-a6fc8  
+  
+ Wed May 23 2018 17:57:12 GMT+0530 (India Standard Time)
+[debug] [2018-05-23T12:27:13.433Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-23T12:27:13.449Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/aurobo-a6fc8/tokens  
+  
+ Wed May 23 2018 17:57:13 GMT+0530 (India Standard Time)
+[debug] [2018-05-23T12:27:14.717Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-23T12:27:14.717Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/aurobo-a6fc8  
+  
+ Wed May 23 2018 17:57:14 GMT+0530 (India Standard Time)
+[debug] [2018-05-23T12:27:16.249Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'F:\Aurobo\ic-web'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-05-23T12:27:18.189Z] Fetching environment
+[debug] [2018-05-23T12:27:18.189Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/406509490895:getServerAppConfig  
+  
+ Wed May 23 2018 17:57:18 GMT+0530 (India Standard Time)
+[debug] [2018-05-23T12:27:19.029Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-23T12:27:19.029Z] Starting @google-cloud/functions-emulator
+[debug] [2018-05-23T12:27:23.453Z] Parsing function triggers
+[info] i  functions: No HTTPS functions found. Use firebase functions:shell if you would like to emulate other types of functions.
+[info] +  functions: addMessage: http://localhost:5000/aurobo-a6fc8/us-central1/addMessage
+[info] +  functions: getAllUsers: http://localhost:5000/aurobo-a6fc8/us-central1/getAllUsers
