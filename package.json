@@ -2,10 +2,11 @@
   "name": "ic-web",
   "version": "0.1.0",
   "private": true,
-  "workspaces": ["src/components", "src/assets"],
+  "workspaces": ["src/components", "src/assets", "src/plasma"],
   "homepage": "http://innovic.aurobo.in",
   "dependencies": {
     "@innovic/components": "0.1.0",
+    "@innovic/plasma": "0.1.0",
     "axios": "^0.17.1",
     "lodash": "^4.17.5",
     "luxon": "^0.5.8",
