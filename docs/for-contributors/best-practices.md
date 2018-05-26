@@ -4,5 +4,13 @@ The code in this project follows certain best practices. Please try to learn and
 
 ## File Naming Best Practices
 
-* All files (and folders) are named in `kebab-case` format. The format is pretty straight forward; every letter should be in lowercase and the words should only be separated by the letter hyphen ("-").
-* Files like `CNAME`, `README.md` and other such standard files are exceptions to the above rule.
+> Name a file according to what is being _exported_ from that file. You'll generally be exporting a `ReactComponent` or a `javascriptFunction`. For every other type of file or folder, use `kebab-case`.
+
+* In general, a file is named according to what is being _exported_ from that file. For example;
+  * ⚛️📝 React component files are named in `PascalCase` format.
+  * A javascript function is named in `camelCase` format.
+* 📂 All folders are named in `kebab-case` format. The format is pretty straight forward; every letter should be in lowercase and the words should only be separated by the letter hyphen ("-").
+* All markdown files are also in `kebab-case` format.
+* The files listed below are standardized, consider them as exceptions. They should be written as they are.
+  * `CNAME`
+  * `README.md`
