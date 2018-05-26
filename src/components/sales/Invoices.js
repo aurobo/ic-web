@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ListCell from '../shared/anatomy/ListCell';
-
 class Invoices extends React.Component {
   render() {
     const listTableColumns = [
