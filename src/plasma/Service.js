@@ -34,70 +34,70 @@ class Service {
     this.schema = schema;
   }
 
-  get = () => {
-    let list = [];
-    this.firestore
-      .collection(this.collection)
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          const data = doc.data();
-          this.schema.isValid(data).then(valid => {
-            if (!valid) {
-              throw new Error('Invalid schema');
-            }
-            list.push(data);
-          });
-        });
-      })
-      .catch(error => {
-        console.log('Error getting documents: ', error);
-      });
-    return list;
-  };
+  // get = () => {
+  //   let list = [];
+  //   this.firestore
+  //     .collection(this.collection)
+  //     .get()
+  //     .then(querySnapshot => {
+  //       querySnapshot.forEach(doc => {
+  //         const data = doc.data();
+  //         this.schema.isValid(data).then(valid => {
+  //           if (!valid) {
+  //             throw new Error('Invalid schema');
+  //           }
+  //           list.push(data);
+  //         });
+  //       });
+  //     })
+  //     .catch(error => {
+  //       console.log('Error getting documents: ', error);
+  //     });
+  //   return list;
+  // };
 
-  getById = id => {
-    let docRef = this.firestore.collection(this.collection).doc(id);
+  // getById = id => {
+  //   let docRef = this.firestore.collection(this.collection).doc(id);
 
-    docRef
-      .get()
-      .then(doc => {
-        if (doc.exists) {
-          const data = doc.data();
-          this.schema.isValid(data).then(valid => {
-            if (!valid) {
-              throw new Error('Invalid schema');
-            }
-            return data;
-          });
-        } else {
-          console.log('No such document!');
-        }
-      })
-      .catch(function(error) {
-        console.log('Error getting document:', error);
-      });
-  };
+  //   docRef
+  //     .get()
+  //     .then(doc => {
+  //       if (doc.exists) {
+  //         const data = doc.data();
+  //         this.schema.isValid(data).then(valid => {
+  //           if (!valid) {
+  //             throw new Error('Invalid schema');
+  //           }
+  //           return data;
+  //         });
+  //       } else {
+  //         console.log('No such document!');
+  //       }
+  //     })
+  //     .catch(function(error) {
+  //       console.log('Error getting document:', error);
+  //     });
+  // };
 
   firestoreWillUpdate = transaction => {};
 
-  create = data => {
-    //let schemaCompliantData = matchToSchema(data, this.schema);
-    let schemaCompliantData = this.schema.cast(data);
-    whenCreated(this.firebase, schemaCompliantData);
-    let batch = this.firestore.batch();
-    let docRef = this.firestore.collection(this.collection).doc();
-    let docHistoryRef = docRef.collection('history').doc();
-    let userTimelineRef = this.firestore
-      .collection('users')
-      .doc(schemaCompliantData.lastModifiedBy.id)
-      .collection('timeline')
-      .doc();
-    batch.set(docRef, schemaCompliantData);
-    batch.set(docHistoryRef, schemaCompliantData);
-    batch.set(userTimelineRef, { type: 'Created', data: schemaCompliantData });
-    batch.commit();
-  };
+  // create = data => {
+  //   //let schemaCompliantData = matchToSchema(data, this.schema);
+  //   let schemaCompliantData = this.schema.cast(data);
+  //   whenCreated(this.firebase, schemaCompliantData);
+  //   let batch = this.firestore.batch();
+  //   let docRef = this.firestore.collection(this.collection).doc();
+  //   let docHistoryRef = docRef.collection('history').doc();
+  //   let userTimelineRef = this.firestore
+  //     .collection('users')
+  //     .doc(schemaCompliantData.lastModifiedBy.id)
+  //     .collection('timeline')
+  //     .doc();
+  //   batch.set(docRef, schemaCompliantData);
+  //   batch.set(docHistoryRef, schemaCompliantData);
+  //   batch.set(userTimelineRef, { type: 'Created', data: schemaCompliantData });
+  //   batch.commit();
+  // };
 
   update = (id, data) => {
     let schemaCompliantData = this.schema.cast(data);

@@ -7,3 +7,4 @@
   * [Best Practices](for-contributors/best-practices.md)
   * [Edit Documentation](for-contributors/edit-documentation.md)
   * [Live Versions](for-contributors/live-versions.md)
+  * [FAQs](faqs.md)
