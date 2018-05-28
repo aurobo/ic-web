@@ -4,4 +4,3 @@
 * [Best Practices](best-practices.md)
 * [Edit Documentation](edit-documentation.md)
 * [Live Versions](live-versions.md)
-* [FAQs](faqs.md)
