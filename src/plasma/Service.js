@@ -1,5 +1,3 @@
-import firebase from 'firebase';
-
 const matchToSchema = (data, schema) => {
   let result = {};
 
@@ -12,7 +10,7 @@ const matchToSchema = (data, schema) => {
   return result;
 };
 
-const whenCreated = data => {
+const whenCreated = (firebase, data) => {
   firebase.auth().onAuthStateChanged(user => {
     data.createdBy = user.email;
     data.lastModifiedBy = user.email;
@@ -21,7 +19,7 @@ const whenCreated = data => {
   });
 };
 
-const whenUpdated = data => {
+const whenUpdated = (firebase, data) => {
   firebase.auth().onAuthStateChanged(user => {
     data.lastModifiedBy = user.email;
     data.lastModifiedOn = new Date();
@@ -29,26 +27,33 @@ const whenUpdated = data => {
 };
 
 class Service {
-  constructor(collection, schema) {
-    this.collection = collection;
+  constructor(firebase, collection, schema) {
+    this.firebase = firebase;
     this.firestore = firebase.firestore();
+    this.collection = collection;
     this.schema = schema;
   }
 
   get = () => {
-    let docs = [];
+    let list = [];
     this.firestore
       .collection(this.collection)
       .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          docs.push(doc);
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const data = doc.data();
+          this.schema.isValid(data).then(valid => {
+            if (!valid) {
+              throw new Error('Invalid schema');
+            }
+            list.push(data);
+          });
         });
       })
-      .catch(function(error) {
+      .catch(error => {
         console.log('Error getting documents: ', error);
       });
-    return docs;
+    return list;
   };
 
   getById = id => {
@@ -56,9 +61,15 @@ class Service {
 
     docRef
       .get()
-      .then(function(doc) {
+      .then(doc => {
         if (doc.exists) {
-          return doc.data();
+          const data = doc.data();
+          this.schema.isValid(data).then(valid => {
+            if (!valid) {
+              throw new Error('Invalid schema');
+            }
+            return data;
+          });
         } else {
           console.log('No such document!');
         }
@@ -71,8 +82,9 @@ class Service {
   firestoreWillUpdate = transaction => {};
 
   create = data => {
-    let schemaCompliantData = matchToSchema(data, this.schema);
-    whenCreated(schemaCompliantData);
+    //let schemaCompliantData = matchToSchema(data, this.schema);
+    let schemaCompliantData = this.schema.cast(data);
+    whenCreated(this.firebase, schemaCompliantData);
     let batch = this.firestore.batch();
     let docRef = this.firestore.collection(this.collection).doc();
     let docHistoryRef = docRef.collection('history').doc();
@@ -80,12 +92,13 @@ class Service {
     batch.set(docHistoryRef, schemaCompliantData);
   };
 
-  update = (id, dataToMerge) => {
-    whenUpdated(dataToMerge);
+  update = (id, data) => {
+    let schemaCompliantData = this.schema.cast(data);
+    whenUpdated(this.firebase, schemaCompliantData);
     var docRef = this.firestore.collection(this.collection).doc(id);
     this.firestore.runTransaction(transaction => {
-      this.firestoreWillUpdate(docRef, dataToMerge, transaction);
-      transaction.update(doc, dataToMerge);
+      this.firestoreWillUpdate(docRef, data, transaction);
+      transaction.update(docRef, schemaCompliantData);
     });
   };
 

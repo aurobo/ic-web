@@ -8,6 +8,7 @@
     "@innovic/components": "0.1.0",
     "@innovic/plasma": "0.1.0",
     "axios": "^0.17.1",
+    "deep-diff": "^1.0.1",
     "lodash": "^4.17.5",
     "luxon": "^0.5.8",
     "pluralize": "^7.0.0",
@@ -17,7 +18,8 @@
     "react-scripts": "1.1.0",
     "react-table": "^6.8.2",
     "semantic-ui-react": "^0.78.1",
-    "styled-components": "^3.1.6"
+    "styled-components": "^3.1.6",
+    "yup": "^0.25.1"
   },
   "scripts": {
     "start": "react-scripts start",
