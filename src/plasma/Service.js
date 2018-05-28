@@ -12,8 +12,8 @@ const matchToSchema = (data, schema) => {
 
 const whenCreated = (firebase, data) => {
   firebase.auth().onAuthStateChanged(user => {
-    data.createdBy = user.email;
-    data.lastModifiedBy = user.email;
+    data.createdBy = user;
+    data.lastModifiedBy = user;
     data.createdOn = new Date();
     data.lastModifiedOn = new Date();
   });
@@ -57,7 +57,7 @@ class Service {
   };
 
   getById = id => {
-    var docRef = this.firestore.collection(this.collection).doc(id);
+    let docRef = this.firestore.collection(this.collection).doc(id);
 
     docRef
       .get()
@@ -88,17 +88,32 @@ class Service {
     let batch = this.firestore.batch();
     let docRef = this.firestore.collection(this.collection).doc();
     let docHistoryRef = docRef.collection('history').doc();
+    let userTimelineRef = this.firestore
+      .collection('users')
+      .doc(schemaCompliantData.lastModifiedBy.id)
+      .collection('timeline')
+      .doc();
     batch.set(docRef, schemaCompliantData);
     batch.set(docHistoryRef, schemaCompliantData);
+    batch.set(userTimelineRef, { type: 'Created', data: schemaCompliantData });
+    batch.commit();
   };
 
   update = (id, data) => {
     let schemaCompliantData = this.schema.cast(data);
     whenUpdated(this.firebase, schemaCompliantData);
-    var docRef = this.firestore.collection(this.collection).doc(id);
+    let docRef = this.firestore.collection(this.collection).doc(id);
+    let docHistoryRef = docRef.collection('history').doc();
+    let userTimelineRef = this.firestore
+      .collection('users')
+      .doc(schemaCompliantData.lastModifiedBy.id)
+      .collection('timeline')
+      .doc();
     this.firestore.runTransaction(transaction => {
       this.firestoreWillUpdate(docRef, data, transaction);
       transaction.update(docRef, schemaCompliantData);
+      transaction.update(docHistoryRef, schemaCompliantData);
+      transaction.update(userTimelineRef, { type: 'Updated', data: schemaCompliantData });
     });
   };
 
