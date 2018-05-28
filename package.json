@@ -9,6 +9,7 @@
     "@innovic/plasma": "0.1.0",
     "axios": "^0.17.1",
     "deep-diff": "^1.0.1",
+    "formik": "^0.11.11",
     "lodash": "^4.17.5",
     "luxon": "^0.5.8",
     "pluralize": "^7.0.0",
