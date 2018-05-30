@@ -22,6 +22,7 @@ const FlatButton = styled(Button)`
   &&& {
     border-radius: 0;
     text-transform: uppercase;
+    background: ${props => props.theme.secondary.light};
   }
 `;
 

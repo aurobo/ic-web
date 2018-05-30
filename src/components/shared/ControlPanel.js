@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import Loader from 'semantic-ui-react/dist/commonjs/elements/Loader/Loader';
+import { Segment } from 'semantic-ui-react';
 
-const Wrapper = styled.div`
-  height: 100px;
-  background: white;
-  margin-top: 40px;
-  padding: 10px 15px;
+const StyledSegment = styled(Segment)`
+  &&& {
+    background: white;
+    margin-top: 40px;
+  }
 `;
 
 const StyledLoader = styled(Loader)`
@@ -22,13 +23,10 @@ const StyledLoader = styled(Loader)`
 class ControlPanel extends React.Component {
   render() {
     return (
-      <Wrapper className={this.props.className}>
-        <h2>
-          {this.props.title}
-          <StyledLoader active={this.props.loading} inline size="small" />
-        </h2>
+      <StyledSegment attached>
+        <h2>{this.props.title}</h2>
         {this.props.children}
-      </Wrapper>
+      </StyledSegment>
     );
   }
 }

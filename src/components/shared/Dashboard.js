@@ -32,10 +32,6 @@ const IconLabel = styled.span`
   line-height: 14px;
   transition: font-weight 300ms linear;
   color: ${props => props.theme.primary.default};
-
-  ${IconLink}:hover & {
-    color: ${props => props.theme.primary.dark};
-  }
 `;
 
 const Icons = styled.div`
@@ -47,17 +43,18 @@ const Icons = styled.div`
 `;
 
 const StyledIcon = styled(Icon).attrs({
-  inverted: true,
   bordered: true,
   size: 'big',
 })`
   &&&&&& {
-    color: ${props => props.theme.primary.default} !important;
-    background-color: ${props => props.theme.secondary.default} !important;
+    box-shadow: 0 0 0 0.1em ${props => props.theme.primary.light} inset;
+    color: ${props => props.theme.primary.light} !important;
+    /* background-color: ${props => props.theme.secondary.default} !important; */
   }
   ${IconLink}:hover &&&&&& {
-    color: ${props => props.theme.secondary.default} !important;
-    background-color: ${props => props.theme.primary.default} !important;
+    box-shadow: 0 0 0 0.1em ${props => props.theme.primary.default} inset;
+    color: ${props => props.theme.primary.default} !important;
+    /* background-color: ${props => props.theme.primary.default} !important; */
   }
 `;
 

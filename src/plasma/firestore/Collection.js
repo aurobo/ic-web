@@ -22,10 +22,9 @@ class Collection extends React.Component {
               }
             });
           }
+          data.id = doc.id;
           collection.push(data);
-          console.log('!');
         });
-        console.log('#');
         this.setState({ collection, isLoading: false });
       },
       error => {
