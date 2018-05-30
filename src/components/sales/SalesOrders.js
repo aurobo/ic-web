@@ -1,11 +1,7 @@
-import _ from 'lodash';
-import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
 import ControlPanel from '@innovic/components/shared/ControlPanel';
 import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
 import { Link } from 'react-router-dom';
 import { FlatButton } from '@innovic/components/shared';
-import TableWithSorting from '@innovic/components/shared/TableWithSorting';
-import Api from '@innovic/components/shared/Api';
 import React from 'react';
 import Plasma, { Firestore } from '@innovic/plasma';
 import firebase from 'firebase/app';
@@ -41,6 +37,9 @@ class SalesOrders extends React.Component {
               <div>{isLoading ? 'Loading...' : error ? error.message : JSON.stringify(doc)}</div>
             )}
           </Firestore.Document>
+          <Firestore.Create path="salesOrders" schemaless>
+            {({ create }) => <button onClick={e => create({ name: 'Ronak' })}>Create SO</button>}
+          </Firestore.Create>
         </Plasma.Provider>
       </div>
     );

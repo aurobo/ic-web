@@ -14,8 +14,8 @@ import ControlPanel from './ControlPanel';
 import Api from './Api';
 
 const theme = {
-  primary: '#3b79c6',
-  accent: 'rgb(244, 67, 54);',
+  primary: { default: '#4a148c', light: '#7c43bd', dark: '#12005e' },
+  secondary: { default: '#00c853', light: '#5efc82', dark: '#009624' },
 };
 
 const FlatButton = styled(Button)`

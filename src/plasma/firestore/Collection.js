@@ -8,32 +8,30 @@ class Collection extends React.Component {
   };
 
   componentDidMount() {
-    const { firebase, path, schema, schemaless } = this.props;
-    const firestore = firebase.firestore();
-    let collection = [];
+    const { firestore, path, schema, schemaless } = this.props;
 
-    firestore
-      .collection(path)
-      .get()
-      .then(docs => {
+    firestore.collection(path).onSnapshot(
+      docs => {
+        let collection = [];
         docs.forEach(doc => {
           const data = doc.data();
-          if (schemaless) {
-            collection.push(data);
-          } else {
+          if (!schemaless) {
             schema.isValid(data).then(valid => {
               if (!valid) {
                 throw new Error('Invalid schema');
               }
-              collection.push(data);
             });
           }
+          collection.push(data);
+          console.log('!');
         });
+        console.log('#');
         this.setState({ collection, isLoading: false });
-      })
-      .catch(error => {
+      },
+      error => {
         this.setState({ error: error, isLoading: false });
-      });
+      }
+    );
   }
   render() {
     const { collection, isLoading, error } = this.state;

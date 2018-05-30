@@ -8,8 +8,7 @@ class Document extends React.Component {
   };
 
   componentDidMount() {
-    const { firebase, path, schema, schemaless } = this.props;
-    const firestore = firebase.firestore();
+    const { firestore, path, schema, schemaless } = this.props;
 
     firestore
       .doc(path)
@@ -17,16 +16,14 @@ class Document extends React.Component {
       .then(doc => {
         if (doc.exists) {
           let data = null;
-          if (schemaless) {
-            data = doc.data();
-          } else {
+          if (!schemaless) {
             schema.isValid(data).then(valid => {
               if (!valid) {
                 throw new Error('Invalid schema');
               }
-              data = doc.data();
             });
           }
+          data = doc.data();
           this.setState({ doc: data, isLoading: false });
         } else {
           throw new Error('No such document!');

@@ -1,4 +1,4 @@
-# Yup Usage in Aurobo
+# Yup in Aurobo
 
 Documentation coming up!
 

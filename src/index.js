@@ -8,6 +8,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from '@innovic/components/shared';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/auth';
 import Raven from 'raven-js';
 
 if (process.env.NODE_ENV === 'development') {
@@ -35,6 +36,14 @@ firebase.initializeApp({
   storageBucket: 'aurobo-a6fc8.appspot.com',
   messagingSenderId: '406509490895',
 });
+
+firebase
+  .auth()
+  .signInWithEmailAndPassword('admin@aurobo.in', '123456')
+  .catch(function(error) {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+  });
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

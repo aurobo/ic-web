@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const StyledMenu = styled(Menu)`
   &&& {
-    background-color: ${props => props.theme.primary};
+    background-color: ${props => props.theme.primary.default};
   }
 `;
 

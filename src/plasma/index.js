@@ -31,18 +31,23 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const PlasmaProvider = ({ instance, children }) => {
-  return <Provider value={instance}>{children}</Provider>;
+const PlasmaProvider = ({ instance: firebase, children }) => {
+  const firestore = firebase.firestore();
+  const settings = { timestampsInSnapshots: true };
+  firestore.settings(settings);
+  return <Provider value={{ firebase: firebase, firestore: firestore }}>{children}</Provider>;
 };
 
 const PlasmaConsumer = ({ component: Component, ...rest }) => {
   return (
     <Consumer>
-      {firebase => (
-        <ErrorBoundary>
-          <Component {...rest} firebase={firebase} />
-        </ErrorBoundary>
-      )}
+      {({ firebase, firestore }) => {
+        return (
+          <ErrorBoundary>
+            <Component {...rest} firebase={firebase} firestore={firestore} />
+          </ErrorBoundary>
+        );
+      }}
     </Consumer>
   );
 };
