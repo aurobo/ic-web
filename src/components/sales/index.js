@@ -2,6 +2,7 @@ import React from 'react';
 import { TopNav, ImportExcel } from '@innovic/components/shared';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import SalesOrders from './SalesOrders';
+import SalesOrder from './SalesOrder';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Invoice from './Invoice';
@@ -21,7 +22,7 @@ class Sales extends React.Component {
           </Dropdown>
         </TopNav>
         <Switch>
-          <Route path="/sales/sales-orders/:id+" component={SalesOrders} />
+          <Route path="/sales/sales-orders/:id+" component={SalesOrder} />
           <Route path="/sales/sales-orders" component={SalesOrders} />
           <Route
             path="/sales/import-excel"
