@@ -46,25 +46,14 @@ class SalesOrders extends React.Component {
   state = {
     panes: [],
     activeIndex: 0,
+    openTabsUrl: '/sales/sales-orders',
   };
 
-  componentDidMount() {
-    if (this.props.match.params.id) {
-      this.openTab(null, this.props.match.params.id);
-    }
-  }
-
-  closeTab = (e, id) => {
-    const panes = this.state.panes.filter(x => x.id !== id);
-    this.setState({ panes });
-  };
-
-  openTab = (e, id) => {
-    const panes = [...this.state.panes];
-    panes.push({
+  createNewTab = (e, id, openTabsUrl) => {
+    return {
       id: id,
       menuItem: (
-        <StyledTabItem key={id} to={'/sales/sales-orders/' + id + '/view'}>
+        <StyledTabItem key={id} to={openTabsUrl}>
           {id} <Close onClick={e => this.closeTab(e, id)} />
         </StyledTabItem>
       ),
@@ -77,9 +66,46 @@ class SalesOrders extends React.Component {
           </Firestore.Document>
         </Tab.Pane>
       ),
-    });
-    this.props.history.push('/sales/sales-orders/' + id + '/view');
-    this.setState({ panes, activeIndex: panes.length });
+    };
+  };
+
+  componentDidMount() {
+    const { id } = this.props.match.params;
+
+    if (id) {
+      if (id.indexOf('/') !== -1) {
+        let idArray = id.split('/');
+        console.log(idArray);
+        const panes = [...this.state.panes];
+        let { openTabsUrl } = this.state;
+        idArray.forEach(item => {
+          openTabsUrl = openTabsUrl + '/' + item;
+          panes.push(this.createNewTab(null, item, openTabsUrl));
+        });
+        this.setState({ panes, activeIndex: panes.length, openTabsUrl: openTabsUrl });
+      } else {
+        this.openTab(null, this.props.match.params.id);
+      }
+    }
+  }
+
+  closeTab = (e, id) => {
+    const panes = this.state.panes.filter(x => x.id !== id);
+    this.setState({ panes });
+  };
+
+  openTab = (e, id) => {
+    const panes = [...this.state.panes];
+    let openTabsUrl = this.state.openTabsUrl;
+    openTabsUrl = openTabsUrl + '/' + id;
+    let pane = this.state.panes.filter(x => x.id === id);
+    if (pane.length > 0) {
+      this.props.history.push('/sales/sales-orders/' + id);
+      return;
+    }
+    panes.push(this.createNewTab(e, id, openTabsUrl));
+    this.props.history.push(openTabsUrl);
+    this.setState({ panes, activeIndex: panes.length, openTabsUrl: openTabsUrl });
   };
 
   handleTabChange = (e, data) => {
