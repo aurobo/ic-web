@@ -2,7 +2,7 @@ import React from 'react';
 
 class Create extends React.Component {
   create = data => {
-    const { firebase, firestore, path, schema, schemaless, user } = this.props;
+    const { firebase, firestore, path, schema, schemaless } = this.props;
 
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {

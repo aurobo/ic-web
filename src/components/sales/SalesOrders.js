@@ -1,8 +1,8 @@
 import ControlPanel from '@innovic/components/shared/ControlPanel';
-import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
+
 import Tab from 'semantic-ui-react/dist/commonjs/modules/Tab/Tab';
-import { Segment, Menu, Label, Icon, Table, Button, Checkbox } from 'semantic-ui-react';
-import { Link, Route } from 'react-router-dom';
+import { Menu, Icon, Table } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { FlatButton } from '@innovic/components/shared';
 import React from 'react';
 import Plasma, { Firestore } from '@innovic/plasma';
