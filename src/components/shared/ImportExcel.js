@@ -7,6 +7,7 @@ import Message from 'semantic-ui-react/dist/commonjs/collections/Message/Message
 import FileInput from '@innovic/components/shared/FileInput';
 import { Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import XLSX from 'xlsx';
 
 class ImportExcel extends React.Component {
   state = {
@@ -17,29 +18,47 @@ class ImportExcel extends React.Component {
   onFileSelected = file => {
     this.setState({ showError: false, loading: true });
 
-    const formData = new FormData();
+    var rABS = false;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var data = e.target.result;
+      if (!rABS) data = new Uint8Array(data);
+      var workbook = XLSX.read(data, { type: rABS ? 'binary' : 'array' });
 
-    formData.append('file', file);
-
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-      onDownloadProgress: progressEvent => this.setState({ loading: false }),
+      /* DO SOMETHING WITH workbook HERE */
     };
+    if (rABS) reader.readAsBinaryString(file);
+    else reader.readAsArrayBuffer(file);
 
-    api
-      .post(this.props.uri, formData, config)
-      .then(response => {
-        this.props.history.push(this.props.redirectUri);
-      })
-      .catch(error => {
-        if (error.response && _.isArray(error.response.data)) {
-          this.setState({ showError: true, errors: error.response.data });
-        } else {
-          this.setState({ showError: true, errors: ['Something Went Wrong. Inform Admin.'] });
-        }
-      });
+    // var data = file;
+    // //data = new Uint8Array(data);
+    // var workbook = XLSX.read(data, { type: 'binary' });
+    // var first_worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    // var jsonData = XLSX.utils.sheet_to_json(first_worksheet);
+    //let workbook = XLSX.readFile(file.name);
+    // const formData = new FormData();
+
+    // formData.append('file', file);
+
+    // const config = {
+    //   headers: {
+    //     'content-type': 'multipart/form-data',
+    //   },
+    //   onDownloadProgress: progressEvent => this.setState({ loading: false }),
+    // };
+
+    // api
+    //   .post(this.props.uri, formData, config)
+    //   .then(response => {
+    //     this.props.history.push(this.props.redirectUri);
+    //   })
+    //   .catch(error => {
+    //     if (error.response && _.isArray(error.response.data)) {
+    //       this.setState({ showError: true, errors: error.response.data });
+    //     } else {
+    //       this.setState({ showError: true, errors: ['Something Went Wrong. Inform Admin.'] });
+    //     }
+    //   });
   };
 
   render() {

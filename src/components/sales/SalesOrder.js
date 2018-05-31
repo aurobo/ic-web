@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import Table from 'semantic-ui-react/dist/commonjs/collections/Table/Table';
+import Table from 'semantic-ui-react';
 import ControlPanel from '@innovic/components/shared/ControlPanel';
 import { api } from '@innovic/components/shared/Utilities';
 import List from 'semantic-ui-react/dist/commonjs/elements/List/List';

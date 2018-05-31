@@ -1,0 +1,70 @@
+[debug] [2018-05-24T09:32:07.513Z] ----------------------------------------------------------------------
+[debug] [2018-05-24T09:32:07.519Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\sanket\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-05-24T09:32:07.519Z] CLI Version:   3.18.5
+[debug] [2018-05-24T09:32:07.519Z] Platform:      win32
+[debug] [2018-05-24T09:32:07.519Z] Node Version:  v8.11.1
+[debug] [2018-05-24T09:32:07.519Z] Time:          Thu May 24 2018 15:02:07 GMT+0530 (India Standard Time)
+[debug] [2018-05-24T09:32:07.519Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-24T09:32:07.635Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-24T09:32:07.635Z] > authorizing via signed-in user
+[debug] [2018-05-24T09:32:07.635Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-05-24T09:32:07.635Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/b0vwSh0xTmrcg8Lk6srxRXQID3LaPGC9yAvutuJRpW0',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Thu May 24 2018 15:02:07 GMT+0530 (India Standard Time)
+[debug] [2018-05-24T09:32:08.067Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-24T09:32:08.099Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/aurobo-a6fc8  
+  
+ Thu May 24 2018 15:02:08 GMT+0530 (India Standard Time)
+[debug] [2018-05-24T09:32:09.415Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-24T09:32:09.417Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/aurobo-a6fc8/tokens  
+  
+ Thu May 24 2018 15:02:09 GMT+0530 (India Standard Time)
+[debug] [2018-05-24T09:32:10.459Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-24T09:32:10.459Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/aurobo-a6fc8  
+  
+ Thu May 24 2018 15:02:10 GMT+0530 (India Standard Time)
+[debug] [2018-05-24T09:32:12.191Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'F:\Aurobo\ic-web'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-05-24T09:32:23.879Z] Fetching environment
+[debug] [2018-05-24T09:32:23.879Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/406509490895:getServerAppConfig  
+  
+ Thu May 24 2018 15:02:23 GMT+0530 (India Standard Time)
+[debug] [2018-05-24T09:32:25.112Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-24T09:32:25.112Z] Starting @google-cloud/functions-emulator
+[debug] [2018-05-24T09:32:32.419Z] Parsing function triggers
+[warn] !  functions: Failed to load functions source code. Ensure that you have the latest SDK by running npm i --save firebase-functions inside the functions directory.
+[debug] [2018-05-24T09:32:32.913Z] Error during trigger parsing:  Error occurred while parsing your function triggers.
+
+AssertionError [ERR_ASSERTION]: missing path
+    at Module.require (module.js:594:3)
+    at require (internal/module.js:11:18)
+    at Object.<anonymous> (F:\Aurobo\ic-web\functions\index.js:14:24)
+    at Module._compile (module.js:652:30)
+    at Object.Module._extensions..js (module.js:663:10)
+    at Module.load (module.js:565:32)
+    at tryModuleLoad (module.js:505:12)
+    at Function.Module._load (module.js:497:3)
+    at Module.require (module.js:596:17)
+    at require (internal/module.js:11:18)
+[warn] !  functions: Error from emulator. Error occurred while parsing your function triggers.
+
+AssertionError [ERR_ASSERTION]: missing path
+    at Module.require (module.js:594:3)
+    at require (internal/module.js:11:18)
+    at Object.<anonymous> (F:\Aurobo\ic-web\functions\index.js:14:24)
+    at Module._compile (module.js:652:30)
+    at Object.Module._extensions..js (module.js:663:10)
+    at Module.load (module.js:565:32)
+    at tryModuleLoad (module.js:505:12)
+    at Function.Module._load (module.js:497:3)
+    at Module.require (module.js:596:17)
+    at require (internal/module.js:11:18)
+[debug] [2018-05-24T09:32:32.913Z] 
