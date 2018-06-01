@@ -60,6 +60,8 @@ class SalesOrder extends React.Component {
       lastModifiedOn: { seconds: 1527752386, nanoseconds: 336000000 },
     },
   };
+  //To bind the dummy customer name form field
+  cusName = {};
 
   componentDidMount() {
     let config = {
@@ -283,13 +285,22 @@ class SalesOrder extends React.Component {
                 className="no-print"
               />
               <Plasma.Provider instance={firebase}>
-                <Firestore.Update path="salesOrders" id={this.props.match.params.id} data={this.data}>
+                <Firestore.Update path="salesOrders" id={this.props.match.params.id} schemaless>
                   {({ update, data }) => (
                     <React.Fragment>
                       'update '+{JSON.stringify(update)}
                       'data '+ {JSON.stringify(data)}
                       <h1>HELLO</h1>
-                      {update()}
+                      <form>
+                        <input type="text" ref={input => (this.cusName = input)} />
+                        <input
+                          type="button"
+                          value="Submit"
+                          onClick={() => {
+                            update({ data: data, cusName: this.cusName.value });
+                          }}
+                        />
+                      </form>
                     </React.Fragment>
                   )}
                 </Firestore.Update>
