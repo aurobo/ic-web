@@ -37,6 +37,8 @@ firebase.initializeApp({
   messagingSenderId: '406509490895',
 });
 
+firebase.auth().signInWithEmailAndPassword('admin@aurobo.in', '123456');
+
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <HashRouter>

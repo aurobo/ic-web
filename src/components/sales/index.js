@@ -2,8 +2,9 @@ import React from 'react';
 import { TopNav, ImportExcel } from '@innovic/components/shared';
 import Dropdown from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import SalesOrders from './SalesOrders';
-import { Switch, Route, Redirect } from 'react-router-dom';
 import SalesOrder from './SalesOrder';
+import { Switch, Route, Redirect } from 'react-router-dom';
+
 import Invoice from './Invoice';
 import { DropdownLink } from '@innovic/components/shared';
 import Invoices from './Invoices';

@@ -14,6 +14,8 @@ import Link from 'react-router-dom/Link';
 import Route from 'react-router/Route';
 import { Switch } from 'react-router-dom';
 import { Input, Checkbox, Dropdown, Segment, Icon } from 'semantic-ui-react';
+import Plasma, { Firestore } from '@innovic/plasma';
+import firebase from 'firebase';
 
 const SalesOrderSection = styled(Message)`
   &&& {
@@ -45,6 +47,17 @@ class SalesOrder extends React.Component {
       metaData: {},
       invoices: [],
       links: [],
+    },
+  };
+
+  data = {
+    customer: 'preexisting ',
+    customerReference: '',
+    meta: {
+      createdBy: { email: 'admin@aurobo.in', uid: '2s5JSVnyPJVGDikjZld8huUNwtL2' },
+      createdOn: { seconds: 1527752386, nanoseconds: 336000000 },
+      lastModifiedBy: { email: 'admin@aurobo.in', uid: '2s5JSVnyPJVGDikjZld8huUNwtL2' },
+      lastModifiedOn: { seconds: 1527752386, nanoseconds: 336000000 },
     },
   };
 
@@ -265,266 +278,22 @@ class SalesOrder extends React.Component {
           render={() => (
             <div>
               <ControlPanel
-                title={'Sales Orders / ' + this.state.salesOrder.key}
+                title={'Sales Orders / ' + this.state.salesOrder.key + ' / New Invoice'}
                 loading={this.state.loading}
                 className="no-print"
-              >
-                <FlatButton primary size="tiny" disabled={!this.state.salesOrder.metaData.canCreateInvoice}>
-                  <Link
-                    style={{ display: 'block', height: '100%', color: 'white' }}
-                    to={this.props.location.pathname + '/invoice'}
-                  >
-                    Create Invoice
-                  </Link>
-                </FlatButton>
-                {this.state.salesOrder.invoices.length > 0 ? (
-                  <StyledDropdown text="Invoices" floating labeled className="icon">
-                    <Dropdown.Menu>
-                      {_.map(this.state.salesOrder.invoices, invoice => (
-                        <Dropdown.Item key={invoice.id}>
-                          <Link to={'/sales/invoices/' + invoice.id}>{invoice.key}</Link>
-                        </Dropdown.Item>
-                      ))}
-                    </Dropdown.Menu>
-                  </StyledDropdown>
-                ) : (
-                  ''
-                )}
-                <StyledDropdown text="Purchase Requests" floating labeled className="icon">
-                  <Dropdown.Menu>
-                    {_.map(
-                      this.state.salesOrder.links,
-                      link =>
-                        link.purchaseRequestId !== null ? (
-                          <Dropdown.Item key={link.purchaseRequestId}>
-                            <Link to={'/purchase/purchase-requests/' + link.purchaseRequestId}>
-                              {link.purchaseRequestKey}
-                            </Link>
-                          </Dropdown.Item>
-                        ) : (
-                          ''
-                        )
-                    )}
-                  </Dropdown.Menu>
-                </StyledDropdown>
-              </ControlPanel>
-              <SalesOrderSection>
-                <Grid divided="vertically" className="no-screen">
-                  <Grid.Row columns={2}>
-                    <Grid.Column>
-                      <Image src={innovicLogo} size="medium" />
-                    </Grid.Column>
-                    <Grid.Column textAlign="right">
-                      Address : Plot No: 11/1/A, Phase - II, GIDC Estate V U Nagar,<br />
-                      Anand, Gujarat (INDIA) - 388121 <br />
-                      Contact Person : Vinay Makwana<br />
-                      Mobile : + 91 99099 20457 / + 91 98793 36897 <br />
-                      E-Mail Id : japan@innovictechnology.com <br />
-                      Website : www.innovictechnology.com<br />
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid>
-                <h1>{this.state.salesOrder.key}</h1>
-                <Grid divided="vertically">
-                  <Grid.Row columns={2}>
-                    <Grid.Column>
-                      <List celled>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Customer</List.Header>
-                            {this.state.salesOrder.customerName}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Expiration Date</List.Header>
-                            {new Date(this.state.salesOrder.expirationDate).toLocaleDateString()}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Order Date</List.Header>
-                            {new Date(this.state.salesOrder.orderDate).toLocaleDateString()}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Description</List.Header>
-                            {this.state.salesOrder.description}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Customer Reference</List.Header>
-                            {this.state.salesOrder.customerReference}
-                          </List.Content>
-                        </List.Item>
-                      </List>
-                    </Grid.Column>
-                    <Grid.Column>
-                      <List celled>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Payment Terms</List.Header>
-                            {this.state.salesOrder.paymentTerms}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Created On</List.Header>
-                            {new Date(this.state.salesOrder.createdOn).toLocaleDateString()}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Last Modified On</List.Header>
-                            {new Date(this.state.salesOrder.lastModifiedOn).toLocaleDateString()}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Created By</List.Header>
-                            {this.state.salesOrder.createdByUserName}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Last Modified By</List.Header>
-                            {this.state.salesOrder.lastModifiedByUserName}
-                          </List.Content>
-                        </List.Item>
-                      </List>
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid>
-
-                <StyledTable sortable celled fixed compact selectable>
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell
-                        sorted={column === 'number' ? direction : null}
-                        onClick={this.handleSort('number')}
-                      >
-                        Item Number
-                      </Table.HeaderCell>
-                      <Table.HeaderCell
-                        sorted={column === 'materialNumber' ? direction : null}
-                        onClick={this.handleSort('materialNumber')}
-                      >
-                        Material Number
-                      </Table.HeaderCell>
-                      <Table.HeaderCell
-                        sorted={column === 'description' ? direction : null}
-                        onClick={this.handleSort('description')}
-                      >
-                        Description
-                      </Table.HeaderCell>
-                      <Table.HeaderCell
-                        sorted={column === 'unitPrice' ? direction : null}
-                        onClick={this.handleSort('unitPrice')}
-                      >
-                        Unit Price
-                      </Table.HeaderCell>
-                      <Table.HeaderCell
-                        sorted={column === 'quantity' ? direction : null}
-                        onClick={this.handleSort('quantity')}
-                      >
-                        Quantity
-                      </Table.HeaderCell>
-                      <Table.HeaderCell
-                        sorted={column === 'deliveryDate' ? direction : null}
-                        onClick={this.handleSort('deliveryDate')}
-                      >
-                        Delivery Date
-                      </Table.HeaderCell>
-                      <Table.HeaderCell
-                        sorted={column === 'wbsElement' ? direction : null}
-                        onClick={this.handleSort('wbsElement')}
-                      >
-                        WBS Element
-                      </Table.HeaderCell>
-                      <Table.HeaderCell
-                        sorted={column === 'remainingQuantity' ? direction : null}
-                        onClick={this.handleSort('remainingQuantity')}
-                      >
-                        Remaining Quantity
-                      </Table.HeaderCell>
-                      <Table.HeaderCell
-                        sorted={column === 'value' ? direction : null}
-                        onClick={this.handleSort('value')}
-                      >
-                        Value
-                      </Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    {_.map(
-                      salesOrderItems,
-                      ({
-                        id,
-                        number,
-                        materialNumber,
-                        description,
-                        unitPrice,
-                        quantity,
-                        deliveryDate,
-                        wbsElement,
-                        value,
-                        metaData,
-                        remainingQuantity = metaData.remainingQuantity,
-                      }) => (
-                        <Table.Row key={id}>
-                          <Table.Cell>{number}</Table.Cell>
-                          <Table.Cell>{materialNumber}</Table.Cell>
-                          <Table.Cell>{description}</Table.Cell>
-                          <Table.Cell>{unitPrice}</Table.Cell>
-                          <Table.Cell>{quantity}</Table.Cell>
-                          <Table.Cell>{new Date(deliveryDate).toLocaleDateString()}</Table.Cell>
-                          <Table.Cell>{wbsElement}</Table.Cell>
-                          <Table.Cell>{remainingQuantity}</Table.Cell>
-                          <Table.Cell>{value}</Table.Cell>
-                        </Table.Row>
-                      )
-                    )}
-                  </Table.Body>
-                </StyledTable>
-
-                <Grid divided="vertically">
-                  <Grid.Row columns={2}>
-                    <Grid.Column />
-                    <Grid.Column>
-                      <List celled>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Total Sales Items</List.Header>
-                            {this.state.salesOrderItems ? this.state.salesOrderItems.length : ''}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Total Quantity</List.Header>
-                            {_.sumBy(this.state.salesOrderItems, si => si.quantity)}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Total Value</List.Header>
-                            {_.sumBy(this.state.salesOrderItems, si => si.value)}
-                          </List.Content>
-                        </List.Item>
-                        <List.Item>
-                          <List.Content>
-                            <List.Header>Pending SalesOrder Value</List.Header>
-                            {this.state.salesOrder.metaData
-                              ? this.state.salesOrder.metaData.pendingSalesOrderValue
-                              : ''}
-                          </List.Content>
-                        </List.Item>
-                      </List>
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid>
-              </SalesOrderSection>
+              />
+              <Plasma.Provider instance={firebase}>
+                <Firestore.Update path="salesOrders" id={this.props.match.params.id} data={this.data}>
+                  {({ update, data }) => (
+                    <React.Fragment>
+                      'update '+{JSON.stringify(update)}
+                      'data '+ {JSON.stringify(data)}
+                      <h1>HELLO</h1>
+                      {update()}
+                    </React.Fragment>
+                  )}
+                </Firestore.Update>
+              </Plasma.Provider>
             </div>
           )}
         />
