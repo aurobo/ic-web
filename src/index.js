@@ -1,15 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-import { HashRouter } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
 import { theme } from '@innovic/components/shared';
 import firebase from 'firebase/app';
-import 'firebase/firestore';
 import 'firebase/auth';
+import 'firebase/firestore';
 import Raven from 'raven-js';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { HashRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import App from './App';
+import './index.css';
+import registerServiceWorker from './registerServiceWorker';
 
 if (process.env.NODE_ENV === 'development') {
   if (process.env.REACT_APP_SENTRY) {
@@ -36,14 +36,6 @@ firebase.initializeApp({
   storageBucket: 'aurobo-a6fc8.appspot.com',
   messagingSenderId: '406509490895',
 });
-
-firebase
-  .auth()
-  .signInWithEmailAndPassword('admin@aurobo.in', '123456')
-  .catch(function(error) {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-  });
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

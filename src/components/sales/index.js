@@ -21,7 +21,7 @@ class Sales extends React.Component {
           </Dropdown>
         </TopNav>
         <Switch>
-          <Route path="/sales/sales-orders/:id+" component={SalesOrders} />
+          <Route path="/sales/sales-orders/:id" component={SalesOrder} />
           <Route path="/sales/sales-orders" component={SalesOrders} />
           <Route
             path="/sales/import-excel"

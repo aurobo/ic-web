@@ -1,184 +1,152 @@
-import ControlPanel from '@innovic/components/shared/ControlPanel';
-import Popup from 'semantic-ui-react/dist/commonjs/modules/Popup/Popup';
-import Tab from 'semantic-ui-react/dist/commonjs/modules/Tab/Tab';
-import { Segment, Menu, Label, Icon, Table, Button, Checkbox } from 'semantic-ui-react';
-import { Link, Route } from 'react-router-dom';
-import { FlatButton } from '@innovic/components/shared';
-import React from 'react';
+import { ControlPanel, FlatButton } from '@innovic/components/shared';
 import Plasma, { Firestore } from '@innovic/plasma';
-import styled from 'styled-components';
 import firebase from 'firebase/app';
-
-const TabItem = ({ to, children, ...rest }) => {
-  return to ? (
-    <Link to={to}>
-      <Menu.Item as="span" {...rest}>
-        {children}
-      </Menu.Item>
-    </Link>
-  ) : (
-    <Menu.Item {...rest}>{children}</Menu.Item>
-  );
-};
-
-const StyledTabItem = styled(TabItem)`
-  &&&&&& {
-    border-radius: 0 !important;
-    border-top: none;
-  }
-`;
-
-const Close = styled(Icon).attrs({ name: 'close' })`
-  &&&&&& {
-    position: relative;
-    right: 0;
-    margin-left: 10px;
-    margin-right: 0;
-    z-index: 99999;
-  }
-
-  &&&:hover {
-    color: red;
-  }
-`;
+import { Formik } from 'formik';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
+import { Header, Icon, Input, Modal, Segment } from 'semantic-ui-react';
 
 class SalesOrders extends React.Component {
   state = {
-    panes: [],
-    activeIndex: 0,
-    openTabsUrl: '/sales/sales-orders',
+    creating: false,
   };
 
-  createNewTab = (e, id, openTabsUrl) => {
-    return {
-      id: id,
-      menuItem: (
-        <StyledTabItem key={id} to={openTabsUrl}>
-          {id} <Close onClick={e => this.closeTab(e, id)} />
-        </StyledTabItem>
-      ),
-      pane: (
-        <Tab.Pane key={id}>
-          <Firestore.Document path={'salesOrders/' + id} schemaless>
-            {({ doc, isLoading, error }) => (
-              <div>{isLoading ? 'Loading...' : error ? error.message : JSON.stringify(doc)}</div>
-            )}
-          </Firestore.Document>
-        </Tab.Pane>
-      ),
-    };
+  handleModalOpen = e => {
+    this.setState({ creating: true });
   };
 
-  componentDidMount() {
-    const { id } = this.props.match.params;
+  handleModalClose = e => {
+    this.setState({ creating: false });
+  };
 
-    if (id) {
-      if (id.indexOf('/') !== -1) {
-        let idArray = id.split('/');
-        console.log(idArray);
-        const panes = [...this.state.panes];
-        let { openTabsUrl } = this.state;
-        idArray.forEach(item => {
-          openTabsUrl = openTabsUrl + '/' + item;
-          panes.push(this.createNewTab(null, item, openTabsUrl));
-        });
-        this.setState({ panes, activeIndex: panes.length, openTabsUrl: openTabsUrl });
-      } else {
-        this.openTab(null, this.props.match.params.id);
-      }
-    }
+  componentWillMount() {
+    // Mousetrap.bind('1', this.handleModalOpen);
   }
 
-  closeTab = (e, id) => {
-    const panes = this.state.panes.filter(x => x.id !== id);
-    this.setState({ panes });
-  };
-
-  openTab = (e, id) => {
-    const panes = [...this.state.panes];
-    let openTabsUrl = this.state.openTabsUrl;
-    openTabsUrl = openTabsUrl + '/' + id;
-    let pane = this.state.panes.filter(x => x.id === id);
-    if (pane.length > 0) {
-      this.props.history.push('/sales/sales-orders/' + id);
-      return;
-    }
-    panes.push(this.createNewTab(e, id, openTabsUrl));
-    this.props.history.push(openTabsUrl);
-    this.setState({ panes, activeIndex: panes.length, openTabsUrl: openTabsUrl });
-  };
-
-  handleTabChange = (e, data) => {
-    this.setState({ activeIndex: data.activeIndex });
-  };
+  componentWillUnmount() {
+    // Mousetrap.unbind('1', this.handleModalOpen);
+  }
 
   render() {
-    const { panes, activeIndex } = this.state;
     return (
       <Plasma.Provider instance={firebase}>
         <ControlPanel title="Sales Orders">
-          <FlatButton size="tiny" primary disabled>
-            Create
-          </FlatButton>
+          <Modal
+            trigger={
+              <FlatButton size="tiny" onClick={this.handleModalOpen}>
+                Create
+              </FlatButton>
+            }
+            open={this.state.creating}
+            onClose={this.handleModalClose}
+          >
+            <Plasma.Provider instance={firebase}>
+              <Modal.Header>Create Sales Order</Modal.Header>
+              <Modal.Content scrolling>
+                <Modal.Description>
+                  <Header>Modal Header</Header>
+                  <p>This is an example of expanded content that will cause the modal's dimmer to scroll</p>
+                </Modal.Description>
+                <Firestore.Create
+                  path="salesOrders"
+                  alias="SO"
+                  schemaless
+                  onSubmit={() => this.setState({ creating: false })}
+                >
+                  {({ create }) => (
+                    <Formik
+                      initialValues={{ customer: '', customerReference: '' }}
+                      onSubmit={create}
+                      render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+                        <form onSubmit={handleSubmit}>
+                          <Input
+                            type="text"
+                            name="customer"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.customer}
+                          />
+                          {touched.customer && errors.customer && <div>{errors.customer}</div>}
+                          <Input
+                            type="password"
+                            name="customerReference"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.customerReference}
+                          />
+                          {touched.customerReference &&
+                            errors.customerReference && <div>{errors.customerReference}</div>}
+                          <FlatButton type="submit" disabled={isSubmitting}>
+                            Submit
+                          </FlatButton>
+                        </form>
+                      )}
+                    />
+                  )}
+                </Firestore.Create>
+              </Modal.Content>
+              <Modal.Actions>
+                <FlatButton primary>
+                  Proceed <Icon name="chevron right" />
+                </FlatButton>
+              </Modal.Actions>
+            </Plasma.Provider>
+          </Modal>
           <Link to="/sales/import-excel">
             <FlatButton size="tiny">Import</FlatButton>
           </Link>
         </ControlPanel>
-        <Tab
-          onTabChange={this.handleTabChange}
-          activeIndex={activeIndex}
-          renderActiveOnly={false}
-          panes={[
-            {
-              id: 'all',
-              menuItem: (
-                <StyledTabItem key="all" to="/sales/sales-orders">
-                  All
-                </StyledTabItem>
-              ),
-              pane: (
-                <Tab.Pane key="all">
-                  <Firestore.Collection path="salesOrders" schemaless>
-                    {({ collection, isLoading, error }) => (
-                      <div>
-                        {isLoading ? (
-                          'Loading...'
-                        ) : error ? (
-                          error.message
-                        ) : (
-                          <Table celled fixed singleLine selectable>
-                            <Table.Header>
-                              <Table.Row>
-                                <Table.HeaderCell>Id</Table.HeaderCell>
-                                <Table.HeaderCell>Status</Table.HeaderCell>
-                                <Table.HeaderCell>Description</Table.HeaderCell>
-                              </Table.Row>
-                            </Table.Header>
-
-                            <Table.Body>
-                              {collection.map(doc => (
-                                <Table.Row
-                                  key={doc.id}
-                                  style={{ cursor: 'pointer' }}
-                                  onClick={e => this.openTab(e, doc.id)}
-                                >
-                                  <Table.Cell>{doc.id}</Table.Cell>
-                                  <Table.Cell>Approved</Table.Cell>
-                                  <Table.Cell>Shorter description</Table.Cell>
-                                </Table.Row>
-                              ))}
-                            </Table.Body>
-                          </Table>
-                        )}
-                      </div>
-                    )}
-                  </Firestore.Collection>
-                </Tab.Pane>
-              ),
-            },
-            ...panes,
-          ]}
-        />
+        <Segment attached>
+          <Firestore.Collection path="salesOrders" schemaless>
+            {({ collection, isLoading, error }) => (
+              <div>
+                {isLoading ? (
+                  'Loading...'
+                ) : error ? (
+                  error.message
+                ) : (
+                  <ReactTable
+                    className="-highlight"
+                    defaultFilterMethod={(filter, row) =>
+                      String(row[filter.id])
+                        .toLowerCase()
+                        .includes(String(filter.value).toLowerCase())
+                    }
+                    data={collection}
+                    columns={[
+                      {
+                        Header: 'Key',
+                        accessor: 'key',
+                      },
+                      {
+                        Header: 'Id',
+                        accessor: 'id',
+                      },
+                      {
+                        Header: 'Customer',
+                        accessor: 'customer',
+                      },
+                      {
+                        Header: 'Customer Reference',
+                        accessor: 'customerReference',
+                      },
+                    ]}
+                    defaultPageSize={10}
+                    filterable={true}
+                    // defaultSorted={[
+                    //   {
+                    //     id: 'id',
+                    //     desc: true,
+                    //   },
+                    // ]}
+                  />
+                )}
+              </div>
+            )}
+          </Firestore.Collection>
+        </Segment>
       </Plasma.Provider>
     );
   }

@@ -2,9 +2,9 @@ import React from 'react';
 
 class Create extends React.Component {
   create = data => {
-    const { firebase, firestore, path, schema, schemaless, user } = this.props;
+    const { firebase, firestore, path, schema, schemaless, onSubmit, alias } = this.props;
 
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(user => {
       if (user) {
         data.meta = {
           createdBy: { uid: user.uid, email: user.email },
@@ -30,10 +30,32 @@ class Create extends React.Component {
           .doc(user.uid)
           .collection('timeline')
           .doc();
-        batch.set(docRef, data);
-        batch.set(docHistoryRef, data);
-        batch.set(userTimelineRef, { type: 'Created', data: data });
-        batch.commit();
+
+        firestore
+          .collection(path)
+          .orderBy('meta.createdOn', 'desc')
+          .limit(1)
+          .get()
+          .then(collection => {
+            if (collection.docs[0] && collection.docs[0].data().keyId) {
+              data.keyId = collection.docs[0].data().keyId + 1;
+            } else {
+              data.keyId = 1;
+            }
+
+            let str = '' + data.keyId;
+            let pad = '00000';
+
+            data.key = alias + '-' + pad.substring(0, pad.length - str.length) + str;
+
+            batch.set(docRef, data);
+            batch.set(docHistoryRef, data);
+            batch.set(userTimelineRef, { type: 'Created', data: data });
+            batch.commit();
+            if (typeof onSubmit === 'function') {
+              onSubmit();
+            }
+          });
       }
     });
   };
