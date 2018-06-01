@@ -33,6 +33,7 @@ class Create extends React.Component {
 
         firestore
           .collection(path)
+          // Needs to be configurable
           .orderBy('meta.createdOn', 'desc')
           .limit(1)
           .get()
