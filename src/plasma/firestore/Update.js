@@ -13,14 +13,53 @@ export default class Update extends React.Component {
   update = ({ data, cusName }) => {
     const { firebase, firestore, id, path, schema, schemaless } = this.props;
 
+    console.log('---data1---');
+
+    console.log(data);
     firebase.auth().onAuthStateChanged(user => {
       let userUpdateMeta = {
         lastModifiedBy: { uid: user.uid, email: user.email },
         lastModifiedOn: new Date(),
       };
       data.meta = Object.assign(data.meta, userUpdateMeta);
+      console.log('---data2---');
 
+      console.log(data);
       data = Object.assign(data, { customer: cusName });
+      let items = [
+        {
+          material: 'pen',
+          quantity: 10,
+        },
+        {
+          material: 'cover',
+          quantity: 2,
+        },
+        {
+          material: 'point',
+          quantity: 5,
+        },
+      ];
+      data.salesItems = [];
+      // items.forEach(element => {
+      //   firestore
+      //     .collection('salesOrderItems')
+      //     .add(element)
+      //     .then(
+      //       docRef => {
+      //         console.log(`created item doc ${docRef.id}`);
+      //         let item = Object.assign({}, element, { id: docRef.id });
+      //         data.salesItems.push(item);
+      //       },
+      //       error => {
+      //         console.log(`error occured ${error}`);
+      //       }
+      //     );
+      // });
+
+      console.log('---data3---');
+
+      console.log(data);
 
       // Validate schema before updating
       if (!schemaless) {
@@ -30,16 +69,30 @@ export default class Update extends React.Component {
           }
         });
       }
-
+      let batch = firestore.batch();
       var docRef = firestore.collection(path).doc(id);
-      docRef.update({ data }).then(
+      batch.update(docRef, data);
+      items.forEach(element => {
+        let SalesItemRef = docRef.collection('salesOrderItems').doc(element.material);
+        batch.set(SalesItemRef, element);
+      });
+      batch.commit().then(
         successRep => {
-          console.log(`Data updated successfully for doc ${id}`);
+          console.log(`Batch success ${successRep}`);
         },
         error => {
-          throw `Error ocurred while updating details of ${id}  ::: ${JSON.stringify(error)}`;
+          throw `batch failed  ::: ${JSON.stringify(error)}`;
         }
       );
+
+      //   docRef.update(data).then(
+      //     successRep => {
+      //       console.log(`Data updated successfully for doc ${id}`);
+      //     },
+      //     error => {
+      //       throw `Error ocurred while updating details of ${id}  ::: ${JSON.stringify(error)}`;
+      //     }
+      //   );
     });
   };
   getById = () => {

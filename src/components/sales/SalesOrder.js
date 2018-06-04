@@ -5,6 +5,7 @@ import ControlPanel from '@innovic/components/shared/ControlPanel';
 import { api } from '@innovic/components/shared/Utilities';
 import List from 'semantic-ui-react/dist/commonjs/elements/List/List';
 import Grid from 'semantic-ui-react/dist/commonjs/collections/Grid/Grid';
+import { Modal, Header } from 'semantic-ui-react';
 import styled from 'styled-components';
 import Message from 'semantic-ui-react/dist/commonjs/collections/Message/Message';
 import Image from 'semantic-ui-react/dist/commonjs/elements/Image/Image';
@@ -159,6 +160,10 @@ class SalesOrder extends React.Component {
       });
   };
 
+  print(data) {
+    console.log(data);
+  }
+
   render() {
     const { column, salesOrderItems, direction, hasError } = this.state;
     return (
@@ -301,6 +306,39 @@ class SalesOrder extends React.Component {
                           }}
                         />
                       </form>
+                      {data.salesItems ? (
+                        data.salesItems.map((element, i) => {
+                          let salesItemData = { material: element.material, quantity: element.quantity };
+
+                          return (
+                            <div key={i}>
+                              Mateiral : {element.material} &nbsp; Quantity : {element.quantity}{' '}
+                              <Modal trigger={<input type="button" value="Edit" />}>
+                                <Plasma.Provider instance={firebase}>
+                                  <Firestore.Update path="salesOrderItmes" schemaless>
+                                    <Modal.Header>Select a Photo</Modal.Header>
+                                    <Modal.Content image>
+                                      {JSON.stringify(salesItemData)}
+                                      <input
+                                        type="button"
+                                        value="Test"
+                                        onClick={() => {
+                                          this.print({
+                                            material: salesItemData.material + '-altered',
+                                            quantity: salesItemData.quantity + 5,
+                                          });
+                                        }}
+                                      />
+                                    </Modal.Content>
+                                  </Firestore.Update>
+                                </Plasma.Provider>
+                              </Modal>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <div> No items found</div>
+                      )}
                     </React.Fragment>
                   )}
                 </Firestore.Update>
