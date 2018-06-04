@@ -9,6 +9,7 @@ class List extends React.Component {
         name="Vendors"
         getUrl="/Vendors"
         importLink="/master/vendor/import-excel"
+        deleteUrl="/Vendors"
         tableColumns={[
           {
             Header: 'Key',

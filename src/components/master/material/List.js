@@ -8,6 +8,7 @@ class List extends React.Component {
         name="Materials"
         getUrl="/Materials"
         importLink="/master/material/import-excel"
+        deleteUrl="/Materials"
         tableColumns={[
           {
             Header: 'Key',

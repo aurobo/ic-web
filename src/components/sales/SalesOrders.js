@@ -133,7 +133,12 @@ class SalesOrders extends React.Component {
                         accessor: 'customerReference',
                       },
                     ]}
-                    defaultPageSize={10}
+                    defaultPageSize={25}
+                    pageSizeOptions={[25, 50, 75, 100]}
+                    showPaginationBottom
+                    style={{
+                      height: 'calc(100vh - 182px)',
+                    }}
                     filterable={true}
                     // defaultSorted={[
                     //   {

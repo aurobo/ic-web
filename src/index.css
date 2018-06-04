@@ -50,3 +50,7 @@ html {
   background: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.8);
 }
+
+.ReactTable .rt-tbody .rt-tr .rt-td {
+  line-height: 28px;
+}

@@ -12,6 +12,7 @@ import LoginLayout from './LoginLayout';
 import LoginBox from './LoginBox';
 import ControlPanel from './ControlPanel';
 import Api from './Api';
+import Notification from './Notification';
 
 const theme = {
   primary: { default: '#4a148c', light: '#7c43bd', dark: '#12005e' },
@@ -73,4 +74,5 @@ export {
   LoginBox,
   ControlPanel,
   Api,
+  Notification,
 };

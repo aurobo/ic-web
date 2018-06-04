@@ -1,17 +1,9 @@
 import React from 'react';
-import { Message, Dimmer, Loader } from 'semantic-ui-react';
+import { Dimmer, Loader } from 'semantic-ui-react';
 import { api } from './Utilities';
-import styled from 'styled-components';
+import { Notification } from '@innovic/components/shared';
 
-const StyledMessage = styled(Message)`
-  &&& {
-    position: fixed;
-    z-index: 9999;
-    min-width: 400px;
-    right: 10px;
-    bottom: 10px;
-  }
-`;
+// https://github.com/axios/axios/issues/960
 class Api extends React.Component {
   state = { hasError: false, requestCompleted: false, loading: true };
 
@@ -42,10 +34,9 @@ class Api extends React.Component {
     if (requestCompleted) {
       return hasError ? (
         <React.Fragment>
-          <StyledMessage negative floating onDismiss={this.handleDismiss}>
-            <Message.Header>Something Went Wrong</Message.Header>
+          <Notification header="Something Went Wrong">
             <p>Contact Administrator</p>
-          </StyledMessage>
+          </Notification>
           {this.props.children}
         </React.Fragment>
       ) : (
