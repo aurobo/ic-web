@@ -283,7 +283,7 @@ class SalesOrder extends React.Component {
                 className="no-print"
               />
               <Plasma.Provider instance={firebase}>
-                <Firestore.Update path="salesOrders" id={this.props.match.params.id} data={this.data}>
+                <Firestore.Set path="salesOrders" id={this.props.match.params.id} data={this.data}>
                   {({ update, data }) => (
                     <React.Fragment>
                       'update '+{JSON.stringify(update)}
@@ -292,7 +292,7 @@ class SalesOrder extends React.Component {
                       {update()}
                     </React.Fragment>
                   )}
-                </Firestore.Update>
+                </Firestore.Set>
               </Plasma.Provider>
             </div>
           )}

@@ -2,14 +2,12 @@ import React from 'react';
 import Plasma from '..';
 import Collection from './Collection';
 import Document from './Document';
-import Create from './Create';
-import Update from './Update';
+import Set from './Set';
 
 const Firestore = {
   Collection: props => <Plasma.Consumer component={Collection} {...props} />,
   Document: props => <Plasma.Consumer component={Document} {...props} />,
-  Create: props => <Plasma.Consumer component={Create} {...props} />,
-  Update: props => <Plasma.Consumer component={Update} {...props} />,
+  Set: props => <Plasma.Consumer component={Set} {...props} />,
 };
 
 export default Firestore;

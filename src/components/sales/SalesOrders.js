@@ -49,7 +49,7 @@ class SalesOrders extends React.Component {
                   <Header>Modal Header</Header>
                   <p>This is an example of expanded content that will cause the modal's dimmer to scroll</p>
                 </Modal.Description>
-                <Firestore.Create
+                <Firestore.Set
                   path="salesOrders"
                   alias="SO"
                   schemaless
@@ -85,7 +85,7 @@ class SalesOrders extends React.Component {
                       )}
                     />
                   )}
-                </Firestore.Create>
+                </Firestore.Set>
               </Modal.Content>
               <Modal.Actions>
                 <FlatButton primary>

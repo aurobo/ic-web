@@ -1,6 +1,6 @@
 import React from 'react';
 
-class Create extends React.Component {
+class Set extends React.Component {
   create = data => {
     const { firebase, firestore, path, schema, schemaless, onSubmit, alias } = this.props;
 
@@ -66,4 +66,4 @@ class Create extends React.Component {
   }
 }
 
-export default Create;
+export default Set;
