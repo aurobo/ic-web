@@ -17,6 +17,8 @@ import { Input, Checkbox, Dropdown, Segment, Icon } from 'semantic-ui-react';
 import Plasma, { Firestore } from '@innovic/plasma';
 import firebase from 'firebase';
 import { Formik } from 'formik';
+import SalesOrderForm from './SalesOrderForm.js';
+
 const SalesOrderSection = styled(Message)`
   &&& {
     margin: 15px auto;
@@ -290,36 +292,7 @@ class SalesOrder extends React.Component {
                   schemaless
                   onSubmit={() => this.setState({ creating: false })}
                 >
-                  {({ set }) => (
-                    <Formik
-                      initialValues={{ customer: '', customerReference: '' }}
-                      onSubmit={set}
-                      render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-                        <form onSubmit={handleSubmit}>
-                          <Input
-                            type="text"
-                            name="customer"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.customer}
-                          />
-                          {touched.customer && errors.customer && <div>{errors.customer}</div>}
-                          <Input
-                            type="password"
-                            name="customerReference"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.customerReference}
-                          />
-                          {touched.customerReference &&
-                            errors.customerReference && <div>{errors.customerReference}</div>}
-                          <FlatButton type="submit" disabled={isSubmitting}>
-                            Submit
-                          </FlatButton>
-                        </form>
-                      )}
-                    />
-                  )}
+                  {({ set }) => <SalesOrderForm onSubmit={set} />}
                 </Firestore.Set>
               </Plasma.Provider>
             </React.Fragment>
@@ -340,41 +313,9 @@ class SalesOrder extends React.Component {
                     isLoading ? null : (
                       <Firestore.Set path={`salesOrders/${this.props.match.params.id}`} schemaless>
                         {({ set }) => (
-                          <Formik
-                            initialValues={{ customer: doc.customer, customerReference: doc.customerReference }}
+                          <SalesOrderForm
                             onSubmit={set}
-                            render={({
-                              values,
-                              errors,
-                              touched,
-                              handleChange,
-                              handleBlur,
-                              handleSubmit,
-                              isSubmitting,
-                            }) => (
-                              <form onSubmit={handleSubmit}>
-                                <Input
-                                  type="text"
-                                  name="customer"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.customer}
-                                />
-                                {touched.customer && errors.customer && <div>{errors.customer}</div>}
-                                <Input
-                                  type="password"
-                                  name="customerReference"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.customerReference}
-                                />
-                                {touched.customerReference &&
-                                  errors.customerReference && <div>{errors.customerReference}</div>}
-                                <FlatButton type="submit" disabled={isSubmitting}>
-                                  Submit
-                                </FlatButton>
-                              </form>
-                            )}
+                            initialValues={{ customer: doc.customer, customerReference: doc.customerReference }}
                           />
                         )}
                       </Firestore.Set>
