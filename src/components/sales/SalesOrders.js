@@ -55,10 +55,10 @@ class SalesOrders extends React.Component {
                   schemaless
                   onSubmit={() => this.setState({ creating: false })}
                 >
-                  {({ create }) => (
+                  {({ set }) => (
                     <Formik
                       initialValues={{ customer: '', customerReference: '' }}
-                      onSubmit={create}
+                      onSubmit={set}
                       render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
                         <form onSubmit={handleSubmit}>
                           <Input

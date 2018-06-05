@@ -1,16 +1,29 @@
 import React from 'react';
 
 class Set extends React.Component {
-  create = data => {
+  set = formData => {
     const { firebase, firestore, path, schema, schemaless, onSubmit, alias } = this.props;
+    let data = { ...formData };
+    let splittedPath = path.split('/');
+
+    //If existingDocId exist in the path means the operation is Update else it is Create
+    let existingDocId = splittedPath.length % 2 === 0 ? splittedPath.splice(splittedPath.length - 1, 1)[0] : undefined;
+    let preccedingPath = splittedPath.join('/');
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        if (!existingDocId) {
+          data.meta = {
+            createdBy: { uid: user.uid, email: user.email },
+            createdOn: new Date(),
+          };
+        }
         data.meta = {
-          createdBy: { uid: user.uid, email: user.email },
-          lastModifiedBy: { uid: user.uid, email: user.email },
-          createdOn: new Date(),
-          lastModifiedOn: new Date(),
+          ...data.meta,
+          ...{
+            lastModifiedBy: { uid: user.uid, email: 'sanket@aurobo.in' },
+            lastModifiedOn: new Date(),
+          },
         };
 
         // Validate schema before updating
@@ -21,9 +34,10 @@ class Set extends React.Component {
             }
           });
         }
-
         let batch = firestore.batch();
-        let docRef = firestore.collection(path).doc();
+        let docRef = existingDocId
+          ? firestore.collection(preccedingPath).doc(existingDocId)
+          : firestore.collection(preccedingPath).doc();
         let docHistoryRef = docRef.collection('history').doc();
         let userTimelineRef = firestore
           .collection('users')
@@ -31,38 +45,22 @@ class Set extends React.Component {
           .collection('timeline')
           .doc();
 
-        firestore
-          .collection(path)
-          // Needs to be configurable
-          .orderBy('meta.createdOn', 'desc')
-          .limit(1)
-          .get()
-          .then(collection => {
-            if (collection.docs[0] && collection.docs[0].data().keyId) {
-              data.keyId = collection.docs[0].data().keyId + 1;
-            } else {
-              data.keyId = 1;
-            }
+        // key generation will be shifted to cloud function
+        // firestore
 
-            let str = '' + data.keyId;
-            let pad = '00000';
-
-            data.key = alias + '-' + pad.substring(0, pad.length - str.length) + str;
-
-            batch.set(docRef, data);
-            batch.set(docHistoryRef, data);
-            batch.set(userTimelineRef, { type: 'Created', data: data });
-            batch.commit();
-            if (typeof onSubmit === 'function') {
-              onSubmit();
-            }
-          });
+        batch.set(docRef, data, { merge: true });
+        batch.set(docHistoryRef, data);
+        batch.set(userTimelineRef, { type: 'Created', data: data });
+        batch.commit();
+        if (typeof onSubmit === 'function') {
+          onSubmit();
+        }
       }
     });
   };
 
   render() {
-    return <React.Fragment>{this.props.children({ create: this.create })}</React.Fragment>;
+    return <React.Fragment>{this.props.children({ set: this.set })}</React.Fragment>;
   }
 }
 

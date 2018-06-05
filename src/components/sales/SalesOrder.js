@@ -16,7 +16,7 @@ import { Switch } from 'react-router-dom';
 import { Input, Checkbox, Dropdown, Segment, Icon } from 'semantic-ui-react';
 import Plasma, { Firestore } from '@innovic/plasma';
 import firebase from 'firebase';
-
+import { Formik } from 'formik';
 const SalesOrderSection = styled(Message)`
   &&& {
     margin: 15px auto;
@@ -283,16 +283,52 @@ class SalesOrder extends React.Component {
                 className="no-print"
               />
               <Plasma.Provider instance={firebase}>
-                <Firestore.Set path="salesOrders" id={this.props.match.params.id} data={this.data}>
-                  {({ update, data }) => (
-                    <React.Fragment>
-                      'update '+{JSON.stringify(update)}
-                      'data '+ {JSON.stringify(data)}
-                      <h1>HELLO</h1>
-                      {update()}
-                    </React.Fragment>
-                  )}
-                </Firestore.Set>
+                <Firestore.Document path={`salesOrders/${this.props.match.params.id}`} schemaless>
+                  {({ doc, isLoading, error }) =>
+                    isLoading ? null : (
+                      <Firestore.Set path={`salesOrders/${this.props.match.params.id}`} schemaless>
+                        {({ set }) => (
+                          <Formik
+                            initialValues={{ customer: doc.customer, customerReference: doc.customerReference }}
+                            onSubmit={set}
+                            render={({
+                              values,
+                              errors,
+                              touched,
+                              handleChange,
+                              handleBlur,
+                              handleSubmit,
+                              isSubmitting,
+                            }) => (
+                              <form onSubmit={handleSubmit}>
+                                <Input
+                                  type="text"
+                                  name="customer"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.customer}
+                                />
+                                {touched.customer && errors.customer && <div>{errors.customer}</div>}
+                                <Input
+                                  type="password"
+                                  name="customerReference"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.customerReference}
+                                />
+                                {touched.customerReference &&
+                                  errors.customerReference && <div>{errors.customerReference}</div>}
+                                <FlatButton type="submit" disabled={isSubmitting}>
+                                  Submit
+                                </FlatButton>
+                              </form>
+                            )}
+                          />
+                        )}
+                      </Firestore.Set>
+                    )
+                  }
+                </Firestore.Document>
               </Plasma.Provider>
             </div>
           )}
