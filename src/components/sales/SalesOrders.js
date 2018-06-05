@@ -33,67 +33,9 @@ class SalesOrders extends React.Component {
     return (
       <Plasma.Provider instance={firebase}>
         <ControlPanel title="Sales Orders">
-          <Modal
-            trigger={
-              <FlatButton size="tiny" onClick={this.handleModalOpen}>
-                Create
-              </FlatButton>
-            }
-            open={this.state.creating}
-            onClose={this.handleModalClose}
-          >
-            <Plasma.Provider instance={firebase}>
-              <Modal.Header>Create Sales Order</Modal.Header>
-              <Modal.Content scrolling>
-                <Modal.Description>
-                  <Header>Modal Header</Header>
-                  <p>This is an example of expanded content that will cause the modal's dimmer to scroll</p>
-                </Modal.Description>
-                <Firestore.Set
-                  path="salesOrders"
-                  alias="SO"
-                  schemaless
-                  onSubmit={() => this.setState({ creating: false })}
-                >
-                  {({ set }) => (
-                    <Formik
-                      initialValues={{ customer: '', customerReference: '' }}
-                      onSubmit={set}
-                      render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-                        <form onSubmit={handleSubmit}>
-                          <Input
-                            type="text"
-                            name="customer"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.customer}
-                          />
-                          {touched.customer && errors.customer && <div>{errors.customer}</div>}
-                          <Input
-                            type="password"
-                            name="customerReference"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.customerReference}
-                          />
-                          {touched.customerReference &&
-                            errors.customerReference && <div>{errors.customerReference}</div>}
-                          <FlatButton type="submit" disabled={isSubmitting}>
-                            Submit
-                          </FlatButton>
-                        </form>
-                      )}
-                    />
-                  )}
-                </Firestore.Set>
-              </Modal.Content>
-              <Modal.Actions>
-                <FlatButton primary>
-                  Proceed <Icon name="chevron right" />
-                </FlatButton>
-              </Modal.Actions>
-            </Plasma.Provider>
-          </Modal>
+          <Link to="/sales/sales-orders/create">
+            <FlatButton size="tiny">Create</FlatButton>
+          </Link>
           <Link to="/sales/import-excel">
             <FlatButton size="tiny">Import</FlatButton>
           </Link>

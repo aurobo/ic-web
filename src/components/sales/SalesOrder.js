@@ -275,6 +275,58 @@ class SalesOrder extends React.Component {
           )}
         />
         <Route
+          path="/sales/sales-orders/create"
+          render={() => (
+            <React.Fragment>
+              <ControlPanel
+                title={'Sales Orders / ' + this.state.salesOrder.key + ' / New Invoice'}
+                loading={this.state.loading}
+                className="no-print"
+              />
+              <Plasma.Provider instance={firebase}>
+                <Firestore.Set
+                  path="salesOrders"
+                  alias="SO"
+                  schemaless
+                  onSubmit={() => this.setState({ creating: false })}
+                >
+                  {({ set }) => (
+                    <Formik
+                      initialValues={{ customer: '', customerReference: '' }}
+                      onSubmit={set}
+                      render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+                        <form onSubmit={handleSubmit}>
+                          <Input
+                            type="text"
+                            name="customer"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.customer}
+                          />
+                          {touched.customer && errors.customer && <div>{errors.customer}</div>}
+                          <Input
+                            type="password"
+                            name="customerReference"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.customerReference}
+                          />
+                          {touched.customerReference &&
+                            errors.customerReference && <div>{errors.customerReference}</div>}
+                          <FlatButton type="submit" disabled={isSubmitting}>
+                            Submit
+                          </FlatButton>
+                        </form>
+                      )}
+                    />
+                  )}
+                </Firestore.Set>
+              </Plasma.Provider>
+            </React.Fragment>
+          )}
+        />
+        <Route
+          path="/sales/sales-orders/:id"
           render={() => (
             <div>
               <ControlPanel
