@@ -295,7 +295,7 @@ class SalesOrder extends React.Component {
                   shouldCommit
                 >
                   {/* TO_CONFIRM */}
-                  {props => <SalesOrderForm {...props} />}
+                  {props => <SalesOrderForm {...props} mode="create" />}
                 </Firestore.Set>
               </Plasma.Provider>
             </React.Fragment>
@@ -319,6 +319,7 @@ class SalesOrder extends React.Component {
                           <SalesOrderForm
                             {...props}
                             initialValues={{ customer: doc.customer, customerReference: doc.customerReference }}
+                            mode="edit"
                           />
                         )}
                       </Firestore.Set>

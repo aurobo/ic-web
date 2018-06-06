@@ -6,7 +6,7 @@ import Plasma, { Firestore } from '@innovic/plasma';
 import firebase from 'firebase';
 
 const SalesOrderForm = props => {
-  const { set, initialValues, batch, docRef } = props;
+  const { set, initialValues, batch, docRef, mode } = props;
   return (
     <Formik
       initialValues={initialValues || { customer: '', customerReference: '' }}
@@ -89,7 +89,13 @@ const SalesOrderForm = props => {
               <Modal.Header>Create Sales Order Item</Modal.Header>
               <Modal.Content scrolling>
                 {/* TO_CONFIRM */}
-                <Firestore.Set path="salesOrderItems" parentBatch={batch} parentdocRef={docRef} schemaless>
+                <Firestore.Set
+                  path="salesOrderItems"
+                  parentBatch={mode === 'create' ? batch : undefined}
+                  parentdocRef={docRef}
+                  schemaless
+                  shouldCommit={mode === 'edit'}
+                >
                   {({ set }) => (
                     <Formik
                       initialValues={{ material: '', quantity: '' }}
