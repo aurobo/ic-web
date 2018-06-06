@@ -314,10 +314,10 @@ class SalesOrder extends React.Component {
                 <Firestore.Document path={`salesOrders/${this.props.match.params.id}`} schemaless>
                   {({ doc, isLoading, error }) =>
                     isLoading ? null : (
-                      <Firestore.Set path={`salesOrders/${this.props.match.params.id}`} schemaless>
-                        {({ set, batch, docRef }) => (
+                      <Firestore.Set path={`salesOrders/${this.props.match.params.id}`} schemaless shouldCommit>
+                        {props => (
                           <SalesOrderForm
-                            onSubmit={set}
+                            {...props}
                             initialValues={{ customer: doc.customer, customerReference: doc.customerReference }}
                           />
                         )}

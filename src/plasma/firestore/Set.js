@@ -26,12 +26,22 @@ class Set extends React.Component {
     this.docId = splittedPath.length % 2 === 0 ? splittedPath.splice(splittedPath.length - 1, 1)[0] : undefined;
     this.collectionPath = splittedPath.join('/');
 
-    if (parentBatch) {
+    /* TO_CONFIRM*/
+    if (shouldCommit && parentdocRef) {
+      //child eniity wants to commit itself, needs parentDocRef to make the path
+      this.batch = firestore.batch();
+      this.docRef = this.docId
+        ? parentdocRef.collection(this.collectionPath).doc(this.docId)
+        : parentdocRef.collection(this.collectionPath).doc();
+    } else if (parentBatch) {
+      //child entity wants to delegate the save operation to parent, so will use parent batch
       this.batch = parentBatch;
       this.docRef = this.docId
         ? parentdocRef.collection(this.collectionPath).doc(this.docId)
         : parentdocRef.collection(this.collectionPath).doc();
     } else {
+      //will be usefult for parent, it will create own batch and path, parentDocRef should not be passed for parent
+      //otherwise the first if condision will get passed
       this.batch = firestore.batch();
       this.docRef = this.docId
         ? firestore.collection(this.collectionPath).doc(this.docId)

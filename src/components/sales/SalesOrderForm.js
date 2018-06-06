@@ -28,6 +28,61 @@ const SalesOrderForm = props => {
               Submit
             </FlatButton>
           </form>
+          <Firestore.Collection path={`${docRef.path}/salesOrderItems`} schemaless>
+            {({ collection, isLoading, error }) =>
+              collection.map((soi, index) => {
+                return (
+                  <Modal key={index} trigger={<FlatButton size="tiny">Edit {soi.material}</FlatButton>}>
+                    <Plasma.Provider instance={firebase}>
+                      <Modal.Header>Edit {soi.material}</Modal.Header>
+                      <Modal.Content scrolling>
+                        {/* TO_CONFIRM */}
+                        <Firestore.Set path={`salesOrderItems/${soi.id}`} parentdocRef={docRef} schemaless shouldCommit>
+                          {({ set }) => (
+                            <Formik
+                              initialValues={soi}
+                              onSubmit={set}
+                              render={({
+                                values,
+                                errors,
+                                touched,
+                                handleChange,
+                                handleBlur,
+                                handleSubmit,
+                                isSubmitting,
+                              }) => (
+                                <form onSubmit={handleSubmit}>
+                                  <Input
+                                    type="text"
+                                    name="material"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.material}
+                                  />
+                                  {touched.material && errors.material && <div>{errors.material}</div>}
+                                  <Input
+                                    type="password"
+                                    name="quantity"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.quantity}
+                                  />
+                                  {touched.quantity && errors.quantity && <div>{errors.quantity}</div>}
+                                  <FlatButton type="submit" disabled={isSubmitting}>
+                                    Submit
+                                  </FlatButton>
+                                </form>
+                              )}
+                            />
+                          )}
+                        </Firestore.Set>
+                      </Modal.Content>
+                    </Plasma.Provider>
+                  </Modal>
+                );
+              })
+            }
+          </Firestore.Collection>
 
           <Modal trigger={<FlatButton size="tiny">Add Sales Order Item</FlatButton>}>
             <Plasma.Provider instance={firebase}>
@@ -37,7 +92,7 @@ const SalesOrderForm = props => {
                 <Firestore.Set path="salesOrderItems" parentBatch={batch} parentdocRef={docRef} schemaless>
                   {({ set }) => (
                     <Formik
-                      initialValues={initialValues || { material: '', quantity: '' }}
+                      initialValues={{ material: '', quantity: '' }}
                       onSubmit={set}
                       render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
                         <form onSubmit={handleSubmit}>
