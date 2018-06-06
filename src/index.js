@@ -1,50 +1,26 @@
-import { theme } from '@innovic/components/shared';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-import Raven from 'raven-js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import App from './App';
+import Aurobo from './Aurobo';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
+import Plasma from '@aurobo/plasma';
+import initializeApp from './initializeApp';
 
-if (process.env.NODE_ENV === 'development') {
-  if (process.env.REACT_APP_SENTRY) {
-    Raven.config(process.env.REACT_APP_SENTRY).install();
-  } else {
-    // Extract errors as constants in another file
-    console.log(
-      '%cHey you awesome contributor, did you know you can set REACT_APP_SENTRY environment variable to receive reports while in development environment?',
-      'color: #fff; background: blue'
-    );
-    console.log(
-      '%cCheckout aurobo contributor FAQs/Guide on how to setup local environment variables.',
-      'color: #fff; background: blue'
-    );
-    console.log('%cYou should checkout https://sentry.io', 'color: #fff; background: blue');
-  }
-}
-// Use environment variables
-firebase.initializeApp({
-  apiKey: 'AIzaSyAyip2obosWwgzAx7XvXTH7e2O6ms-kUMw',
-  authDomain: 'aurobo-a6fc8.firebaseapp.com',
-  databaseURL: 'https://aurobo-a6fc8.firebaseio.com',
-  projectId: 'aurobo-a6fc8',
-  storageBucket: 'aurobo-a6fc8.appspot.com',
-  messagingSenderId: '406509490895',
-});
-
-firebase.auth().signInWithEmailAndPassword('admin@aurobo.in', '123456');
+const theme = {
+  primary: { default: '#4a148c', light: '#7c43bd', dark: '#12005e' },
+  secondary: { default: '#00c853', light: '#5efc82', dark: '#009624' },
+};
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <HashRouter>
-      <App />
+      <Aurobo />
     </HashRouter>
   </ThemeProvider>,
   document.getElementById('root')
 );
+
 registerServiceWorker();
+initializeApp();

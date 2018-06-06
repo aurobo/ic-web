@@ -1,5 +1,5 @@
 {
-  "name": "@innovic/plasma",
+  "name": "@aurobo/plasma",
   "version": "0.1.0",
   "main": "index.js",
   "description": "Services for firestore usage in aurobo and helper React Components",

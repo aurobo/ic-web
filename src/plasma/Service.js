@@ -1,23 +1,23 @@
-const matchToSchema = (data, schema) => {
-  let result = {};
+// const matchToSchema = (data, schema) => {
+//   let result = {};
 
-  for (let property in schema) {
-    if (schema.hasOwnProperty(property)) {
-      result[property] = data[property];
-    }
-  }
+//   for (let property in schema) {
+//     if (schema.hasOwnProperty(property)) {
+//       result[property] = data[property];
+//     }
+//   }
 
-  return result;
-};
+//   return result;
+// };
 
-const whenCreated = (firebase, data) => {
-  firebase.auth().onAuthStateChanged(user => {
-    data.createdBy = user;
-    data.lastModifiedBy = user;
-    data.createdOn = new Date();
-    data.lastModifiedOn = new Date();
-  });
-};
+// const whenCreated = (firebase, data) => {
+//   firebase.auth().onAuthStateChanged(user => {
+//     data.createdBy = user;
+//     data.lastModifiedBy = user;
+//     data.createdOn = new Date();
+//     data.lastModifiedOn = new Date();
+//   });
+// };
 
 const whenUpdated = (firebase, data) => {
   firebase.auth().onAuthStateChanged(user => {
@@ -126,3 +126,15 @@ class Service {
 }
 
 export default Service;
+
+// Use environment variables
+// firebase.initializeApp({
+//   apiKey: 'AIzaSyAyip2obosWwgzAx7XvXTH7e2O6ms-kUMw',
+//   authDomain: 'aurobo-a6fc8.firebaseapp.com',
+//   databaseURL: 'https://aurobo-a6fc8.firebaseio.com',
+//   projectId: 'aurobo-a6fc8',
+//   storageBucket: 'aurobo-a6fc8.appspot.com',
+//   messagingSenderId: '406509490895',
+// });
+
+// firebase.auth().signInWithEmailAndPassword('admin@aurobo.in', '123456');

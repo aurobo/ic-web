@@ -1,6 +1,8 @@
 import React from 'react';
 import Firestore from './firestore';
 import Raven from 'raven-js';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 const { Provider, Consumer } = React.createContext();
 
@@ -31,11 +33,11 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const PlasmaProvider = ({ instance: firebase, children }) => {
+const PlasmaProvider = ({ firebase, children, ...rest }) => {
   const firestore = firebase.firestore();
   const settings = { timestampsInSnapshots: true };
   firestore.settings(settings);
-  return <Provider value={{ firebase: firebase, firestore: firestore }}>{children}</Provider>;
+  return <Provider value={{ firebase: firebase, firestore: firestore, ...rest }}>{children}</Provider>;
 };
 
 const PlasmaConsumer = ({ component: Component, ...rest }) => {

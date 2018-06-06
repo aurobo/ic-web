@@ -1,7 +1,7 @@
 language: node_js
 node_js: "lts/*"
 install: yarn
-script: yarn build
+script: yarn build && yarn styleguidist build
 branches:
   only: 
   - master
@@ -26,13 +26,13 @@ deploy:
       branch: master
   - provider: surge
     project: ./build/
-    domain: early-crush.surge.sh  
+    domain: https://aurobo.surge.sh  
     skip_cleanup: true
     on:
       branch: dev
   - provider: surge
     project: ./build/
-    domain: innovic.surge.sh  
+    domain: beta.aurobo.in
     skip_cleanup: true
     on:
       branch: dev
