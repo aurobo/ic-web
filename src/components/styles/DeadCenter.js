@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-const LoginLayout = styled.div`
+const DeadCenter = styled.div`
   display: flex;
   height: 100vh;
   justify-content: center;
   align-items: center;
 `;
 
-export default LoginLayout;
+export default DeadCenter;

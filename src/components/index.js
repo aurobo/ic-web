@@ -8,7 +8,6 @@ import TopNav from './TopNav';
 import ImportExcel from './ImportExcel';
 import NotFound from './NotFound';
 import Dashboard from './Dashboard';
-import LoginLayout from './LoginLayout';
 import LoginBox from './LoginBox';
 import ControlPanel from './ControlPanel';
 import Notification from './Notification';
@@ -63,7 +62,6 @@ export {
   ImportExcel,
   NotFound,
   Dashboard,
-  LoginLayout,
   LoginBox,
   ControlPanel,
   Notification,

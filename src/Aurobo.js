@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { LoginBox, Dashboard, LoginLayout, NotFound } from '@aurobo/components';
+import { LoginBox, Dashboard } from '@aurobo/components';
+import { DeadCenter } from '@aurobo/components/styles';
 import { Sales } from '@aurobo/apps/innovic';
 
 class App extends Component {
@@ -33,9 +34,9 @@ class App extends Component {
           path="/login"
           render={() =>
             !this.state.isAuthenticated ? (
-              <LoginLayout>
+              <DeadCenter>
                 <LoginBox onAuthSuccess={this.handleAuthSuccess} />
-              </LoginLayout>
+              </DeadCenter>
             ) : (
               <Redirect to="/dashboard" />
             )
@@ -46,11 +47,8 @@ class App extends Component {
           render={() =>
             this.state.isAuthenticated ? (
               <Switch>
-                <Route path="/404" component={NotFound} />
                 <Route path="/dashboard" render={() => <Dashboard url="/dashboard" onLogout={this.logout} />} />
                 <Route path="/sales" render={() => <Sales url="/sales" onLogout={this.logout} />} />
-                {/* <Route path="/purchase" render={() => <Purchase url="/purchase" onLogout={this.logout} />} /> */}
-                {/* <Route path="/master" render={() => <Master url="/master" onLogout={this.logout} />} /> */}
                 <Redirect to="/dashboard" />
               </Switch>
             ) : (

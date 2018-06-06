@@ -5,7 +5,6 @@ import { ThemeProvider } from 'styled-components';
 import Aurobo from './Aurobo';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
-import Plasma from '@aurobo/plasma';
 import initializeApp from './initializeApp';
 
 const theme = {

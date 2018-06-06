@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import TopNav from './TopNav';
 import IfHasPermission from './IfHasPermission';
 
-const InnovicLogo = styled(Image)`
+const Logo = styled(Image)`
   &&& {
     position: fixed;
     top: 50%;
@@ -48,12 +48,10 @@ const StyledIcon = styled(Icon).attrs({
   &&&&&& {
     box-shadow: 0 0 0 0.1em ${props => props.theme.primary.light} inset;
     color: ${props => props.theme.primary.light} !important;
-    /* background-color: ${props => props.theme.secondary.default} !important; */
   }
   ${IconLink}:hover &&&&&& {
     box-shadow: 0 0 0 0.1em ${props => props.theme.primary.default} inset;
     color: ${props => props.theme.primary.default} !important;
-    /* background-color: ${props => props.theme.primary.default} !important; */
   }
 `;
 
@@ -64,24 +62,24 @@ class Dashboard extends React.Component {
       <div>
         <TopNav menuHeader="Dashboard" url={this.props.url} className="no-print" onLogout={this.props.onLogout} />
         <Icons>
-          <IconLink to="/master">
+          {/* <IconLink to="/master">
             <StyledIcon name="database" />
             <IconLabel>Master</IconLabel>
-          </IconLink>
+          </IconLink> */}
           <IfHasPermission permissions={['accessSales']}>
             <IconLink to="/sales">
               <StyledIcon name="truck" flipped="horizontally" />
               <IconLabel>Sales</IconLabel>
             </IconLink>
           </IfHasPermission>
-          <IfHasPermission permissions={['accessPurchase']}>
+          {/* <IfHasPermission permissions={['accessPurchase']}>
             <IconLink to="/purchase">
               <StyledIcon name="truck" />
               <IconLabel>Purchase</IconLabel>
             </IconLink>
-          </IfHasPermission>
+          </IfHasPermission> */}
         </Icons>
-        <InnovicLogo src={logo} size="huge" />
+        <Logo src={logo} size="huge" />
       </div>
     );
   }

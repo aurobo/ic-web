@@ -1,0 +1,1 @@
+export { DeadCenter } from './DeadCenter';
