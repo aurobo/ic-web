@@ -9,11 +9,11 @@ import SalesOrderItemModalButton from './SalesOrderItemModalButton.js';
 const SalesOrderForm = props => {
   const { set, initialValues, batch, docRef, mode } = props;
   return (
-    <Formik
-      initialValues={initialValues || { customer: '', customerReference: '' }}
-      onSubmit={set}
-      render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-        <React.Fragment>
+    <React.Fragment>
+      <Formik
+        initialValues={initialValues || { customer: '', customerReference: '' }}
+        onSubmit={set}
+        render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
           <form onSubmit={handleSubmit}>
             <Input type="text" name="customer" onChange={handleChange} onBlur={handleBlur} value={values.customer} />
             {touched.customer && errors.customer && <div>{errors.customer}</div>}
@@ -29,26 +29,31 @@ const SalesOrderForm = props => {
               Submit
             </FlatButton>
           </form>
-          <Firestore.Collection path={`${docRef.path}/salesOrderItems`} schemaless>
-            {({ collection, isLoading, error }) =>
-              collection.map((soi, index) => {
-                return (
-                  <SalesOrderItemModalButton
-                    key={index}
-                    soi={soi}
-                    parentdocRef={docRef}
-                    parentBatch={batch}
-                    mode={mode}
-                  />
-                );
-              })
-            }
-          </Firestore.Collection>
+        )}
+      />
+      <Firestore.Collection path={`${docRef.path}/salesOrderItems`} schemaless>
+        {({ collection, isLoading, error }) =>
+          collection.map((soi, index) => {
+            return (
+              <SalesOrderItemModalButton
+                key={index}
+                data={{ ...soi }}
+                parentdocRef={docRef}
+                parentBatch={batch}
+                mode={mode}
+              />
+            );
+          })
+        }
+      </Firestore.Collection>
 
-          <SalesOrderItemModalButton parentdocRef={docRef} parentBatch={batch} mode={mode} />
-        </React.Fragment>
-      )}
-    />
+      <SalesOrderItemModalButton
+        data={{ material: '', quantity: '' }}
+        parentdocRef={docRef}
+        parentBatch={batch}
+        mode={mode}
+      />
+    </React.Fragment>
   );
 };
 

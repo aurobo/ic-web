@@ -5,14 +5,16 @@ import { FlatButton } from '@innovic/components/shared';
 import { Formik } from 'formik';
 import Plasma, { Firestore } from '@innovic/plasma';
 
-const SalesOrderItemModalButton = ({ soi, parentdocRef, parentBatch, mode }) => (
-  <Modal trigger={<FlatButton size="tiny"> {soi ? `Edit ${soi.material}` : `Create Sales Order Item`}</FlatButton>}>
+const SalesOrderItemModalButton = ({ data, parentdocRef, parentBatch, mode }) => (
+  <Modal
+    trigger={<FlatButton size="tiny"> {data.id ? `Edit ${data.material}` : `Create Sales Order Item`}</FlatButton>}
+  >
     <Plasma.Provider instance={firebase}>
-      <Modal.Header>{soi ? `Edit ${soi.material}` : `Create Sales Order Item`}</Modal.Header>
+      <Modal.Header>{data.id ? `Edit ${data.material}` : `Create Sales Order Item`}</Modal.Header>
       <Modal.Content scrolling>
         {/* TO_CONFIRM */}
         <Firestore.Set
-          path={soi ? `salesOrderItems/${soi.id}` : `salesOrderItems`}
+          path={data.id ? `salesOrderItems/${data.id}` : `salesOrderItems`}
           parentdocRef={parentdocRef}
           parentBatch={mode === 'create' ? parentBatch : undefined}
           schemaless
@@ -20,7 +22,7 @@ const SalesOrderItemModalButton = ({ soi, parentdocRef, parentBatch, mode }) => 
         >
           {({ set }) => (
             <Formik
-              initialValues={soi}
+              initialValues={data}
               onSubmit={set}
               render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
                 <form onSubmit={handleSubmit}>
