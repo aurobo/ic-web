@@ -1,5 +1,5 @@
-import Organ from '@aurobo/anatomy/Organ';
 import React from 'react';
+import { Organ } from '@aurobo/anatomy';
 import Master from './master';
 import Sales from './sales';
 

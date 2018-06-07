@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu, Icon, Input } from 'semantic-ui-react';
 import Link from 'react-router-dom/Link';
 import styled from 'styled-components';
+import firebase from 'firebase/app';
 
 const StyledMenu = styled(Menu)`
   &&& {
@@ -16,7 +17,12 @@ const WideMenuItem = styled(Menu.Item)`
 `;
 
 class TopNav extends React.Component {
+  logout = () => {
+    console.log('hi');
+    firebase.auth().signOut();
+  };
   render() {
+    const { url } = this.props;
     return (
       <StyledMenu fixed="top" inverted className={this.props.className}>
         <Link to="/dashboard">
@@ -24,15 +30,15 @@ class TopNav extends React.Component {
             <Icon name="grid layout" />
           </Menu.Item>
         </Link>
-        <Link to={this.props.url}>
-          <Menu.Item header>{this.props.menuHeader || 'Innovic'}</Menu.Item>
+        <Link to={url}>
+          <Menu.Item header>{this.props.menuHeader || 'Aurobo'}</Menu.Item>
         </Link>
         {this.props.children}
         <Menu.Menu position="right">
           <WideMenuItem>
             <Input disabled icon="search" size="mini" placeholder="Search..." />
           </WideMenuItem>
-          <Menu.Item name="logout" onClick={this.props.onLogout} />
+          <Menu.Item name="logout" onClick={this.logout} />
         </Menu.Menu>
       </StyledMenu>
     );

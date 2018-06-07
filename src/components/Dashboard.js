@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Icon, Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 import TopNav from './TopNav';
-import IfHasPermission from './IfHasPermission';
 
 const Logo = styled(Image)`
   &&& {
@@ -60,24 +59,12 @@ class Dashboard extends React.Component {
     const { logo } = this.props;
     return (
       <div>
-        <TopNav menuHeader="Dashboard" url={this.props.url} className="no-print" onLogout={this.props.onLogout} />
+        <TopNav menuHeader="Dashboard" url="/dashboard" />
         <Icons>
-          {/* <IconLink to="/master">
-            <StyledIcon name="database" />
-            <IconLabel>Master</IconLabel>
-          </IconLink> */}
-          <IfHasPermission permissions={['accessSales']}>
-            <IconLink to="/sales">
-              <StyledIcon name="truck" flipped="horizontally" />
-              <IconLabel>Sales</IconLabel>
-            </IconLink>
-          </IfHasPermission>
-          {/* <IfHasPermission permissions={['accessPurchase']}>
-            <IconLink to="/purchase">
-              <StyledIcon name="truck" />
-              <IconLabel>Purchase</IconLabel>
-            </IconLink>
-          </IfHasPermission> */}
+          <IconLink to="/innovic">
+            <StyledIcon name="square full" />
+            <IconLabel>Innovic</IconLabel>
+          </IconLink>
         </Icons>
         <Logo src={logo} size="huge" />
       </div>

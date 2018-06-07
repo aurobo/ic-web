@@ -1,1 +1,3 @@
-export { DeadCenter } from './DeadCenter';
+import Button from './Button';
+
+export { Button };

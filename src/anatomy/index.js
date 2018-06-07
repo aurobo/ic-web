@@ -4,5 +4,7 @@ import Cell from './Cell';
 import ListCell from './ListCell';
 import ViewCell from './ViewCell';
 import MagicTissue from './MagicTissue';
+import Organism from './Organism';
+import Species from './Species';
 
-export { Tissue, Organ, Cell, ListCell, ViewCell, MagicTissue };
+export { Tissue, Organ, Cell, ListCell, ViewCell, MagicTissue, Organism, Species };
