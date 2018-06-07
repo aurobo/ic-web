@@ -1,8 +1,14 @@
 import React from 'react';
 
+const Organ = props => <div />;
+
 class Sales extends React.Component {
   render() {
-    return <div>I am Sales</div>;
+    return (
+      <Organ>
+        <Tissue />
+      </Organ>
+    );
   }
 }
 

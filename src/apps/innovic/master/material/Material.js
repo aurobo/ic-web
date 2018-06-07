@@ -1,10 +1,15 @@
 import React from 'react';
-import MaterialList from './MaterialList';
-import { Tissue } from '@aurobo/anatomy';
+import Cell from '@aurobo/anatomy/Cell';
+
+const List = props => <div>I am List</div>;
 
 class Material extends React.Component {
   render() {
-    return <Tissue list={MaterialList} />;
+    return (
+      <div>
+        I am Material<Cell component={List} />
+      </div>
+    );
   }
 }
 

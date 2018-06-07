@@ -18,8 +18,8 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
     "react-table": "^6.8.6",
-    "semantic-ui-react": "^0.80.2",
-    "styled-components": "^3.3.0"
+    "semantic-ui-react": "^0.81.1",
+    "styled-components": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,12 +29,12 @@
     "precommit": "pretty-quick --staged"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
     "eslint-plugin-prettier": "^2.6.0",
     "husky": "^0.14.3",
-    "prettier": "1.11.1",
-    "pretty-quick": "^1.4.1",
-    "react-styleguidist": "^7.0.16"
+    "prettier": "1.13.4",
+    "pretty-quick": "^1.6.0",
+    "react-styleguidist": "^7.0.17"
   }
 }

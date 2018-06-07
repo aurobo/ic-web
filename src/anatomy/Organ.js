@@ -1,18 +1,10 @@
 import React from 'react';
-import { TopNav } from '@aurobo/components';
-import { withRouter } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 
 class Organ extends React.Component {
   render() {
-    const { name, renderSwitch, renderMenu } = this.props;
-    return (
-      <div>
-        <TopNav menuHeader={name} url={this.props.match.url} className="no-print" onLogout={this.props.onLogout}>
-          {renderMenu()}
-        </TopNav>
-        {renderSwitch()}
-      </div>
-    );
+    const { component: Component, name } = this.props;
+    return <Route path={this.props.match.url + '/' + (name || Component.name.toLowerCase())} component={Component} />;
   }
 }
 

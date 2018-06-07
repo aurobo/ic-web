@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Form, Card, Input } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { getClaims } from './ClaimsManager';
 
 const Wrapper = styled.div`
   display: flex;
@@ -52,7 +51,7 @@ class LoginBox extends React.Component {
 
   authenticate = (username, password) => {
     this.setState({ loading: true });
-    var data = 'grant_type=password&username=' + username + '&password=' + password;
+    // var data = 'grant_type=password&username=' + username + '&password=' + password;
     // api
     //   .post('/token', data, {
     //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -114,12 +113,6 @@ class LoginBox extends React.Component {
             </Form>
           </Card.Content>
         </LoginForm>
-        {/* <StyledMessage>
-          <p>Login is temporarily inactive.</p>
-          <p>
-            <Link to="/dashboard">Click here</Link> to go to dashboard.
-          </p>
-        </StyledMessage> */}
       </Wrapper>
     );
   }

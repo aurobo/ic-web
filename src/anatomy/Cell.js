@@ -1,16 +1,11 @@
 import React from 'react';
-import { ControlPanel } from '@aurobo/components';
+import { Route, withRouter } from 'react-router-dom';
 
 class Cell extends React.Component {
   render() {
-    const { name, renderControlPanel, renderBody } = this.props;
-    return (
-      <React.Fragment>
-        <ControlPanel title={name}>{renderControlPanel()}</ControlPanel>
-        {renderBody()}
-      </React.Fragment>
-    );
+    const { component: Component, name } = this.props;
+    return <Route path={this.props.match.url + '/' + (name || Component.name.toLowerCase())} component={Component} />;
   }
 }
 
-export default Cell;
+export default withRouter(Cell);
