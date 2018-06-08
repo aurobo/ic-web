@@ -1,13 +1,17 @@
-import React from 'react';
-import { Organism } from '@aurobo/anatomy';
-import { Innovic } from '@aurobo/apps';
+import { Dashboard, Login, FullScreenLoader, PrivateRoute, NotFound } from '@aurobo/components';
 import Plasma from '@aurobo/plasma';
 import firebase from 'firebase/app';
-import { Login } from '@aurobo/components';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import { Dashboard } from '@aurobo/components';
+import React from 'react';
+import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import Species from './Species';
 
-var config = {
+const theme = {
+  primary: { default: '#4a148c', light: '#7c43bd', dark: '#12005e' },
+  secondary: { default: '#00c853', light: '#5efc82', dark: '#009624' },
+};
+
+const config = {
   apiKey: process.env.REACT_APP_AUROBO_API_KEY,
   authDomain: process.env.REACT_APP_AUROBO_AUTH_DOMAIN,
   databaseURL: process.env.REACT_APP_AUROBO_DATABASE_URL,
@@ -20,7 +24,7 @@ firebase.initializeApp(config);
 
 class Aurobo extends React.Component {
   state = {
-    isAuthenticated: false,
+    isAuthenticated: undefined,
   };
 
   componentDidMount() {
@@ -34,28 +38,32 @@ class Aurobo extends React.Component {
   render() {
     const { isAuthenticated } = this.state;
     return (
-      <Plasma.Provider firebase={firebase}>
-        <Switch>
-          <Route exact path="/login" render={() => (!isAuthenticated ? <Login /> : <Redirect to="/dashboard" />)} />
-          <Route
-            path="/"
-            render={() =>
-              isAuthenticated ? (
-                <React.Fragment>
-                  <Route path="/dashboard" component={Dashboard} />
-                  <Organism component={Innovic} />
-                </React.Fragment>
-              ) : (
-                <Redirect
-                  to={{
-                    pathname: '/login',
-                  }}
-                />
-              )
-            }
-          />
-        </Switch>
-      </Plasma.Provider>
+      <ThemeProvider theme={theme}>
+        <HashRouter>
+          <Plasma.Provider firebase={firebase}>
+            <Switch>
+              <Route
+                exact
+                path="/login"
+                render={() =>
+                  isAuthenticated !== undefined ? (
+                    !isAuthenticated ? (
+                      <Login />
+                    ) : (
+                      <Redirect to="/dashboard" />
+                    )
+                  ) : (
+                    <FullScreenLoader />
+                  )
+                }
+              />
+              <PrivateRoute path="/dashboard" component={Dashboard} />
+              {/* <PrivateRoute path="/app" component={Species} /> */}
+              <Route component={NotFound} />
+            </Switch>
+          </Plasma.Provider>
+        </HashRouter>
+      </ThemeProvider>
     );
   }
 }

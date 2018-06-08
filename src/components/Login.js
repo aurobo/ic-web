@@ -1,20 +1,12 @@
 import React from 'react';
 import { Input, Label } from 'semantic-ui-react';
-import { Button } from '@aurobo/components/styles';
+import { Button, CenteredColumn } from '@aurobo/components/styles';
 import styled from 'styled-components';
 import logo from '../assets/img/logo.png';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-
-const DeadCenter = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-`;
 
 const Heading = styled.div`
   display: flex;
@@ -65,7 +57,7 @@ const StyledInput = styled(Input)`
 class Login extends React.Component {
   render() {
     return (
-      <DeadCenter>
+      <CenteredColumn>
         <Heading>
           <Logo src={logo} alt="Aurobo Logo" />
           <Title>Aurobo</Title>
@@ -140,7 +132,7 @@ class Login extends React.Component {
             </Form>
           )}
         />
-      </DeadCenter>
+      </CenteredColumn>
     );
   }
 }

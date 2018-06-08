@@ -62,7 +62,7 @@ class Dashboard extends React.Component {
         <TopNav menuHeader="Dashboard" url="/dashboard" />
         <Icons>
           <IconLink to="/innovic">
-            <StyledIcon name="square full" />
+            <StyledIcon name="industry" />
             <IconLabel>Innovic</IconLabel>
           </IconLink>
         </Icons>

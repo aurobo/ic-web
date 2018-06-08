@@ -1,13 +1,32 @@
 import React from 'react';
-import { Message, Icon } from 'semantic-ui-react';
+import { CenteredColumn } from '@aurobo/components/styles';
+import aurobo from '../assets/img/aurobo-broken.png';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const IFrame = styled.iframe`
+  margin: 20px 0;
+`;
 
 class NotFound extends React.Component {
   render() {
     return (
-      <Message icon>
-        <Icon name="meh" />
-        <Message.Header>Not Found</Message.Header>
-      </Message>
+      <CenteredColumn>
+        <img src={aurobo} alt="Aurobo Broken" />
+        <h1>Not Found</h1>
+        <IFrame
+          title="Not Found"
+          src="https://giphy.com/embed/6uGhT1O4sxpi8"
+          width="480"
+          height="240"
+          frameBorder="0"
+          className="giphy-embed"
+          allowFullScreen
+        />
+        <Link to="/dashboard">
+          <h1>Go to Dashboard</h1>
+        </Link>
+      </CenteredColumn>
     );
   }
 }

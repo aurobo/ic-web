@@ -17,7 +17,7 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
-    if (this.state.error) {
+    if (this.state.hasError) {
       return (
         <div className="snap" onClick={() => Raven.lastEventId() && Raven.showReportDialog()}>
           <span role="img" aria-label="crying">

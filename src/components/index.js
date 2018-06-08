@@ -11,6 +11,8 @@ import Dashboard from './Dashboard';
 import Login from './Login';
 import ControlPanel from './ControlPanel';
 import Notification from './Notification';
+import FullScreenLoader from './FullScreenLoader';
+import PrivateRoute from './PrivateRoute';
 
 const FlatButton = styled(Button)`
   &&& {
@@ -65,4 +67,6 @@ export {
   Login,
   ControlPanel,
   Notification,
+  FullScreenLoader,
+  PrivateRoute,
 };

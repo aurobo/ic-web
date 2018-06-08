@@ -1,8 +1,19 @@
 import React from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { PrivateRoute } from '@aurobo/components';
 
 const Organism = ({ component: Component, name, ...rest }) => {
-  return <Route path={rest.match.url + (name || Component.name.toLowerCase())} component={Component} />;
+  const url = rest.match.url + '/' + (name || Component.name.toLowerCase());
+  return (
+    <React.Fragment>
+      <PrivateRoute path={url} component={Component} />
+      {React.Children.map(rest.children, child =>
+        React.cloneElement(child, {
+          url: url,
+        })
+      )}
+    </React.Fragment>
+  );
 };
 
 export default withRouter(Organism);
