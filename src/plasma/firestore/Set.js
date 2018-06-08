@@ -2,7 +2,7 @@ import React from 'react';
 
 class Set extends React.Component {
   batch = {};
-
+  state = { isLoading: false, error: undefined };
   constructor(props) {
     super(props);
     const { firestore, parentBatch } = this.props;
@@ -66,7 +66,16 @@ class Set extends React.Component {
         this.batch.set(userTimelineRef, { type: 'Created', data: data });
 
         if (!parentBatch) {
-          this.batch.commit();
+          this.setState({ isLoading: true });
+
+          this.batch.commit().then(
+            () => {
+              this.setState({ isLoading: false });
+            },
+            errorResponse => {
+              this.setState({ isLoading: false, error: errorResponse });
+            }
+          );
         }
 
         if (typeof onSubmit === 'function') {
@@ -77,7 +86,16 @@ class Set extends React.Component {
   };
 
   render() {
-    return <React.Fragment>{this.props.children({ set: this.set, batch: this.batch })}</React.Fragment>;
+    return (
+      <React.Fragment>
+        {this.props.children({
+          set: this.set,
+          batch: this.batch,
+          isLoading: this.state.isLoading,
+          error: this.state.error,
+        })}
+      </React.Fragment>
+    );
   }
 }
 

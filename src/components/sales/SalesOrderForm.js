@@ -43,7 +43,16 @@ const SalesOrderForm = props => {
       </Firestore.Collection>
 
       {data.id ? (
-        <SalesOrderItemModalButton salesOrderId={data.id} parentBatch={batch} />
+        <React.Fragment>
+          <Firestore.Delete docPath={`salesOrders/${data.id}`}>
+            {({ deleteDoc }) => (
+              <FlatButton size="tiny" onClick={deleteDoc}>
+                Delete
+              </FlatButton>
+            )}
+          </Firestore.Delete>
+          <SalesOrderItemModalButton salesOrderId={data.id} parentBatch={batch} />
+        </React.Fragment>
       ) : (
         'please SAVE the sales order to add sales items in it'
       )}

@@ -291,7 +291,7 @@ class SalesOrder extends React.Component {
                   schemaless
                   onSubmit={data => this.setState({ creating: false })}
                 >
-                  {({ set, batch }) => <SalesOrderForm set={set} batch={batch} />}
+                  {({ set, batch, isLoading, error }) => <SalesOrderForm set={set} batch={batch} />}
                 </Firestore.Set>
               </Plasma.Provider>
             </React.Fragment>
@@ -311,7 +311,7 @@ class SalesOrder extends React.Component {
                   {({ doc, isLoading, error }) =>
                     isLoading ? null : (
                       <Firestore.Set collectionPath={`salesOrders`} schemaless>
-                        {({ set, batch }) => (
+                        {({ set, batch, isLoading, error }) => (
                           <SalesOrderForm
                             set={set}
                             batch={batch}

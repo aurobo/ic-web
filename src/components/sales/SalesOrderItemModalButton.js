@@ -22,7 +22,7 @@ const SalesOrderItemModalButton = props => {
 
             schemaless
           >
-            {({ set }) => (
+            {({ set, isLoading, error }) => (
               <Formik
                 initialValues={data}
                 onSubmit={set}
@@ -52,6 +52,13 @@ const SalesOrderItemModalButton = props => {
               />
             )}
           </Firestore.Set>
+          <Firestore.Delete docPath={`salesOrders/${salesOrderId}/salesOrderItems/${data.id}`}>
+            {({ deleteDoc }) => (
+              <FlatButton size="tiny" onClick={deleteDoc}>
+                Delete
+              </FlatButton>
+            )}
+          </Firestore.Delete>
         </Modal.Content>
       </Plasma.Provider>
     </Modal>
