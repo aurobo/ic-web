@@ -286,16 +286,12 @@ class SalesOrder extends React.Component {
                 className="no-print"
               />
               <Plasma.Provider instance={firebase}>
-                {/* TO_CONFIRM - shouldCommit*/}
                 <Firestore.Set
-                  path="salesOrders"
-                  alias="SO"
+                  collectionPath="salesOrders"
                   schemaless
-                  onSubmit={() => this.setState({ creating: false })}
-                  shouldCommit
+                  onSubmit={data => this.setState({ creating: false })}
                 >
-                  {/* TO_CONFIRM */}
-                  {props => <SalesOrderForm {...props} mode="create" />}
+                  {({ set, batch }) => <SalesOrderForm set={set} batch={batch} />}
                 </Firestore.Set>
               </Plasma.Provider>
             </React.Fragment>
@@ -314,12 +310,12 @@ class SalesOrder extends React.Component {
                 <Firestore.Document path={`salesOrders/${this.props.match.params.id}`} schemaless>
                   {({ doc, isLoading, error }) =>
                     isLoading ? null : (
-                      <Firestore.Set path={`salesOrders/${this.props.match.params.id}`} schemaless shouldCommit>
-                        {props => (
+                      <Firestore.Set collectionPath={`salesOrders`} schemaless>
+                        {({ set, batch }) => (
                           <SalesOrderForm
-                            {...props}
-                            initialValues={{ customer: doc.customer, customerReference: doc.customerReference }}
-                            mode="edit"
+                            set={set}
+                            batch={batch}
+                            data={{ id: doc.id, customer: doc.customer, customerReference: doc.customerReference }}
                           />
                         )}
                       </Firestore.Set>

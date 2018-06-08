@@ -7,11 +7,12 @@ import firebase from 'firebase';
 import SalesOrderItemModalButton from './SalesOrderItemModalButton.js';
 
 const SalesOrderForm = props => {
-  const { set, initialValues, batch, docRef, mode } = props;
+  let defaultData = { id: undefined, customer: '', customerReference: '' };
+  const { set, data = defaultData, batch } = props;
   return (
     <React.Fragment>
       <Formik
-        initialValues={initialValues || { customer: '', customerReference: '' }}
+        initialValues={data}
         onSubmit={set}
         render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
           <form onSubmit={handleSubmit}>
@@ -31,28 +32,21 @@ const SalesOrderForm = props => {
           </form>
         )}
       />
-      <Firestore.Collection path={`${docRef.path}/salesOrderItems`} schemaless>
+      <Firestore.Collection path={`salesOrders/${data.id}/salesOrderItems`} schemaless>
         {({ collection, isLoading, error }) =>
           collection.map((soi, index) => {
             return (
-              <SalesOrderItemModalButton
-                key={index}
-                data={{ ...soi }}
-                parentdocRef={docRef}
-                parentBatch={batch}
-                mode={mode}
-              />
+              <SalesOrderItemModalButton salesOrderId={data.id} key={index} data={{ ...soi }} parentBatch={batch} />
             );
           })
         }
       </Firestore.Collection>
 
-      <SalesOrderItemModalButton
-        data={{ material: '', quantity: '' }}
-        parentdocRef={docRef}
-        parentBatch={batch}
-        mode={mode}
-      />
+      {data.id ? (
+        <SalesOrderItemModalButton salesOrderId={data.id} parentBatch={batch} />
+      ) : (
+        'please SAVE the sales order to add sales items in it'
+      )}
     </React.Fragment>
   );
 };

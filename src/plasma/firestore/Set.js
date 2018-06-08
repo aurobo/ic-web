@@ -1,61 +1,29 @@
 import React from 'react';
 
 class Set extends React.Component {
-  collectionPath = '';
-  docId = '';
   batch = {};
-  docRef = {};
 
-  /* TO_CONFIRM */
   constructor(props) {
     super(props);
-    const { path, firestore, parentBatch, parentdocRef, shouldCommit } = this.props;
+    const { firestore, parentBatch } = this.props;
 
-    /* TO_CONFIRM */
-
-    if (parentBatch && shouldCommit) {
-      throw `The child entity should delegate
-       it's data save to parent (by sending parentBatch) OR should take responsibility 
-       itself (by passing shouldCommit), but can't both at the same time`;
-    }
-
-    /* TO_CONFIRM - so dont ned to set id in the doc */
-    let splittedPath = path.split('/');
-
-    //If docId exist in the path means the operation is Update else it is Create
-    this.docId = splittedPath.length % 2 === 0 ? splittedPath.splice(splittedPath.length - 1, 1)[0] : undefined;
-    this.collectionPath = splittedPath.join('/');
-
-    /* TO_CONFIRM*/
-    if (shouldCommit && parentdocRef) {
-      //child eniity wants to commit itself, needs parentDocRef to make the path
-      this.batch = firestore.batch();
-      this.docRef = this.docId
-        ? parentdocRef.collection(this.collectionPath).doc(this.docId)
-        : parentdocRef.collection(this.collectionPath).doc();
-    } else if (parentBatch) {
+    if (parentBatch) {
       //child entity wants to delegate the save operation to parent, so will use parent batch
       this.batch = parentBatch;
-      this.docRef = this.docId
-        ? parentdocRef.collection(this.collectionPath).doc(this.docId)
-        : parentdocRef.collection(this.collectionPath).doc();
     } else {
-      //will be usefult for parent, it will create own batch and path, parentDocRef should not be passed for parent
+      //will be usefult for parent, it will create own batch and collectionPath, parentDocRef should not be passed for parent
       //otherwise the first if condision will get passed
       this.batch = firestore.batch();
-      this.docRef = this.docId
-        ? firestore.collection(this.collectionPath).doc(this.docId)
-        : firestore.collection(this.collectionPath).doc();
     }
   }
 
   set = formData => {
-    const { firebase, firestore, schema, schemaless, onSubmit, alias, shouldCommit } = this.props;
+    const { firebase, firestore, schema, schemaless, onSubmit, parentBatch, collectionPath } = this.props;
     let data = { ...formData };
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        if (!this.docId) {
+        if (!data.id) {
           data.meta = {
             createdBy: { uid: user.uid, email: user.email },
             createdOn: new Date(),
@@ -78,7 +46,13 @@ class Set extends React.Component {
           });
         }
 
-        let docHistoryRef = this.docRef.collection('history').doc();
+        let docRef = data.id
+          ? firestore.collection(collectionPath).doc(data.id)
+          : firestore.collection(collectionPath).doc();
+        if (!data.id) {
+          data.id = docRef.id;
+        }
+        let docHistoryRef = docRef.collection('history').doc();
         let userTimelineRef = firestore
           .collection('users')
           .doc(user.uid)
@@ -86,27 +60,24 @@ class Set extends React.Component {
           .doc();
 
         // key generation will be shifted to cloud function
-        // firestore
 
-        this.batch.set(this.docRef, data, { merge: true });
+        this.batch.set(docRef, data, { merge: true });
         this.batch.set(docHistoryRef, data);
         this.batch.set(userTimelineRef, { type: 'Created', data: data });
 
-        if (shouldCommit) {
+        if (!parentBatch) {
           this.batch.commit();
         }
 
         if (typeof onSubmit === 'function') {
-          onSubmit();
+          onSubmit(data);
         }
       }
     });
   };
 
   render() {
-    return (
-      <React.Fragment>{this.props.children({ set: this.set, batch: this.batch, docRef: this.docRef })}</React.Fragment>
-    );
+    return <React.Fragment>{this.props.children({ set: this.set, batch: this.batch })}</React.Fragment>;
   }
 }
 
