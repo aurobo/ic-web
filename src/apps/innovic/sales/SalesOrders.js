@@ -8,17 +8,6 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import { Header, Icon, Input, Modal, Segment } from 'semantic-ui-react';
 
-firebase.initializeApp({
-  apiKey: 'AIzaSyAyip2obosWwgzAx7XvXTH7e2O6ms-kUMw',
-  authDomain: 'aurobo-a6fc8.firebaseapp.com',
-  databaseURL: 'https://aurobo-a6fc8.firebaseio.com',
-  projectId: 'aurobo-a6fc8',
-  storageBucket: 'aurobo-a6fc8.appspot.com',
-  messagingSenderId: '406509490895',
-});
-
-firebase.auth().signInWithEmailAndPassword('admin@aurobo.in', '123456');
-
 class SalesOrders extends React.Component {
   state = {
     creating: false,
@@ -44,67 +33,9 @@ class SalesOrders extends React.Component {
     return (
       <Plasma.Provider firebase={firebase}>
         <ControlPanel title="Sales Orders">
-          <Modal
-            trigger={
-              <FlatButton size="tiny" onClick={this.handleModalOpen}>
-                Create
-              </FlatButton>
-            }
-            open={this.state.creating}
-            onClose={this.handleModalClose}
-          >
-            <Plasma.Provider instance={firebase}>
-              <Modal.Header>Create Sales Order</Modal.Header>
-              <Modal.Content scrolling>
-                <Modal.Description>
-                  <Header>Modal Header</Header>
-                  <p>This is an example of expanded content that will cause the modal's dimmer to scroll</p>
-                </Modal.Description>
-                <Firestore.Create
-                  path="salesOrders"
-                  alias="SO"
-                  schemaless
-                  onSubmit={() => this.setState({ creating: false })}
-                >
-                  {({ create }) => (
-                    <Formik
-                      initialValues={{ customer: '', customerReference: '' }}
-                      onSubmit={create}
-                      render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-                        <form onSubmit={handleSubmit}>
-                          <Input
-                            type="text"
-                            name="customer"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.customer}
-                          />
-                          {touched.customer && errors.customer && <div>{errors.customer}</div>}
-                          <Input
-                            type="password"
-                            name="customerReference"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.customerReference}
-                          />
-                          {touched.customerReference &&
-                            errors.customerReference && <div>{errors.customerReference}</div>}
-                          <FlatButton type="submit" disabled={isSubmitting}>
-                            Submit
-                          </FlatButton>
-                        </form>
-                      )}
-                    />
-                  )}
-                </Firestore.Create>
-              </Modal.Content>
-              <Modal.Actions>
-                <FlatButton primary>
-                  Proceed <Icon name="chevron right" />
-                </FlatButton>
-              </Modal.Actions>
-            </Plasma.Provider>
-          </Modal>
+          <Link to="innovic/sales/salesorder/create">
+            <FlatButton size="tiny">Create</FlatButton>
+          </Link>
           <Link to="/sales/import-excel">
             <FlatButton size="tiny">Import</FlatButton>
           </Link>
