@@ -4,18 +4,11 @@ import { PrivateRoute } from '@aurobo/components';
 
 class Cell extends React.Component {
   render() {
-    const { component: Component, name, url } = this.props;
+    const { component: Component, name, parentPath } = this.props;
+    const path = parentPath + '/' + name;
     return (
       <React.Fragment>
-        <PrivateRoute
-          path={(url || this.props.match.url) + '/' + (name || Component.name.toLowerCase())}
-          component={Component}
-        />
-        {React.Children.map(this.props.children, child =>
-          React.cloneElement(child, {
-            url: (url || this.props.match.url) + '/' + (name || Component.name.toLowerCase()),
-          })
-        )}
+        <div>Cell</div>
       </React.Fragment>
     );
   }

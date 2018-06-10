@@ -79,9 +79,6 @@ class Login extends React.Component {
               .then(user => setSubmitting(false))
               .catch(error => {
                 setSubmitting(false);
-                console.log(error);
-                // var errorCode = error.code;
-                // var errorMessage = error.message;
               });
           }}
           render={({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (

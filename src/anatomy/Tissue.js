@@ -1,21 +1,19 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Switch } from 'react-router-dom';
 import { PrivateRoute } from '@aurobo/components';
 
 class Tissue extends React.Component {
   render() {
-    const { component: Component, name, url } = this.props;
+    const { children, parentPath } = this.props;
     return (
       <React.Fragment>
-        <PrivateRoute
-          path={(url || this.props.match.url) + '/' + (name || Component.name.toLowerCase())}
-          component={Component}
-        />
-        {React.Children.map(this.props.children, child =>
-          React.cloneElement(child, {
-            url: (url || this.props.match.url) + '/' + (name || Component.name.toLowerCase()),
-          })
-        )}
+        {children
+          ? React.Children.map(children, cell => {
+              const { component: cellComponent, name: cellName } = cell.props;
+              let cellPath = parentPath + '/' + cellName;
+              return <PrivateRoute path={cellPath} component={cellComponent} />;
+            })
+          : null}
       </React.Fragment>
     );
   }

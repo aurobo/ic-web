@@ -13,6 +13,7 @@ import ControlPanel from './ControlPanel';
 import Notification from './Notification';
 import FullScreenLoader from './FullScreenLoader';
 import PrivateRoute from './PrivateRoute';
+import RecursiveRoute from './RecursiveRoute';
 
 const FlatButton = styled(Button)`
   &&& {
@@ -69,4 +70,5 @@ export {
   Notification,
   FullScreenLoader,
   PrivateRoute,
+  RecursiveRoute,
 };

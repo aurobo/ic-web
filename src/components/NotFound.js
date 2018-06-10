@@ -13,7 +13,6 @@ class NotFound extends React.Component {
     return (
       <CenteredColumn>
         <img src={aurobo} alt="Aurobo Broken" />
-        <h1>Not Found</h1>
         <IFrame
           title="Not Found"
           src="https://giphy.com/embed/6uGhT1O4sxpi8"

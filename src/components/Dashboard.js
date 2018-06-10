@@ -58,7 +58,7 @@ class Dashboard extends React.Component {
   render() {
     const { logo } = this.props;
     return (
-      <div>
+      <React.Fragment>
         <TopNav menuHeader="Dashboard" url="/dashboard" />
         <Icons>
           <IconLink to="/innovic">
@@ -67,7 +67,7 @@ class Dashboard extends React.Component {
           </IconLink>
         </Icons>
         <Logo src={logo} size="huge" />
-      </div>
+      </React.Fragment>
     );
   }
 }

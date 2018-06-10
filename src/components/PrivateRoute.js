@@ -18,14 +18,18 @@ class PrivateRoute extends React.Component {
 
   render() {
     const { isAuthenticated } = this.state;
-    const { component: Component, ...rest } = this.props;
+    const { component: Component, render, ...rest } = this.props;
     return (
       <Route
         {...rest}
         render={() =>
           isAuthenticated !== undefined ? (
             isAuthenticated ? (
-              <Component />
+              Component ? (
+                <Component />
+              ) : (
+                render()
+              )
             ) : (
               <Redirect
                 to={{

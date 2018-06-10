@@ -4,7 +4,8 @@ import firebase from 'firebase/app';
 import React from 'react';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import Species from './Species';
+import { organisms } from './aurobo.config';
+import { Organism } from '@aurobo/anatomy';
 
 const theme = {
   primary: { default: '#4a148c', light: '#7c43bd', dark: '#12005e' },
@@ -58,7 +59,10 @@ class Aurobo extends React.Component {
                 }
               />
               <PrivateRoute path="/dashboard" component={Dashboard} />
-              {/* <PrivateRoute path="/app" component={Species} /> */}
+              {organisms.map(organism => (
+                <PrivateRoute key={organism.alias} path={'/' + organism.alias} component={organism.component} />
+              ))}
+              <Route path="/not-found" component={NotFound} />
               <Route component={NotFound} />
             </Switch>
           </Plasma.Provider>
