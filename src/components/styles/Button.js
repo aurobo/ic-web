@@ -3,11 +3,14 @@ import { Button } from 'semantic-ui-react';
 
 export default styled(Button)`
   &&& {
-    background: ${props => props.theme.primary.default};
+    ${props => (props.light ? 'background: ' + props.theme.secondary.default : null)};
+    ${props => (props.dark ? 'background: ' + props.theme.primary.default : null)};
     text-transform: ${props => (props.fluid ? '' : 'uppercase')};
-    color: #fff;
+    ${props => (props.light || props.dark ? 'color: #fff' : null)};
+    ${props => (props.flat ? 'border-radius: 0' : null)};
   }
   &&&:hover {
-    background: ${props => props.theme.primary.dark};
+    ${props => (props.light ? 'background: ' + props.theme.secondary.dark : null)};
+    ${props => (props.dark ? 'background: ' + props.theme.primary.dark : null)};
   }
 `;

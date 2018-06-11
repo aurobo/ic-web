@@ -15,14 +15,6 @@ import FullScreenLoader from './FullScreenLoader';
 import PrivateRoute from './PrivateRoute';
 import RecursiveRoute from './RecursiveRoute';
 
-const FlatButton = styled(Button)`
-  &&& {
-    border-radius: 0;
-    text-transform: uppercase;
-    background: ${props => props.theme.secondary.light};
-  }
-`;
-
 const Page = styled(Message)`
   &&& {
     margin: 15px auto;
@@ -59,7 +51,6 @@ const StyledTable = styled(Table)`
 `;
 
 export {
-  FlatButton,
   DropdownLink,
   StyledTable,
   Page,
