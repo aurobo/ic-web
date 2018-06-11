@@ -1,26 +1,34 @@
 import React from 'react';
 import { withRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { PrivateRoute } from '@aurobo/components';
+import { Tissue } from '@aurobo/anatomy';
 
 class Organ extends React.Component {
   render() {
-    const { name, children, parentPath } = this.props;
+    const { children, path, render, name } = this.props;
+    console.log(this.props.location);
+    let firstChildPath = null;
     return (
       <React.Fragment>
-        <h2>{name}</h2>
+        <h1>{path}</h1>
         <Switch>
           {children
-            ? React.Children.map(children, tissue => {
-                const { name: tissueName, render } = tissue.props;
-                let path = parentPath + '/' + tissueName;
-                return <PrivateRoute render={render} path={path} />;
+            ? React.Children.map(children, (tissue, i) => {
+                const { name: tissueName } = tissue.props;
+                let tissuePath = path + '/' + tissueName;
+                if (i === 0) {
+                  firstChildPath = tissuePath;
+                }
+                return <Route render={() => <Tissue {...tissue.props} path={tissuePath} />} path={tissuePath} />;
               })
             : null}
-          {/* <Route render={() => <Redirect to="/not-found" />} /> */}
+          {render ? (
+            <Route exact render={render} />
+          ) : children ? (
+            <Route render={() => <Redirect to={firstChildPath} />} />
+          ) : (
+            <Route render={() => <Redirect to="/not-found" />} />
+          )}
         </Switch>
-        {React.Children.map(children, tissue =>
-          React.cloneElement(tissue, { parentPath: tissue.props.parentPath + '/' + tissue.props.name })
-        )}
       </React.Fragment>
     );
   }

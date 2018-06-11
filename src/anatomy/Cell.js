@@ -1,14 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { PrivateRoute } from '@aurobo/components';
 
 class Cell extends React.Component {
   render() {
-    const { component: Component, name, parentPath } = this.props;
-    const path = parentPath + '/' + name;
+    const { component: Component, name, path } = this.props;
     return (
       <React.Fragment>
-        <div>Cell</div>
+        <h1>{path}</h1>
       </React.Fragment>
     );
   }

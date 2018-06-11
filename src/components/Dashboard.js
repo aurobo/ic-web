@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Icon, Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 import TopNav from './TopNav';
+import { camelize } from '../utils';
 
 const Logo = styled(Image)`
   &&& {
@@ -56,15 +57,17 @@ const StyledIcon = styled(Icon).attrs({
 
 class Dashboard extends React.Component {
   render() {
-    const { logo } = this.props;
+    const { logo, links, name, url } = this.props;
     return (
       <React.Fragment>
-        <TopNav menuHeader="Dashboard" url="/dashboard" />
+        <TopNav menuHeader={name} url={url} />
         <Icons>
-          <IconLink to="/innovic">
-            <StyledIcon name="industry" />
-            <IconLabel>Innovic</IconLabel>
-          </IconLink>
+          {links.map(link => (
+            <IconLink to={link.to} key={camelize(link.name)}>
+              <StyledIcon name={link.icon} />
+              <IconLabel>{link.name}</IconLabel>
+            </IconLink>
+          ))}
         </Icons>
         <Logo src={logo} size="huge" />
       </React.Fragment>
