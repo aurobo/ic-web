@@ -1,15 +1,15 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { ControlPanel } from '@aurobo/components';
 
 class Cell extends React.Component {
   render() {
-    const { component: Component, name, path } = this.props;
+    const { controlPanel } = this.props;
     return (
       <React.Fragment>
-        <h1>{path}</h1>
+        <ControlPanel>{controlPanel()}</ControlPanel>
       </React.Fragment>
     );
   }
 }
 
-export default withRouter(Cell);
+export default Cell;

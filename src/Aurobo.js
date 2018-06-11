@@ -4,8 +4,8 @@ import firebase from 'firebase/app';
 import React from 'react';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import { organisms } from './aurobo.config';
 import { kebabize, camelize } from './utils';
+import { Organism } from '@aurobo/anatomy';
 
 const theme = {
   primary: { default: '#4a148c', light: '#7c43bd', dark: '#12005e' },
@@ -64,7 +64,7 @@ class Aurobo extends React.Component {
                   <Dashboard
                     name="Dashboard"
                     url="/dashboard"
-                    links={Array.from(organisms, organism => ({
+                    links={this.props.organisms.map(organism => ({
                       icon: organism.icon,
                       to: '/' + kebabize(organism.name),
                       name: organism.name,
@@ -72,7 +72,7 @@ class Aurobo extends React.Component {
                   />
                 )}
               />
-              {organisms.map(organism => (
+              {this.props.organisms.map(organism => (
                 <PrivateRoute
                   key={camelize(organism.name)}
                   path={'/' + kebabize(organism.name)}

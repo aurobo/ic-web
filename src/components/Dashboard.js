@@ -57,10 +57,10 @@ const StyledIcon = styled(Icon).attrs({
 
 class Dashboard extends React.Component {
   render() {
-    const { logo, links, name, url } = this.props;
+    const { logo, links, name, url, renderTopNav } = this.props;
     return (
       <React.Fragment>
-        <TopNav menuHeader={name} url={url} />
+        {renderTopNav ? renderTopNav() : <TopNav menuHeader={name} url={url} />}
         <Icons>
           {links.map(link => (
             <IconLink to={link.to} key={camelize(link.name)}>

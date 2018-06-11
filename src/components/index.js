@@ -36,7 +36,7 @@ const Page = styled(Message)`
 
 const StyledDropdownLink = styled(Dropdown.Item)`
   &&& {
-    color: rgba(0, 0, 0, 0.87) !important;
+    color: ${props => (props.darkmode ? '#fff' : 'rgba(0, 0, 0, 0.87) !important')};
   }
   &:hover {
     background: rgba(34, 36, 38, 0.1) !important;
@@ -45,7 +45,9 @@ const StyledDropdownLink = styled(Dropdown.Item)`
 
 const DropdownLink = props => (
   <Link to={props.to}>
-    <StyledDropdownLink as="span">{props.children}</StyledDropdownLink>
+    <StyledDropdownLink as="span" darkmode={props.darkmode}>
+      {props.children}
+    </StyledDropdownLink>
   </Link>
 );
 

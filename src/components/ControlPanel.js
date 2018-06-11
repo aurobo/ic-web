@@ -11,12 +11,7 @@ const StyledSegment = styled(Segment)`
 
 class ControlPanel extends React.Component {
   render() {
-    return (
-      <StyledSegment attached>
-        <h2>{this.props.title}</h2>
-        {this.props.children}
-      </StyledSegment>
-    );
+    return <StyledSegment attached>{this.props.children}</StyledSegment>;
   }
 }
 
