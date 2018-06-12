@@ -4,7 +4,7 @@ import Aurobo from './Aurobo';
 import registerServiceWorker from './registerServiceWorker';
 import initializeApp from './initializeApp';
 import './index.css';
-import Innovic from '@aurobo/apps/Innovic';
+import Innovic from '@aurobo/apps/innovic';
 
 ReactDOM.render(
   <Aurobo

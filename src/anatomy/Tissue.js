@@ -12,7 +12,7 @@ class Tissue extends React.Component {
         <Switch>
           {children
             ? React.Children.map(children, (cell, i) => {
-                const { name: cellName } = cell.props;
+                let { name: cellName } = cell.props;
                 let cellPath = path + '/' + kebabize(cellName);
                 if (i === 0) {
                   firstChildPath = cellPath;

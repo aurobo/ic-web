@@ -1,6 +1,6 @@
 import React from 'react';
 import { Input, Label } from 'semantic-ui-react';
-import { Button, CenteredColumn } from '@aurobo/components/styles';
+import { Button, CenteredColumn } from '@aurobo/components';
 import styled from 'styled-components';
 import logo from '../assets/img/logo.png';
 import { Formik } from 'formik';

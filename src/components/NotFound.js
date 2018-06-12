@@ -1,5 +1,5 @@
 import React from 'react';
-import { CenteredColumn } from '@aurobo/components/styles';
+import CenteredColumn from './CenteredColumn';
 import aurobo from '../assets/img/aurobo-broken.png';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
