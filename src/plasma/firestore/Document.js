@@ -9,7 +9,6 @@ class Document extends React.Component {
 
   componentDidMount() {
     const { firestore, path, schema, schemaless } = this.props;
-
     firestore
       .doc(path)
       .get()
@@ -30,6 +29,7 @@ class Document extends React.Component {
         }
       })
       .catch(error => {
+        console.log(error);
         this.setState({ error: error, isLoading: false });
       });
   }

@@ -2,7 +2,8 @@ import React from 'react';
 
 class Cell extends React.Component {
   render() {
-    return <React.Fragment>{this.props.render()}</React.Fragment>;
+    const { path, cells } = this.props;
+    return <React.Fragment>{this.props.children({ path, cells })}</React.Fragment>;
   }
 }
 

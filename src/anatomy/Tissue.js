@@ -1,12 +1,13 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Cell } from '@aurobo/anatomy';
-import { kebabize } from '../utils';
+import { kebabize, camelize } from '../utils';
 
 class Tissue extends React.Component {
   render() {
     const { children, path, renderExact, renderCommon } = this.props;
     let firstChildPath = null;
+    let cells = {};
     return (
       <React.Fragment>
         <Switch>
@@ -14,10 +15,11 @@ class Tissue extends React.Component {
             ? React.Children.map(children, (cell, i) => {
                 let { name: cellName } = cell.props;
                 let cellPath = path + '/' + kebabize(cellName);
+                cells[camelize(cellName)] = cellPath;
                 if (i === 0) {
                   firstChildPath = cellPath;
                 }
-                return <Route render={() => <Cell {...cell.props} path={cellPath} />} path={cellPath} />;
+                return <Route render={() => <Cell {...cell.props} path={cellPath} cells={cells} />} path={cellPath} />;
               })
             : null};
           {renderExact || renderCommon ? (

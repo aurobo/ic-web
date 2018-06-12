@@ -64,7 +64,7 @@ class Dashboard extends React.Component {
         <Icons>
           {links.map(link => (
             <IconLink to={link.to} key={camelize(link.name)}>
-              <StyledIcon name={link.icon} />
+              <StyledIcon {...link.iconProps} />
               <IconLabel>{link.name}</IconLabel>
             </IconLink>
           ))}

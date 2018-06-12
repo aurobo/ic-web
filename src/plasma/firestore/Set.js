@@ -18,71 +18,70 @@ class Set extends React.Component {
   }
 
   set = formData => {
-    const { firebase, firestore, schema, schemaless, onSubmit, parentBatch, collectionPath } = this.props;
+    const { firestore, schema, schemaless, onSubmit, parentBatch, collectionPath, user } = this.props;
     let data = { ...formData };
-
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        if (!data.id) {
-          data.meta = {
-            createdBy: { uid: user.uid, email: user.email },
-            createdOn: new Date(),
-          };
-        }
+    if (user) {
+      if (!data.id) {
         data.meta = {
-          ...data.meta,
-          ...{
-            lastModifiedBy: { uid: user.uid, email: 'sanket@aurobo.in' },
-            lastModifiedOn: new Date(),
-          },
+          createdBy: { uid: user.uid, email: user.email },
+          createdOn: new Date(),
         };
-
-        // Validate schema before updating
-        if (!schemaless) {
-          schema.isValid(data).then(valid => {
-            if (!valid) {
-              throw new Error('Invalid schema');
-            }
-          });
-        }
-
-        let docRef = data.id
-          ? firestore.collection(collectionPath).doc(data.id)
-          : firestore.collection(collectionPath).doc();
-        if (!data.id) {
-          data.id = docRef.id;
-        }
-        let docHistoryRef = docRef.collection('history').doc();
-        let userTimelineRef = firestore
-          .collection('users')
-          .doc(user.uid)
-          .collection('timeline')
-          .doc();
-
-        // key generation will be shifted to cloud function
-
-        this.batch.set(docRef, data, { merge: true });
-        this.batch.set(docHistoryRef, data);
-        this.batch.set(userTimelineRef, { type: 'Created', data: data });
-
-        if (!parentBatch) {
-          this.setState({ isLoading: true });
-
-          this.batch.commit().then(
-            () => {
-              this.setState({ isLoading: false });
-            },
-            errorResponse => {
-              this.setState({ isLoading: false, error: errorResponse });
-            }
-          );
-        }
-
-        if (typeof onSubmit === 'function') {
-          onSubmit(data);
-        }
       }
-    });
+      data.meta = {
+        ...data.meta,
+        ...{
+          lastModifiedBy: { uid: user.uid, email: user.email },
+          lastModifiedOn: new Date(),
+        },
+      };
+
+      // Validate schema before updating
+      if (!schemaless) {
+        schema.isValid(data).then(valid => {
+          if (!valid) {
+            throw new Error('Invalid schema');
+          }
+        });
+      }
+
+      let docRef = data.id
+        ? firestore.collection(collectionPath).doc(data.id)
+        : firestore.collection(collectionPath).doc();
+      if (!data.id) {
+        data.id = docRef.id;
+      }
+      let docHistoryRef = docRef.collection('history').doc();
+      let userTimelineRef = firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('timeline')
+        .doc();
+
+      // key generation will be shifted to cloud function
+
+      this.batch.set(docRef, data, { merge: true });
+      this.batch.set(docHistoryRef, data);
+      this.batch.set(userTimelineRef, { type: 'Created', data: data });
+
+      if (!parentBatch) {
+        this.setState({ isLoading: true });
+
+        this.batch.commit().then(
+          () => {
+            this.setState({ isLoading: false });
+          },
+          errorResponse => {
+            this.setState({ isLoading: false, error: errorResponse });
+          }
+        );
+      }
+
+      if (typeof onSubmit === 'function') {
+        onSubmit(data);
+      }
+    } else {
+      throw new Error('User Not Found');
+    }
   };
 
   render() {

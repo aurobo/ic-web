@@ -18,7 +18,7 @@ class Organism extends React.Component {
             <Dashboard
               renderTopNav={() => <TopNav menuHeader={name} url={path} />}
               links={React.Children.map(children, child => ({
-                icon: child.props.icon,
+                iconProps: child.props.iconProps,
                 name: child.props.name,
                 to: path + '/' + kebabize(child.props.name),
               }))}
@@ -29,8 +29,8 @@ class Organism extends React.Component {
           {children
             ? React.Children.map(children, (organ, i) => {
                 const { name: organName } = organ.props;
-                let organismPath = path + '/' + kebabize(organName);
-                return <Route render={() => <Organ {...organ.props} path={organismPath} />} path={organismPath} />;
+                let organPath = path + '/' + kebabize(organName);
+                return <Route render={() => <Organ {...organ.props} path={organPath} />} path={organPath} />;
               })
             : null}
         </Switch>

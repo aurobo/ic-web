@@ -43,10 +43,10 @@ const PlasmaProvider = ({ firebase, children, ...rest }) => {
 const PlasmaConsumer = ({ component: Component, ...rest }) => {
   return (
     <Consumer>
-      {({ firebase, firestore }) => {
+      {({ firebase, firestore, user }) => {
         return (
           <ErrorBoundary>
-            <Component {...rest} firebase={firebase} firestore={firestore} />
+            <Component {...rest} firebase={firebase} firestore={firestore} user={user} />
           </ErrorBoundary>
         );
       }}
@@ -57,6 +57,7 @@ const PlasmaConsumer = ({ component: Component, ...rest }) => {
 const Plasma = {
   Provider: PlasmaProvider,
   Consumer: PlasmaConsumer,
+  RawConsumer: Consumer,
 };
 
 export { Firestore };

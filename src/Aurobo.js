@@ -5,7 +5,6 @@ import React from 'react';
 import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { kebabize, camelize } from './utils';
-import { Organism } from '@aurobo/anatomy';
 
 const theme = {
   primary: { default: '#4a148c', light: '#7c43bd', dark: '#12005e' },
@@ -65,7 +64,7 @@ class Aurobo extends React.Component {
                     name="Dashboard"
                     url="/dashboard"
                     links={this.props.organisms.map(organism => ({
-                      icon: organism.icon,
+                      iconProps: organism.iconProps,
                       to: '/' + kebabize(organism.name),
                       name: organism.name,
                     }))}

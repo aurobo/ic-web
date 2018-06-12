@@ -11,7 +11,7 @@ ReactDOM.render(
     organisms={[
       {
         name: 'Innovic',
-        icon: 'industry',
+        iconProps: { name: 'industry' },
         component: Innovic,
       },
     ]}
