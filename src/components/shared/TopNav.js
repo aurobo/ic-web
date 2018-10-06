@@ -29,9 +29,9 @@ class TopNav extends React.Component {
         </Link>
         {this.props.children}
         <Menu.Menu position="right">
-          <WideMenuItem>
+          {/* <WideMenuItem>
             <Input disabled icon="search" size="mini" placeholder="Search..." />
-          </WideMenuItem>
+          </WideMenuItem> */}
           <Menu.Item name="logout" onClick={this.props.onLogout} />
         </Menu.Menu>
       </StyledMenu>
