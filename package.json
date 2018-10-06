@@ -2,10 +2,7 @@
   "name": "ic-web",
   "version": "0.1.0",
   "private": true,
-  "workspaces": [
-    "src/components",
-    "src/assets"
-  ],
+  "workspaces": ["src/components", "src/assets"],
   "homepage": "http://innovic.redsoftware.in",
   "dependencies": {
     "@innovic/components": "0.1.0",
@@ -23,17 +20,21 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env REACT_APP_API=https://innovic.azurewebsites.net/api react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "precommit": "pretty-quick --staged"
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-runtime": "^6.26.0",
+    "cross-env": "^5.2.0",
     "eslint-plugin-prettier": "^3.0.0",
     "husky": "^1.1.1",
-    "prettier": "1.14.3",
-    "pretty-quick": "^1.7.0"
+    "prettier": "1.14.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn build && surge ./build"
+    }
   }
 }
