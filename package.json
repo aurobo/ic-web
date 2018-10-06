@@ -2,7 +2,10 @@
   "name": "ic-web",
   "version": "0.1.0",
   "private": true,
-  "workspaces": ["src/components", "src/assets"],
+  "workspaces": [
+    "src/components",
+    "src/assets"
+  ],
   "homepage": "http://innovic.redsoftware.in",
   "dependencies": {
     "@innovic/components": "0.1.0",
